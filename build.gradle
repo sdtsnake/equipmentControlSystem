@@ -1,0 +1,50 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.3'
+	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+	id 'java'
+}
+
+group = 'work.appdeploys'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	jaspersoft-third-party{
+		url "https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/"
+	}
+	jaspersoft-third-party{
+		url "https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/"
+	}
+
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// https://mvnrepository.com/artifact/org.apache.poi/poi
+	implementation group: 'org.apache.poi', name: 'poi', version: '5.2.2'
+// https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports
+	implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.20.0'
+// https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-fonts
+	implementation group: 'net.sf.jasperreports', name: 'jasperreports-fonts', version: '6.20.0'
+// https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
+// https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
