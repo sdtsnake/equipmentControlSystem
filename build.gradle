@@ -6,7 +6,8 @@ plugins {
 
 group = 'work.appdeploys'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 configurations {
 	compileOnly {
@@ -16,31 +17,25 @@ configurations {
 
 repositories {
 	mavenCentral()
-}
-
-compileJava {
-	options.compilerArgs += [
-			'-Amapstruct.defaultComponentModel=spring'
-	]
+	maven{url "https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/"}
+	maven{url "https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/"}
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.mapstruct:mapstruct:1.5.2.Final'
-	implementation group: 'org.apache.poi', name: 'poi', version: '5.2.2'
-	implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.20.0'
-	implementation group: 'net.sf.jasperreports', name: 'jasperreports-fonts', version: '6.20.0'
 	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.mapstruct:mapstruct:1.5.2.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
-	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
-	annotationProcessor 'org.projectlombok:lombok'
-	
+	implementation group: 'org.apache.poi', name: 'poi', version: '5.2.2'
+	implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.20.0'
+	implementation group: 'net.sf.jasperreports', name: 'jasperreports-fonts', version: '6.20.0'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 }
 
 tasks.named('test') {
