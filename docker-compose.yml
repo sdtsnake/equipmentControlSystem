@@ -21,7 +21,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: "adm@controlsystem.com"
       PGADMIN_DEFAULT_PASSWORD: "admin"
     ports:
-      - "80:80"
+      - "5051:80"
     depends_on:
       - db
 
