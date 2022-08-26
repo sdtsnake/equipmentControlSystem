@@ -2,7 +2,7 @@ package work.appdeploys.equipmentControlSystem.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import work.appdeploys.equipmentControlSystem.models.dtos.School;
+import work.appdeploys.equipmentControlSystem.models.School;
 
 import java.util.Optional;
 
