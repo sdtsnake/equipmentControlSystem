@@ -11,7 +11,7 @@ import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
-public class SchoolService implements work.appdeploys.equipmentControlSystem.services.SchoolService {
+public class SchoolServiceImpl implements work.appdeploys.equipmentControlSystem.services.SchoolService {
     private final SchoolMapper schoolMapper;
     private final SchoolRepository schoolRepository;
 
