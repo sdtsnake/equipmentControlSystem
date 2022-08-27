@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import work.appdeploys.equipmentControlSystem.models.dtos.SchoolDto;
-import work.appdeploys.equipmentControlSystem.servicesImpl.SchoolService;
+import work.appdeploys.equipmentControlSystem.servicesImpl.SchoolServiceImpl;
 
 import javax.validation.Valid;
 
@@ -22,21 +22,21 @@ import javax.validation.Valid;
 @RequestMapping(value = "/api/v1/")
 @RestController
 public class SchoolController {
-    private final SchoolService schoolService;
+    private final SchoolServiceImpl schoolServiceImpl;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody SchoolDto save(@RequestBody @Valid SchoolDto schoolDto){
-           return schoolService.save(schoolDto);
+           return schoolServiceImpl.save(schoolDto);
     }
 
     @PutMapping
     public @ResponseBody SchoolDto update(@RequestBody @Valid SchoolDto schoolDto){
-        return schoolService.update(schoolDto);
+        return schoolServiceImpl.update(schoolDto);
     }
 
     @DeleteMapping(path = "/{id}")
     public @ResponseBody void delete(Long id){
-        schoolService.delete(id);
+        schoolServiceImpl.delete(id);
     }
 }

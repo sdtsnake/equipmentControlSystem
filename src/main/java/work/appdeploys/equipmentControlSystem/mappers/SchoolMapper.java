@@ -1,7 +1,6 @@
 package work.appdeploys.equipmentControlSystem.mappers;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 import work.appdeploys.equipmentControlSystem.models.School;
 import work.appdeploys.equipmentControlSystem.models.dtos.SchoolDto;
 
