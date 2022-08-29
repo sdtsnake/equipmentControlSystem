@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 public interface SchoolService {
 
     SchoolDto save(SchoolDto schoolDto);
+
     void delete(Long id);
+
     SchoolDto update(SchoolDto schoolDto);
 }

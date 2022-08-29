@@ -17,7 +17,7 @@ public class SchoolService implements work.appdeploys.equipmentControlSystem.ser
 
     public SchoolDto save(SchoolDto schoolDto) {
         var school = schoolRepository.findByName(schoolDto.getName());
-        if(school.isPresent()){
+        if (school.isPresent()) {
             throw new SchoolExceptionBadRequest("The School already exist, cant be save");
         }
         return schoolMapper.toDto(schoolRepository.save(schoolMapper.toModel(schoolDto)));
@@ -25,7 +25,7 @@ public class SchoolService implements work.appdeploys.equipmentControlSystem.ser
 
     public void delete(Long id) {
         var school = schoolRepository.findById(id);
-        if(school.isEmpty()){
+        if (school.isEmpty()) {
             throw new SchoolExceptionBadRequest("The School no exist, cant be delete");
         }
         schoolRepository.deleteAllById(Collections.singleton(id));
@@ -33,11 +33,11 @@ public class SchoolService implements work.appdeploys.equipmentControlSystem.ser
 
     public SchoolDto update(SchoolDto schoolDto) {
         var school = schoolRepository.findById(schoolDto.getId());
-        if(school.isEmpty()){
+        if (school.isEmpty()) {
             throw new SchoolExceptionBadRequest("The School no exist, cant be update");
         }
         school = schoolRepository.findByName(schoolDto.getName());
-        if(school.isPresent()){
+        if (school.isPresent()) {
             throw new SchoolExceptionBadRequest("The School name already exist, cant be update");
         }
         return schoolMapper.toDto(schoolRepository.save(schoolMapper.toModel(schoolDto)));

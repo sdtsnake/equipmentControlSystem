@@ -17,7 +17,7 @@ import work.appdeploys.equipmentControlSystem.servicesImpl.SchoolService;
 
 import javax.validation.Valid;
 
-@Tag(name="school")
+@Tag(name = "school")
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/")
 @RestController
@@ -26,17 +26,17 @@ public class SchoolController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody SchoolDto save(@RequestBody @Valid SchoolDto schoolDto){
-           return schoolService.save(schoolDto);
+    public @ResponseBody SchoolDto save(@RequestBody @Valid SchoolDto schoolDto) {
+        return schoolService.save(schoolDto);
     }
 
     @PutMapping
-    public @ResponseBody SchoolDto update(@RequestBody @Valid SchoolDto schoolDto){
+    public @ResponseBody SchoolDto update(@RequestBody @Valid SchoolDto schoolDto) {
         return schoolService.update(schoolDto);
     }
 
     @DeleteMapping(path = "/{id}")
-    public @ResponseBody void delete(Long id){
+    public @ResponseBody void delete(Long id) {
         schoolService.delete(id);
     }
 }
