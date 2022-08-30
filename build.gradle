@@ -36,7 +36,7 @@ dependencies {
     implementation group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.20.0'
     implementation group: 'net.sf.jasperreports', name: 'jasperreports-fonts', version: '6.20.0'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 
 }
 
