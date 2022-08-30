@@ -2,13 +2,13 @@ version: "3.8"
 services:
   db:
     image: postgres
-    restart: always 
+    restart: always
     ports:
       - "5432:5432"
     environment:
-       POSTGRES_USER: root
-       POSTGRES_PASSWORD: root
-       POSTGRES_DB: controlsystem 
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: controlsystem
     volumes:
       - ./config/db:/docker-entrypoint-initdb.d
     networks:

@@ -10,6 +10,7 @@ import work.appdeploys.equipmentControlSystem.models.dtos.SchoolDto;
 public interface SchoolMapper {
 
     School toModel(SchoolDto dto);
+
     SchoolDto toDto(School school);
 
 }
