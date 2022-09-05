@@ -12,31 +12,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import work.appdeploys.equipmentControlSystem.models.dtos.SchoolDto;
-import work.appdeploys.equipmentControlSystem.servicesImpl.SchoolServiceImpl;
+import work.appdeploys.equipmentControlSystem.models.dtos.UsersDto;
+import work.appdeploys.equipmentControlSystem.servicesImpl.UsersServiceImpl;
 
 import javax.validation.Valid;
 
-@Tag(name = "school")
+@Tag(name="users")
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1/")
+@RequestMapping(value = "/api/v1")
 @RestController
-public class SchoolController {
-    private final SchoolServiceImpl schoolServiceImpl;
+public class UsersController {
+    private final UsersServiceImpl usersServiceImpl;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody SchoolDto save(@RequestBody @Valid SchoolDto schoolDto) {
-        return schoolServiceImpl.save(schoolDto);
+    public @ResponseBody UsersDto save(@RequestBody @Valid UsersDto usersDto){
+        return usersServiceImpl.save(usersDto);
     }
 
     @PutMapping
-    public @ResponseBody SchoolDto update(@RequestBody @Valid SchoolDto schoolDto) {
-        return schoolServiceImpl.update(schoolDto);
+    public @ResponseBody UsersDto update(@RequestBody @Valid UsersDto usersDto){
+        return usersServiceImpl.update(usersDto);
     }
 
     @DeleteMapping(path = "/{id}")
-    public @ResponseBody void delete(@PathVariable Long id) {
-        schoolServiceImpl.delete(id);
+    public @ResponseBody void delete(@PathVariable Long id){
+        usersServiceImpl.delete(id);
     }
 }

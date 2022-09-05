@@ -18,15 +18,8 @@ public class SchoolServiceImpl implements SchoolService {
     private final SchoolRepository schoolRepository;
 
     public SchoolDto save(SchoolDto schoolDto) {
-        validateSchoolByName(schoolDto);
+        validateSchoolByName(schoolDto,MessageResource.SCHOOL_EXIST_NOT_SAVE);
         return schoolMapper.toDto(schoolRepository.save(schoolMapper.toModel(schoolDto)));
-    }
-
-    private void validateSchoolByName(SchoolDto schoolDto) {
-        var school = schoolRepository.findByName(schoolDto.getName());
-        if (school.isPresent()) {
-            throw new SchoolExceptionBadRequest(MessageResource.SCHOOL_EXIST_NOT_SAVE);
-        }
     }
 
     public void delete(Long id) {
@@ -36,13 +29,20 @@ public class SchoolServiceImpl implements SchoolService {
 
     public SchoolDto update(SchoolDto schoolDto) {
         validateSchoolById(schoolDto.getId(), MessageResource.SCHOOL_NOT_EXIST_NOT_UPDATE);
-        validateSchoolByName(schoolDto);
+        validateSchoolByName(schoolDto, MessageResource.SCHOOL_EXIST_NAME_NOT_UPDATE);
         return schoolMapper.toDto(schoolRepository.save(schoolMapper.toModel(schoolDto)));
     }
 
     private void validateSchoolById(Long schoolDto, String message) {
         var school = schoolRepository.findById(schoolDto);
         if (school.isEmpty()) {
+            throw new SchoolExceptionBadRequest(message);
+        }
+    }
+
+    private void validateSchoolByName(SchoolDto schoolDto, String message) {
+        var school = schoolRepository.findByName(schoolDto.getName());
+        if (school.isPresent()) {
             throw new SchoolExceptionBadRequest(message);
         }
     }
