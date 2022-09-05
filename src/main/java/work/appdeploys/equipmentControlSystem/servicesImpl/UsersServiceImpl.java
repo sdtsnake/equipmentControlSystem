@@ -19,7 +19,7 @@ public class UsersServiceImpl implements UsersService {
     private final UsersMapper usersMapper;
     private final UsersRepository usersRepository;
     private final String REGX_EMAIL = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-    private final String REGX_PASSWORD = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$";
+    private final String REGX_PWD = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$";
 
     @Override
     public UsersDto save(UsersDto usersDto){
@@ -66,7 +66,7 @@ public class UsersServiceImpl implements UsersService {
         if(!validteRegx(usersDto.getEmail(),REGX_EMAIL)){
             throw new UsersExceptionBadRequest(MessageResource.USER_BAT_EMAIL + message);
         }
-        if(!validteRegx(usersDto.getPassword(),REGX_PASSWORD)){
+        if(!validteRegx(usersDto.getPassword(), REGX_PWD)){
             throw new UsersExceptionBadRequest(MessageResource.USER_BAT_PASSWORD + message);
         }
         if(usersDto.getRol()!="1" || usersDto.getRol()!="2"){
