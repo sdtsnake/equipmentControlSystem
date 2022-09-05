@@ -1,6 +1,7 @@
 package work.appdeploys.equipmentControlSystem.servicesImpl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import work.appdeploys.equipmentControlSystem.constants.MessageResource;
 import work.appdeploys.equipmentControlSystem.exceptions.UsersExceptionBadRequest;
@@ -18,8 +19,11 @@ import java.util.regex.Pattern;
 public class UsersServiceImpl implements UsersService {
     private final UsersMapper usersMapper;
     private final UsersRepository usersRepository;
-    private final String REGX_EMAIL = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-    private final String REGX_PWD = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$";
+    @Value("${REGX_EMAIL}")
+    private String REGX_EMAIL;
+    @Value("${REGX_PWD}")
+    private String REGX_PWD;
+
 
     @Override
     public UsersDto save(UsersDto usersDto){
@@ -66,7 +70,7 @@ public class UsersServiceImpl implements UsersService {
         if(!validteRegx(usersDto.getEmail(),REGX_EMAIL)){
             throw new UsersExceptionBadRequest(MessageResource.USER_BAT_EMAIL + message);
         }
-        if(!validteRegx(usersDto.getPassword(), REGX_PWD)){
+        if(!validteRegx(usersDto.getPassword(),REGX_PWD)){
             throw new UsersExceptionBadRequest(MessageResource.USER_BAT_PASSWORD + message);
         }
         if(usersDto.getRol()!="1" || usersDto.getRol()!="2"){
