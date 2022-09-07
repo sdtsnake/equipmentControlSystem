@@ -1,8 +1,8 @@
-package work.appdeploys.equipmentControlSystem.repositories;
+package work.appdeploys.equipmentcontrolsystem.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import work.appdeploys.equipmentControlSystem.models.School;
+import work.appdeploys.equipmentcontrolsystem.models.School;
 
 import java.util.Optional;
 

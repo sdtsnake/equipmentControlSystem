@@ -1,8 +1,8 @@
-package work.appdeploys.equipmentControlSystem.mappers;
+package work.appdeploys.equipmentcontrolsystem.mappers;
 
 import org.mapstruct.Mapper;
-import work.appdeploys.equipmentControlSystem.models.School;
-import work.appdeploys.equipmentControlSystem.models.dtos.SchoolDto;
+import work.appdeploys.equipmentcontrolsystem.models.School;
+import work.appdeploys.equipmentcontrolsystem.models.dtos.SchoolDto;
 
 // con esta notacion hacemos que le mapper sea un componente springboot
 // Spring IoC
@@ -10,7 +10,5 @@ import work.appdeploys.equipmentControlSystem.models.dtos.SchoolDto;
 public interface SchoolMapper {
 
     School toModel(SchoolDto dto);
-
     SchoolDto toDto(School school);
-
 }

@@ -1,4 +1,4 @@
-package work.appdeploys.equipmentControlSystem.models.dtos;
+package work.appdeploys.equipmentcontrolsystem.models.dtos;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -1,4 +1,4 @@
-package work.appdeploys.equipmentControlSystem;
+package work.appdeploys.equipmentcontrolsystem;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

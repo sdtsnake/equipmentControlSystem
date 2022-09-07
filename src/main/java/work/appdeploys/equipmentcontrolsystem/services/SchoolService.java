@@ -1,6 +1,6 @@
-package work.appdeploys.equipmentControlSystem.services;
+package work.appdeploys.equipmentcontrolsystem.services;
 
-import work.appdeploys.equipmentControlSystem.models.dtos.SchoolDto;
+import work.appdeploys.equipmentcontrolsystem.models.dtos.SchoolDto;
 
 public interface SchoolService {
 

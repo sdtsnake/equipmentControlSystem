@@ -1,4 +1,4 @@
-package work.appdeploys.equipmentControlSystem.models;
+package work.appdeploys.equipmentcontrolsystem.models;
 
 import lombok.Data;
 
@@ -11,9 +11,13 @@ import javax.persistence.Table;
 @Entity
 @Table
 @Data
-public class School {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String email;
+    private String password;
     private String name;
+    private String rol;
+
 }
