@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 @Tag(name = "school")
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1/")
+@RequestMapping(value = "/api/school/")
 @RestController
 public class SchoolController {
     private final SchoolServiceImpl schoolServiceImpl;

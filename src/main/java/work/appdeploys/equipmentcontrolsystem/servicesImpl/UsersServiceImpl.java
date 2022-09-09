@@ -24,11 +24,13 @@ public class UsersServiceImpl implements UsersService {
     @Value("${REGX_PWD}")
     private String regxPwd;
 
-
     @Override
     public UsersDto save(UsersDto usersDto){
         validateFields(usersDto," ");
-        validateUsersById(usersDto.getId(), MessageResource.USERS_EXIST_NOT_SAVE);
+        if(usersRepository.findById(usersDto.getId()).isPresent()){
+            throw new UsersExceptionBadRequest(MessageResource.USERS_EXIST_NOT_SAVE);
+        }
+        validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_SAVE);
         return usersMapper.toDto(usersRepository.save(usersMapper.toModel(usersDto)));
     }
 
@@ -42,20 +44,17 @@ public class UsersServiceImpl implements UsersService {
     public UsersDto update(UsersDto usersDto) {
         validateFields(usersDto, MessageResource.UPDATE_FAIL);
         validateUsersById(usersDto.getId(),MessageResource.USERS_NOT_EXIST_NOT_UPDATE);
-        validateUsersByEmail(usersDto.getEmail(),MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_UPDATE);
+        validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_UPDATE);
         return usersMapper.toDto(usersRepository.save(usersMapper.toModel(usersDto)));
     }
 
     private void validateUsersById(Long id, String message) {
-        var users = usersRepository.findById(id);
-        if (users.isEmpty()) {
-            throw new UsersExceptionBadRequest(message);
-        }
+        usersRepository.findById(id).orElseThrow(() -> new UsersExceptionBadRequest(message));
     }
 
-    private void validateUsersByEmail(String email, String message) {
-        var users = usersRepository.findByEmail(email);
-        if (users.isEmpty()) {
+    private void validateUsersByEmail(UsersDto usersDto, String message) {
+        var users = usersRepository.findByEmail(usersDto.getEmail());
+        if (!users.isEmpty() && users.get().getId() != usersDto.getId()) {
             throw new UsersExceptionBadRequest(message);
         }
     }
@@ -70,10 +69,10 @@ public class UsersServiceImpl implements UsersService {
         if(!validteRegx(usersDto.getEmail(), regxEmail)){
             throw new UsersExceptionBadRequest(MessageResource.USER_BAT_EMAIL + message);
         }
-        if(!validteRegx(usersDto.getPassword(), regxPwd)){
+        if(!validteRegx(usersDto.getPasswd(), regxPwd)){
             throw new UsersExceptionBadRequest(MessageResource.USER_BAT_PASSWORD + message);
         }
-        if(usersDto.getRol()!="1" || usersDto.getRol()!="2"){
+        if(!usersDto.getRol().equals("1") && !usersDto.getRol().equals("2")){
             throw new UsersExceptionBadRequest(MessageResource.USER_BAT_ROL + message);
         }
     }

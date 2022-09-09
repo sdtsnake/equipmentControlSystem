@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 @Tag(name="users")
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1")
+@RequestMapping(value = "/api/users/")
 @RestController
 public class UsersController {
     private final UsersServiceImpl usersServiceImpl;

@@ -42,7 +42,7 @@ public class SchoolServiceImpl implements SchoolService {
 
     private void validateSchoolByName(SchoolDto schoolDto, String message) {
         var school = schoolRepository.findByName(schoolDto.getName());
-        if (school.isPresent()) {
+        if (school.isPresent() && school.get().getId() != schoolDto.getId()) {
             throw new SchoolExceptionBadRequest(message);
         }
     }
