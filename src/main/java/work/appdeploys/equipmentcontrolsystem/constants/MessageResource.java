@@ -34,4 +34,21 @@ public class MessageResource {
     public static final  String USERS_EMAIL_ALREADY_EXIST_NOT_SAVE = "The email alredy exist in the other user, cant be save";
 
     public static final String UPDATE_FAIL = ", cant by update";
+
+    public static final String USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE = "The user create no exist, cant be save";
+
+    public static final String USER_MOD_ORDER_NOT_EXIST_NOT_SAVE = "The user modification no exist, cant be save";
+
+    public static final String DATA_USER_CREATE_NOT_VALID_NOT_SAVE = "The user create no exist, cant be save";
+
+    public static final String DATA_USER_CREATE_NOT_VALID_NOT_UPDATE = "The user create no exist, cant be update";
+
+    public static final String ORDER_ALREADY_EXIST_NOT_SAVE = "The order alredy exist, cant be save";
+
+    public static final  String ORDER_NOT_EXIST_NOT_DELETE= "The order no exist, cant be delete";
+
+    public static final  String ORDER_NOT_EXIST_NOT_UPDATE= "The order no exist, cant be update";
+
+    public static final  String ORDER_DATE_INVALID_NOT_SAVE= "The date time is invalid, cant be update";
+
 }

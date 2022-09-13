@@ -8,5 +8,5 @@ public interface OrdersService {
 
     void delete(long id);
 
-    OrdersDto update(UsersDto usersDto);
+    OrdersDto update(OrdersDto ordersDto);
 }

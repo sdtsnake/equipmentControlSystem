@@ -8,9 +8,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table
@@ -23,13 +24,17 @@ public class Orders {
     private String serial;
     private Long asset;
     private String issue;
-    private Long incident_id;
+    private Long incident;
     private String note;
-    private String status;
-    @ManyToOne(optional = false,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private String status_order;
+    //@ManyToOne(optional = false,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne
+    @JoinColumn(name = "idusercreate", nullable = false)
     private Users idusercreate;
-    private Date datecreate;
-    @ManyToOne(optional = true,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private LocalDate datecreate;
+    //@ManyToOne(optional = true,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne
+    @JoinColumn(name = "idusermod")
     private Users idusermod;
-    private Long order;
+    private Long order_number;
 }

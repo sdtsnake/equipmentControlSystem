@@ -5,12 +5,13 @@ create table orders
     nro_serial   varchar(500),
     asset        varchar(500),
     issue        varchar(500),
-    insident     int,
+    incident     int,
     note         varchar(1000),
     status_order char(50),
     idusercreate int,
-    datacreate   date,
-    nro_order    int
+    datecreate   date,
+    idusermod int,
+    order_number    int
 );
 create table school
 (

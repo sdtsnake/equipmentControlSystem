@@ -3,7 +3,7 @@ package work.appdeploys.equipmentcontrolsystem.models.dtos;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Schema(description = "orders")
@@ -14,22 +14,26 @@ public class OrdersDto {
     private String model;
     @Schema(description = "serial computer", example="6c0v073")
     private String serial;
-    @Schema(description = "numbrer asset", example="71223117")
+    @Schema(description = "number asset", example="71223117")
     private Long asset;
     @Schema(description = "issue", example="KEYBOARD")
     private String issue;
     @Schema(description = "number incident", example="INC0199012")
-    private Long incident_id;
+    private Long incident;
     @Schema(description = "note", example="some one")
     private String note;
     @Schema(description = "status", example="Fixed")
-    private String status;
+    private String status_order;
     @Schema(description = "Id user create", example="2")
     private UsersDto idusercreate;
     @Schema(description = "date create", example="2021-01-01")
-    private Date datecreate;
+    private LocalDate datecreate;
     @Schema(description = "Id user create", example="2")
     private UsersDto idusermod;
     @Schema(description = "csq order", example="1")
-    private Long order;
+    private Long order_number;
+
+
+
+
 }
