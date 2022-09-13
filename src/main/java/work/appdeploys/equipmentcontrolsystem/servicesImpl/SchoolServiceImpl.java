@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.exceptions.SchoolExceptionBadRequest;
+import work.appdeploys.equipmentcontrolsystem.exceptions.UsersExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.mappers.SchoolMapper;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.SchoolDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
@@ -18,7 +19,10 @@ public class SchoolServiceImpl implements SchoolService {
     private final SchoolRepository schoolRepository;
 
     public SchoolDto save(SchoolDto schoolDto) {
-        validateSchoolByName(schoolDto, MessageResource.SCHOOL_EXIST_NOT_SAVE);
+        validateSchoolByName(schoolDto, MessageResource.SCHOOL_EXIST_NAME_NOT_UPDATE);
+        if(schoolRepository.findById(schoolDto.getId()).isPresent()){
+            throw new UsersExceptionBadRequest(MessageResource.SCHOOL_EXIST_NOT_SAVE);
+        }
         return schoolMapper.toDto(schoolRepository.save(schoolMapper.toModel(schoolDto)));
     }
 

@@ -13,7 +13,7 @@ public class OrdersDto {
     @Schema(description = "model computer", example="DELL 3100 CB")
     private String model;
     @Schema(description = "serial computer", example="6c0v073")
-    private String serial;
+    private String serial_number;
     @Schema(description = "number asset", example="71223117")
     private Long asset;
     @Schema(description = "issue", example="KEYBOARD")

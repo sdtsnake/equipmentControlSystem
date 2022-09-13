@@ -21,7 +21,7 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String model;
-    private String serial;
+    private String serial_number;
     private Long asset;
     private String issue;
     private Long incident;
