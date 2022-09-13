@@ -1,16 +1,17 @@
 create table orders
 (
-    id           serial primary key,
-    model        varchar(500),
-    nro_serial   varchar(500),
-    asset        varchar(500),
-    issue        varchar(500),
-    insident     int,
-    note         varchar(1000),
-    status_order char(50),
-    idusercreate int,
-    datacreate   date,
-    nro_order    int
+    id            serial primary key,
+    model         varchar(500),
+    serial_number varchar(500),
+    asset         varchar(500),
+    issue         varchar(500),
+    incident      int,
+    note          varchar(1000),
+    status_order  char(50),
+    idusercreate  int,
+    datecreate    date,
+    idusermod     int,
+    order_number  int
 );
 create table school
 (
@@ -32,7 +33,9 @@ create table orderbyschool
 );
 
 alter table orders
-    add constraint FK_orders_users foreign key (idusercreate) references users (id);
+    add constraint FK_orders_users_ing foreign key (idusercreate) references users (id);
+alter table orders
+    add constraint FK_orders_users_mod foreign key (idusermod) references users (id);
 alter table orderbyschool
     add constraint FK_orders_school foreign key (idorder) references orders (id);
 alter table orderbyschool

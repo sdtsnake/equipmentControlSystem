@@ -11,15 +11,15 @@ public class UsersDto {
     @Schema(description = "Email", example="adm@controlsystem.com")
     private String email;
     @Schema(description = "\n" +
-            "the password must contain: " +
-            "1. start of the string" +
-            "2. a digit must occur at least once" +
-            "3. a lower case letter must occur at least once" +
-            "4. an upper case letter must occur at least once" +
-            "5. 4-8 character password, both inclusive" +
-            "6.  end of the string"
+            "the password must contain: \n" +
+            "1. The password must be between 8 and 16 characters long \n" +
+            "2. with at least one digit \n" +
+            "3. at least one lowercase letter \n" +
+            "4. at least one uppercase letter.\n" +
+            "5. It can NOT have other symbols ",
+            example="w3Unpocodet0d0"
     )
-    private String password;
+    private String passwd;
     @Schema(description = "name", example="Ever troll care monda")
     private String name;
     @Schema(description = "this a rol user have in the app 1=admin, 2=user", example="1")

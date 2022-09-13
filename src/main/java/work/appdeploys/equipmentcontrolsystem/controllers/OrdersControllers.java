@@ -12,32 +12,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
-import work.appdeploys.equipmentcontrolsystem.servicesImpl.UsersServiceImpl;
+import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersDto;
+import work.appdeploys.equipmentcontrolsystem.servicesImpl.OrdersServiceImpl;
 
 import javax.validation.Valid;
 
-@Tag(name="users")
+@Tag(name="ordes")
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/users/")
+@RequestMapping(value = "/api/orders/")
 @RestController
-public class UsersController {
-    private final UsersServiceImpl usersServiceImpl;
+public class OrdersControllers {
+    private final OrdersServiceImpl ordersServiceImpl;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody
-    UsersDto save(@RequestBody @Valid UsersDto usersDto){
-        return usersServiceImpl.save(usersDto);
+    public @ResponseBody OrdersDto save(@RequestBody @Valid OrdersDto ordersDto){
+        return ordersServiceImpl.save(ordersDto);
     }
 
     @PutMapping
-    public @ResponseBody UsersDto update(@RequestBody @Valid UsersDto usersDto){
-        return usersServiceImpl.update(usersDto);
+    public @ResponseBody OrdersDto update(@RequestBody @Valid OrdersDto ordersDto){
+        return ordersServiceImpl.update(ordersDto);
     }
 
     @DeleteMapping(path = "/{id}")
-    public @ResponseBody void delete(@PathVariable Long id){
-        usersServiceImpl.delete(id);
+    public @ResponseBody void delete(@PathVariable long id){
+        ordersServiceImpl.delete(id);
     }
+
 }
