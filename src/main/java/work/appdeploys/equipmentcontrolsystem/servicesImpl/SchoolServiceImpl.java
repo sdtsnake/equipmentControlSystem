@@ -6,11 +6,15 @@ import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.exceptions.SchoolExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.exceptions.UsersExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.mappers.SchoolMapper;
+import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.SchoolDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.services.SchoolService;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,10 +35,31 @@ public class SchoolServiceImpl implements SchoolService {
         schoolRepository.deleteAllById(Collections.singleton(id));
     }
 
+
     public SchoolDto update(SchoolDto schoolDto) {
         validateSchoolById(schoolDto.getId(), MessageResource.SCHOOL_NOT_EXIST_NOT_UPDATE);
         validateSchoolByName(schoolDto, MessageResource.SCHOOL_EXIST_NAME_NOT_UPDATE);
         return schoolMapper.toDto(schoolRepository.save(schoolMapper.toModel(schoolDto)));
+    }
+
+    public List<SchoolDto> findByAll() {
+        List<School> list =  schoolRepository.findAll();
+        List<SchoolDto> listDto = new ArrayList<>();
+
+        //pie
+        if(!list.isEmpty()){
+            for (School sch1:list){
+                listDto.add(schoolMapper.toDto(sch1));
+            }
+        }
+
+        //moto
+        list.stream().map(school ->schoolMapper.toDto(school)).collect(Collectors.toList());
+
+        // carro
+        list.stream().map(schoolMapper::toDto).collect(Collectors.toList());
+
+        return listDto;
     }
 
     private void validateSchoolById(Long schoolDto, String message) {
