@@ -44,25 +44,10 @@ public class SchoolServiceImpl implements SchoolService {
 
     public List<SchoolDto> findByAll() {
         List<School> list =  schoolRepository.findAll();
-        List<SchoolDto> listDto = new ArrayList<>();
-
         if(!list.isEmpty()){
-            /*metodo 1
-            for (School sch1:list){
-                listDto.add(schoolMapper.toDto(sch1));
-            }*/
-
-            // metodo 3
             return list.stream().map(schoolMapper::toDto).collect(Collectors.toList());
         }
-
         throw new SchoolExceptionBadRequest(MessageResource.SCHOOL_NOT_EXIST_RECORD);
-
-        //metodo 2
-        //list.stream().map(school ->schoolMapper.toDto(school)).collect(Collectors.toList());
-
-
-
     }
 
     private void validateSchoolById(Long schoolDto, String message) {

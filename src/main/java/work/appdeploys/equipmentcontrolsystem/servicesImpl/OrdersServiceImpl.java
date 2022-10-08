@@ -7,13 +7,17 @@ import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.exceptions.OrdersExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.exceptions.UsersExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.mappers.OrdersMapper;
+import work.appdeploys.equipmentcontrolsystem.models.Orders;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.OrdersRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
 import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -67,4 +71,14 @@ public class OrdersServiceImpl implements OrdersService {
             throw new OrdersExceptionBadRequest(message);
         }
     }
+
+    public List<OrdersDto> findByAll(){
+        List<Orders> list = ordersRepository.findAll();
+        if(!list.isEmpty()){
+            return list.stream().map(ordersMapper::toDto).collect(Collectors.toList());
+        }
+        throw new OrdersExceptionBadRequest(MessageResource.ORDER_NOT_EXIST_RECORD);
+    }
+
+
 }
