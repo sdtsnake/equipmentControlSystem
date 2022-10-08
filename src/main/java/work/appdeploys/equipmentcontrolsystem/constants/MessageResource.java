@@ -4,6 +4,14 @@ public class MessageResource {
 
     public static final  String SCHOOL_EXIST_NOT_SAVE= "The School already exist, cant be save";
 
+    public static final  String SCHOOL_SAVED= "The School saved";
+
+    public static final  String SCHOOL_UPDATE= "The School update";
+
+    public static final String SCHOOL_DELETED = "The School as deleted";
+
+    public static final String SCHOOL_LISTED = "The all School as listed";
+
     public static final  String SCHOOL_NOT_EXIST_RECORD= "Not exist records of schools";
 
     public static final  String SCHOOL_NOT_EXIST_NOT_DELETE= "The School no exist, cant be delete";
