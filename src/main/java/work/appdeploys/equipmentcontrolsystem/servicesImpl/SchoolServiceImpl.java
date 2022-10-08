@@ -46,20 +46,23 @@ public class SchoolServiceImpl implements SchoolService {
         List<School> list =  schoolRepository.findAll();
         List<SchoolDto> listDto = new ArrayList<>();
 
-        //pie
         if(!list.isEmpty()){
+            /*metodo 1
             for (School sch1:list){
                 listDto.add(schoolMapper.toDto(sch1));
-            }
+            }*/
+
+            // metodo 3
+            return list.stream().map(schoolMapper::toDto).collect(Collectors.toList());
         }
 
-        //moto
-        list.stream().map(school ->schoolMapper.toDto(school)).collect(Collectors.toList());
+        throw new SchoolExceptionBadRequest(MessageResource.SCHOOL_NOT_EXIST_RECORD);
 
-        // carro
-        list.stream().map(schoolMapper::toDto).collect(Collectors.toList());
+        //metodo 2
+        //list.stream().map(school ->schoolMapper.toDto(school)).collect(Collectors.toList());
 
-        return listDto;
+
+
     }
 
     private void validateSchoolById(Long schoolDto, String message) {
