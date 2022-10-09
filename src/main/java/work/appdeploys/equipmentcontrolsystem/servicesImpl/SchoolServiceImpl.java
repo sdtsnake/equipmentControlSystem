@@ -11,7 +11,6 @@ import work.appdeploys.equipmentcontrolsystem.models.dtos.SchoolDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.services.SchoolService;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +34,6 @@ public class SchoolServiceImpl implements SchoolService {
         schoolRepository.deleteAllById(Collections.singleton(id));
     }
 
-
     public SchoolDto update(SchoolDto schoolDto) {
         validateSchoolById(schoolDto.getId(), MessageResource.SCHOOL_NOT_EXIST_NOT_UPDATE);
         validateSchoolByName(schoolDto, MessageResource.SCHOOL_EXIST_NAME_NOT_UPDATE);
@@ -47,7 +45,7 @@ public class SchoolServiceImpl implements SchoolService {
         if(!list.isEmpty()){
             return list.stream().map(schoolMapper::toDto).collect(Collectors.toList());
         }
-        throw new SchoolExceptionBadRequest(MessageResource.SCHOOL_NOT_EXIST_RECORD);
+        throw new SchoolExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS);
     }
 
     private void validateSchoolById(Long schoolDto, String message) {

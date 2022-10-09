@@ -12,13 +12,20 @@ public class MessageResource {
 
     public static final String SCHOOLS_LISTED = "The all Schools as listed";
 
-    public static final  String SCHOOL_NOT_EXIST_RECORD= "Not exist records of schools";
+    public static final  String SCHOOLS_NOT_EXIST_RECORDS = "Not exist records of schools";
 
     public static final  String SCHOOL_NOT_EXIST_NOT_DELETE= "The School no exist, cant be delete";
 
     public static final  String SCHOOL_NOT_EXIST_NOT_UPDATE= "The School no exist, cant be update";
 
     public static final  String SCHOOL_EXIST_NAME_NOT_UPDATE= "The School name already exist, cant be update";
+
+    public static final  String USER_SAVED = "The user as saved";
+
+    public static final String USER_UPDATED = "The user as updated";
+
+    public static final String USER_DELETED = "The user as deleted";
+    public static final String USERS_LISTED = "The all users as listed";
 
     public static final  String USER_BAT_EMAIL = "You entered an incorrect email address, cant be save";
 
@@ -49,11 +56,13 @@ public class MessageResource {
 
     public static final String ORDER_NOT_EXIST_RECORD = "Not exist records of orders";
 
-    public static final String ORDER_UPDATED = "The orders as updated";
+    public static final String ORDER_UPDATED = "The order as updated";
 
     public static final String ORDERS_DELETED = "The order as deleted";
 
-    public static final String ORDERS_LISTED = "The all orders as listed";;
+    public static final String ORDERS_LISTED = "The all orders as listed";
+
+    public static final  String USERS_NOT_EXIST_RECORDS = "Not exist records of users";
 
     public static final String USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE = "The user create no exist, cant be save";
 

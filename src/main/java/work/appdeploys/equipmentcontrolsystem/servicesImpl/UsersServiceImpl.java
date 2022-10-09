@@ -6,13 +6,16 @@ import org.springframework.stereotype.Service;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.exceptions.UsersExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.mappers.UsersMapper;
+import work.appdeploys.equipmentcontrolsystem.models.Users;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
 import work.appdeploys.equipmentcontrolsystem.services.UsersService;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +49,14 @@ public class UsersServiceImpl implements UsersService {
         validateUsersById(usersDto.getId(),MessageResource.USERS_NOT_EXIST_NOT_UPDATE);
         validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_UPDATE);
         return usersMapper.toDto(usersRepository.save(usersMapper.toModel(usersDto)));
+    }
+
+    public List<UsersDto> findByAll(){
+        List<Users> list = usersRepository.findAll();
+        if(!list.isEmpty()){
+            return list.stream().map(usersMapper::toDto).collect(Collectors.toList());
+        }
+        throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS);
     }
 
     private void validateUsersById(Long id, String message) {
