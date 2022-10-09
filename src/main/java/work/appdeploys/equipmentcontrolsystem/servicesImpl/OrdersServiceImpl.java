@@ -13,7 +13,6 @@ import work.appdeploys.equipmentcontrolsystem.repositories.OrdersRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
 import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -53,6 +52,15 @@ public class OrdersServiceImpl implements OrdersService {
         return ordersMapper.toDto(ordersRepository.save(ordersMapper.toModel(ordersDto)));
     }
 
+    @Override
+    public List<OrdersDto> findByAll(){
+        List<Orders> list = ordersRepository.findAll();
+        if(!list.isEmpty()){
+            return list.stream().map(ordersMapper::toDto).collect(Collectors.toList());
+        }
+        throw new OrdersExceptionBadRequest(MessageResource.ORDER_NOT_EXIST_RECORD);
+    }
+
     private void validateUsersById(Long id, String message) {
         usersRepository.findById(id).orElseThrow(() -> new UsersExceptionBadRequest(message));
     }
@@ -71,14 +79,4 @@ public class OrdersServiceImpl implements OrdersService {
             throw new OrdersExceptionBadRequest(message);
         }
     }
-
-    public List<OrdersDto> findByAll(){
-        List<Orders> list = ordersRepository.findAll();
-        if(!list.isEmpty()){
-            return list.stream().map(ordersMapper::toDto).collect(Collectors.toList());
-        }
-        throw new OrdersExceptionBadRequest(MessageResource.ORDER_NOT_EXIST_RECORD);
-    }
-
-
 }

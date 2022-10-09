@@ -51,6 +51,7 @@ public class UsersServiceImpl implements UsersService {
         return usersMapper.toDto(usersRepository.save(usersMapper.toModel(usersDto)));
     }
 
+    @Override
     public List<UsersDto> findByAll(){
         List<Users> list = usersRepository.findAll();
         if(!list.isEmpty()){

@@ -21,6 +21,7 @@ public class SchoolServiceImpl implements SchoolService {
     private final SchoolMapper schoolMapper;
     private final SchoolRepository schoolRepository;
 
+    @Override
     public SchoolDto save(SchoolDto schoolDto) {
         validateSchoolByName(schoolDto, MessageResource.SCHOOL_EXIST_NAME_NOT_UPDATE);
         if(schoolRepository.findById(schoolDto.getId()).isPresent()){
@@ -29,17 +30,20 @@ public class SchoolServiceImpl implements SchoolService {
         return schoolMapper.toDto(schoolRepository.save(schoolMapper.toModel(schoolDto)));
     }
 
+    @Override
     public void delete(Long id) {
         validateSchoolById(id, MessageResource.SCHOOL_NOT_EXIST_NOT_DELETE);
         schoolRepository.deleteAllById(Collections.singleton(id));
     }
 
+    @Override
     public SchoolDto update(SchoolDto schoolDto) {
         validateSchoolById(schoolDto.getId(), MessageResource.SCHOOL_NOT_EXIST_NOT_UPDATE);
         validateSchoolByName(schoolDto, MessageResource.SCHOOL_EXIST_NAME_NOT_UPDATE);
         return schoolMapper.toDto(schoolRepository.save(schoolMapper.toModel(schoolDto)));
     }
 
+    @Override
     public List<SchoolDto> findByAll() {
         List<School> list =  schoolRepository.findAll();
         if(!list.isEmpty()){
