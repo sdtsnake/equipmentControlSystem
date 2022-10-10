@@ -1,5 +1,6 @@
 package work.appdeploys.equipmentcontrolsystem.models.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -19,6 +20,7 @@ public class UsersDto {
             "5. It can NOT have other symbols ",
             example="w3Unpocodet0d0"
     )
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String passwd;
     @Schema(description = "name", example="Ever troll care monda")
     private String name;
