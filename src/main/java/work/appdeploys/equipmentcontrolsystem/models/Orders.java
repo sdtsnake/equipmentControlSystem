@@ -2,9 +2,7 @@ package work.appdeploys.equipmentcontrolsystem.models;
 
 import lombok.Data;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,12 +25,12 @@ public class Orders {
     private Long incident;
     private String note;
     private String status_order;
-    //@ManyToOne(optional = false,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
     @ManyToOne
     @JoinColumn(name = "idusercreate", nullable = false)
     private Users idusercreate;
     private LocalDate datecreate;
-    //@ManyToOne(optional = true,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
     @ManyToOne
     @JoinColumn(name = "idusermod")
     private Users idusermod;
