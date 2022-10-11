@@ -20,7 +20,7 @@ public class UsersDto {
             "5. It can NOT have other symbols ",
             example="w3Unpocodet0d0"
     )
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String passwd;
     @Schema(description = "name", example="Ever troll care monda")
     private String name;
