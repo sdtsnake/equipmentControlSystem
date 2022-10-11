@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
-import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersDto;
+import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersDtoRequest;
 import work.appdeploys.equipmentcontrolsystem.models.structures.OrdersResponse;
 import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 
@@ -27,7 +27,7 @@ public class OrdersControllers {
     private final OrdersService ordersService;
 
     @PostMapping()
-    public ResponseEntity<OrdersResponse> save(@RequestBody @Valid OrdersDto ordersDto){
+    public ResponseEntity<OrdersResponse> save(@RequestBody @Valid OrdersDtoRequest ordersDto){
         try{
             return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_SAVED, Arrays.asList(ordersService.save(ordersDto))));
         }catch (Exception ex){
@@ -36,7 +36,7 @@ public class OrdersControllers {
     }
 
     @PutMapping
-    public ResponseEntity<OrdersResponse> update(@RequestBody @Valid OrdersDto ordersDto){
+    public ResponseEntity<OrdersResponse> update(@RequestBody @Valid OrdersDtoRequest ordersDto){
         try{
             return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_UPDATED,Arrays.asList(ordersService.update(ordersDto))));
         }catch (Exception ex){

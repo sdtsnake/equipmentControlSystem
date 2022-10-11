@@ -9,7 +9,7 @@ import work.appdeploys.equipmentcontrolsystem.exceptions.UsersExceptionBadReques
 import work.appdeploys.equipmentcontrolsystem.mappers.OrdersMapper;
 import work.appdeploys.equipmentcontrolsystem.models.Orders;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
-import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersDto;
+import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersDtoRequest;
 import work.appdeploys.equipmentcontrolsystem.repositories.OrdersRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
 import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
@@ -27,7 +27,7 @@ public class OrdersServiceImpl implements OrdersService {
     private final UsersRepository usersRepository;
 
     @Override
-    public OrderResponseDto save(OrdersDto ordersDto) {
+    public OrderResponseDto save(OrdersDtoRequest ordersDto) {
         validateUsersById(ordersDto.getIdUserMod().getId(), MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE);
         validateUsersById(ordersDto.getIdUserMod().getId(), MessageResource.USER_MOD_ORDER_NOT_EXIST_NOT_SAVE);
         dateValidator(ordersDto.getDateCreate().toString(), MessageResource.ORDER_DATE_INVALID_NOT_SAVE);
@@ -45,7 +45,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public OrderResponseDto update(OrdersDto ordersDto) {
+    public OrderResponseDto update(OrdersDtoRequest ordersDto) {
         validateUsersById(ordersDto.getIdUserMod().getId(), MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE);
         validateUsersById(ordersDto.getIdUserMod().getId(), MessageResource.USER_MOD_ORDER_NOT_EXIST_NOT_SAVE);
         validateOrderById(ordersDto.getId(), MessageResource.ORDER_NOT_EXIST_NOT_UPDATE);

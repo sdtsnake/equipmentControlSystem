@@ -24,12 +24,8 @@ public class OrdersDto {
     private String note;
     @Schema(description = "status", example = "Fixed")
     private String statusOrder;
-    @Schema(description = "Id user create", example = "2")
-    private UsersDto idUserCreate;
     @Schema(description = "date create", example = "2021-01-01")
     private LocalDate dateCreate;
-    @Schema(description = "Id user create", example = "2")
-    private UsersDto idUserMod;
     @Schema(description = "csq order", example = "1")
     private Long orderNumber;
 }

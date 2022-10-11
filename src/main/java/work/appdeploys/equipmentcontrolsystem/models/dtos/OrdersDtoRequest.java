@@ -5,13 +5,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@Schema(description = "Order Response")
 @EqualsAndHashCode(callSuper=false)
-public class OrderResponseDto  extends  OrdersDto{
+@Schema(description = "Orders Request")
+public class OrdersDtoRequest extends OrdersDto {
 
     @Schema(description = "Id user create", example = "2")
-    private UserResponseDto idUserMod;
+    private UsersDto idUserMod;
 
     @Schema(description = "Id user create", example = "2")
-    private UserResponseDto idUserCreate;
+    private UsersDto idUserCreate;
+
 }
