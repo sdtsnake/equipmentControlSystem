@@ -6,6 +6,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
+@Schema(description = "Order Response")
 public class OrderResponseDto {
     @Schema(description = "Code order", example="1")
     private Long id;
@@ -31,5 +32,4 @@ public class OrderResponseDto {
     private UserResponseDto idUserMod;
     @Schema(description = "csq order", example = "1")
     private Long orderNumber;
-
 }

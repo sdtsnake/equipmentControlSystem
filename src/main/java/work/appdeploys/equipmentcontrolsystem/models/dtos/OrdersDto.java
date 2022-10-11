@@ -32,8 +32,4 @@ public class OrdersDto {
     private UsersDto idUserMod;
     @Schema(description = "csq order", example = "1")
     private Long orderNumber;
-
-
-
-
 }

@@ -2,7 +2,6 @@ package work.appdeploys.equipmentcontrolsystem.services;
 
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersDto;
-import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
 
 import java.util.List;
 
