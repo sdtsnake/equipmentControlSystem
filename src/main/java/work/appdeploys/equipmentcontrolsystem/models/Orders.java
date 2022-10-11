@@ -38,7 +38,6 @@ public class Orders {
 
     @ManyToOne
     @JoinColumn(name = "idusercreate", nullable = false)
-    @Column(name = "idusercreate")
     private Users idUserCreate;
 
     @Column(name = "datecreate")
@@ -46,7 +45,6 @@ public class Orders {
 
     @ManyToOne
     @JoinColumn(name = "idusermod")
-    @Column(name = "idusermod")
     private Users idUserMod;
 
     @Column(name = "order_number")
