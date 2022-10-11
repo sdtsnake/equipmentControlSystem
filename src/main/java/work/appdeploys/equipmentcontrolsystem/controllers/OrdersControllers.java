@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersDto;
 import work.appdeploys.equipmentcontrolsystem.models.structures.OrdersResponse;
-import work.appdeploys.equipmentcontrolsystem.servicesImpl.OrdersServiceImpl;
+import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 
 import javax.validation.Valid;
 import java.util.Arrays;
@@ -24,12 +24,12 @@ import java.util.Arrays;
 @RequestMapping(value = "/api/orders/")
 @RestController
 public class OrdersControllers {
-    private final OrdersServiceImpl ordersServiceImpl;
+    private final OrdersService ordersService;
 
     @PostMapping()
     public ResponseEntity<OrdersResponse> save(@RequestBody @Valid OrdersDto ordersDto){
         try{
-            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_SAVED, Arrays.asList(ordersServiceImpl.save(ordersDto))));
+            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_SAVED, Arrays.asList(ordersService.save(ordersDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -38,7 +38,7 @@ public class OrdersControllers {
     @PutMapping
     public ResponseEntity<OrdersResponse> update(@RequestBody @Valid OrdersDto ordersDto){
         try{
-            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_UPDATED,Arrays.asList(ordersServiceImpl.update(ordersDto))));
+            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_UPDATED,Arrays.asList(ordersService.update(ordersDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -46,7 +46,7 @@ public class OrdersControllers {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<OrdersResponse> delete(@PathVariable long id){
-        ordersServiceImpl.delete(id);
+        ordersService.delete(id);
         try{
             return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDERS_DELETED, Arrays.asList()));
         }catch (Exception ex){
@@ -54,10 +54,10 @@ public class OrdersControllers {
         }
     }
 
-     @GetMapping
+    @GetMapping
     public ResponseEntity<OrdersResponse> findByAll(){
         try {
-            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDERS_LISTED,ordersServiceImpl.findByAll()));
+            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDERS_LISTED, ordersService.findByAll()));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(),Arrays.asList()));
         }

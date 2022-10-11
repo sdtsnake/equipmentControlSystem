@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.SchoolDto;
 import work.appdeploys.equipmentcontrolsystem.models.structures.SchoolsResponse;
-import work.appdeploys.equipmentcontrolsystem.servicesImpl.SchoolServiceImpl;
+import work.appdeploys.equipmentcontrolsystem.services.SchoolService;
 
 import javax.validation.Valid;
 import java.util.Arrays;
@@ -24,12 +24,12 @@ import java.util.Arrays;
 @RequestMapping(value = "/api/school/")
 @RestController
 public class SchoolController {
-    private final SchoolServiceImpl schoolServiceImpl;
+    private final SchoolService schoolService;
 
     @PostMapping()
     public ResponseEntity<SchoolsResponse> save(@RequestBody @Valid SchoolDto schoolDto) {
         try{
-            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_SAVED, Arrays.asList(schoolServiceImpl.save(schoolDto))));
+            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_SAVED, Arrays.asList(schoolService.save(schoolDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new SchoolsResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -38,7 +38,7 @@ public class SchoolController {
     @PutMapping
     public ResponseEntity<SchoolsResponse> update(@RequestBody @Valid SchoolDto schoolDto) {
         try{
-            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_UPDATE,Arrays.asList(schoolServiceImpl.update(schoolDto))));
+            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_UPDATE,Arrays.asList(schoolService.update(schoolDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new SchoolsResponse(ex.getMessage(),Arrays.asList()));
         }
@@ -47,7 +47,7 @@ public class SchoolController {
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<SchoolsResponse> delete(@PathVariable Long id) {
         try{
-            schoolServiceImpl.delete(id);
+            schoolService.delete(id);
             return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_DELETED,Arrays.asList()));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new SchoolsResponse(ex.getMessage(),Arrays.asList()));
@@ -58,7 +58,7 @@ public class SchoolController {
     @GetMapping
     public ResponseEntity<SchoolsResponse> findByAll(){
         try{
-            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOLS_LISTED,schoolServiceImpl.findByAll()));
+            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOLS_LISTED, schoolService.findByAll()));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new SchoolsResponse(ex.getMessage(),Arrays.asList()));
         }

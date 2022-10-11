@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.exceptions.UsersExceptionBadRequest;
-import work.appdeploys.equipmentcontrolsystem.mappers.UserResponseMapper;
 import work.appdeploys.equipmentcontrolsystem.mappers.UsersMapper;
 import work.appdeploys.equipmentcontrolsystem.models.Users;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UserResponseDto;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UsersServiceImpl implements UsersService {
     private final UsersMapper usersMapper;
-    private final UserResponseMapper userResponseMapper;
     private final UsersRepository usersRepository;
     @Value("${REGX_EMAIL}")
     private String regxEmail;
@@ -37,7 +35,7 @@ public class UsersServiceImpl implements UsersService {
             throw new UsersExceptionBadRequest(MessageResource.USERS_EXIST_NOT_SAVE);
         }
         validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_SAVE);
-        return userResponseMapper.toDto(usersRepository.save(usersMapper.toModel(usersDto)));
+        return usersMapper.toResponseDto(usersRepository.save(usersMapper.toModel(usersDto)));
     }
 
     @Override
@@ -51,14 +49,14 @@ public class UsersServiceImpl implements UsersService {
         validateFields(usersDto, MessageResource.UPDATE_FAIL);
         validateUsersById(usersDto.getId(),MessageResource.USERS_NOT_EXIST_NOT_UPDATE);
         validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_UPDATE);
-        return userResponseMapper.toDto(usersRepository.save(usersMapper.toModel(usersDto)));
+        return usersMapper.toResponseDto(usersRepository.save(usersMapper.toModel(usersDto)));
     }
 
     @Override
     public List<UserResponseDto> findByAll(){
         List<Users> list = usersRepository.findAll();
         if(!list.isEmpty()){
-            return list.stream().map(userResponseMapper::toDto).collect(Collectors.toList());
+            return list.stream().map(usersMapper::toResponseDto).collect(Collectors.toList());
         }
         throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS);
     }
