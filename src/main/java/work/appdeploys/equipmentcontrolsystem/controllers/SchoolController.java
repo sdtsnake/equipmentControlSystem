@@ -35,7 +35,7 @@ public class SchoolController {
         }
     }
 
-    @PutMapping
+    @PutMapping()
     public ResponseEntity<SchoolsResponse> update(@RequestBody @Valid SchoolDto schoolDto) {
         try{
             return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_UPDATE,Arrays.asList(schoolService.update(schoolDto))));
@@ -55,7 +55,7 @@ public class SchoolController {
         }
     }
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<SchoolsResponse> findByAll(){
         try{
             return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOLS_LISTED, schoolService.findByAll()));

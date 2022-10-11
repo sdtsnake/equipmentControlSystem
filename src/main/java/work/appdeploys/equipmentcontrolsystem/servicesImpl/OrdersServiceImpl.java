@@ -14,7 +14,6 @@ import work.appdeploys.equipmentcontrolsystem.repositories.OrdersRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
 import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -29,11 +28,11 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public OrderResponseDto save(OrdersDto ordersDto) {
-        validateUsersById(ordersDto.getIdusermod().getId(),MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE);
-        validateUsersById(ordersDto.getIdusermod().getId(),MessageResource.USER_MOD_ORDER_NOT_EXIST_NOT_SAVE);
-        dateValidator(ordersDto.getDatecreate().toString(),MessageResource.ORDER_DATE_INVALID_NOT_SAVE);
+        validateUsersById(ordersDto.getIdUserMod().getId(), MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE);
+        validateUsersById(ordersDto.getIdUserMod().getId(), MessageResource.USER_MOD_ORDER_NOT_EXIST_NOT_SAVE);
+        dateValidator(ordersDto.getDateCreate().toString(), MessageResource.ORDER_DATE_INVALID_NOT_SAVE);
 
-        if(ordersRepository.findById(ordersDto.getId()).isPresent()){
+        if (ordersRepository.findById(ordersDto.getId()).isPresent()) {
             throw new OrdersExceptionBadRequest(MessageResource.ORDER_ALREADY_EXIST_NOT_SAVE);
         }
         return ordersMapper.toResponseDto(ordersRepository.save(ordersMapper.toModel(ordersDto)));
@@ -47,10 +46,10 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public OrderResponseDto update(OrdersDto ordersDto) {
-        validateUsersById(ordersDto.getIdusermod().getId(),MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE);
-        validateUsersById(ordersDto.getIdusermod().getId(),MessageResource.USER_MOD_ORDER_NOT_EXIST_NOT_SAVE);
-        validateOrderById(ordersDto.getId(),MessageResource.ORDER_NOT_EXIST_NOT_UPDATE);
-        dateValidator(ordersDto.getDatecreate().toString(),MessageResource.DATA_USER_CREATE_NOT_VALID_NOT_UPDATE);
+        validateUsersById(ordersDto.getIdUserMod().getId(), MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE);
+        validateUsersById(ordersDto.getIdUserMod().getId(), MessageResource.USER_MOD_ORDER_NOT_EXIST_NOT_SAVE);
+        validateOrderById(ordersDto.getId(), MessageResource.ORDER_NOT_EXIST_NOT_UPDATE);
+        dateValidator(ordersDto.getDateCreate().toString(), MessageResource.DATA_USER_CREATE_NOT_VALID_NOT_UPDATE);
         return ordersMapper.toResponseDto(ordersRepository.save(ordersMapper.toModel(ordersDto)));
     }
 
