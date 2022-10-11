@@ -8,7 +8,8 @@ import work.appdeploys.equipmentcontrolsystem.exceptions.OrdersExceptionBadReque
 import work.appdeploys.equipmentcontrolsystem.exceptions.UsersExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.mappers.OrdersMapper;
 import work.appdeploys.equipmentcontrolsystem.models.Orders;
-import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersDto;
+import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
+import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersDtoRequest;
 import work.appdeploys.equipmentcontrolsystem.repositories.OrdersRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
 import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
@@ -26,15 +27,15 @@ public class OrdersServiceImpl implements OrdersService {
     private final UsersRepository usersRepository;
 
     @Override
-    public OrdersDto save(OrdersDto ordersDto) {
-        validateUsersById(ordersDto.getIdusermod().getId(),MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE);
-        validateUsersById(ordersDto.getIdusermod().getId(),MessageResource.USER_MOD_ORDER_NOT_EXIST_NOT_SAVE);
-        dateValidator(ordersDto.getDatecreate().toString(),MessageResource.ORDER_DATE_INVALID_NOT_SAVE);
+    public OrderResponseDto save(OrdersDtoRequest ordersDto) {
+        validateUsersById(ordersDto.getIdUserMod().getId(), MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE);
+        validateUsersById(ordersDto.getIdUserMod().getId(), MessageResource.USER_MOD_ORDER_NOT_EXIST_NOT_SAVE);
+        dateValidator(ordersDto.getDateCreate().toString(), MessageResource.ORDER_DATE_INVALID_NOT_SAVE);
 
-        if(ordersRepository.findById(ordersDto.getId()).isPresent()){
+        if (ordersRepository.findById(ordersDto.getId()).isPresent()) {
             throw new OrdersExceptionBadRequest(MessageResource.ORDER_ALREADY_EXIST_NOT_SAVE);
         }
-        return ordersMapper.toDto(ordersRepository.save(ordersMapper.toModel(ordersDto)));
+        return ordersMapper.toResponseDto(ordersRepository.save(ordersMapper.toModel(ordersDto)));
     }
 
     @Override
@@ -44,19 +45,19 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public OrdersDto update(OrdersDto ordersDto) {
-        validateUsersById(ordersDto.getIdusermod().getId(),MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE);
-        validateUsersById(ordersDto.getIdusermod().getId(),MessageResource.USER_MOD_ORDER_NOT_EXIST_NOT_SAVE);
-        validateOrderById(ordersDto.getId(),MessageResource.ORDER_NOT_EXIST_NOT_UPDATE);
-        dateValidator(ordersDto.getDatecreate().toString(),MessageResource.DATA_USER_CREATE_NOT_VALID_NOT_UPDATE);
-        return ordersMapper.toDto(ordersRepository.save(ordersMapper.toModel(ordersDto)));
+    public OrderResponseDto update(OrdersDtoRequest ordersDto) {
+        validateUsersById(ordersDto.getIdUserMod().getId(), MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE);
+        validateUsersById(ordersDto.getIdUserMod().getId(), MessageResource.USER_MOD_ORDER_NOT_EXIST_NOT_SAVE);
+        validateOrderById(ordersDto.getId(), MessageResource.ORDER_NOT_EXIST_NOT_UPDATE);
+        dateValidator(ordersDto.getDateCreate().toString(), MessageResource.DATA_USER_CREATE_NOT_VALID_NOT_UPDATE);
+        return ordersMapper.toResponseDto(ordersRepository.save(ordersMapper.toModel(ordersDto)));
     }
 
     @Override
-    public List<OrdersDto> findByAll(){
+    public List<OrderResponseDto> findByAll(){
         List<Orders> list = ordersRepository.findAll();
         if(!list.isEmpty()){
-            return list.stream().map(ordersMapper::toDto).collect(Collectors.toList());
+            return list.stream().map(ordersMapper::toResponseDto).collect(Collectors.toList());
         }
         throw new OrdersExceptionBadRequest(MessageResource.ORDER_NOT_EXIST_RECORD);
     }

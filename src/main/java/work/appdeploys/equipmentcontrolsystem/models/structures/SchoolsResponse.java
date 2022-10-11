@@ -9,8 +9,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class SchoolsResponse {
-
     private String message;
     private List<SchoolDto> schoolsDto;
-
 }

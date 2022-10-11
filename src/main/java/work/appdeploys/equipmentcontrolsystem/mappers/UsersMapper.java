@@ -2,6 +2,7 @@ package work.appdeploys.equipmentcontrolsystem.mappers;
 
 import org.mapstruct.Mapper;
 import work.appdeploys.equipmentcontrolsystem.models.Users;
+import work.appdeploys.equipmentcontrolsystem.models.dtos.UserResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
 
 // con esta notacion hacemos que le mapper sea un componente springboot
@@ -10,5 +11,5 @@ import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
 public interface UsersMapper {
 
     Users toModel(UsersDto dto);
-    UsersDto toDto(Users users);
+    UserResponseDto toResponseDto(Users users);
 }

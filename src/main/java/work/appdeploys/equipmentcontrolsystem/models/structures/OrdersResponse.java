@@ -2,7 +2,7 @@ package work.appdeploys.equipmentcontrolsystem.models.structures;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersDto;
+import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
 
 import java.util.List;
 
@@ -10,5 +10,5 @@ import java.util.List;
 @AllArgsConstructor
 public class OrdersResponse {
     private String message;
-    private List<OrdersDto> ordersDtos;
+    private List<OrderResponseDto> orderResponseDto;
 }

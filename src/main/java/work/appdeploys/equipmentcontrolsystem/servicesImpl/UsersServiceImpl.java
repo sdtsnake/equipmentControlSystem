@@ -7,6 +7,7 @@ import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.exceptions.UsersExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.mappers.UsersMapper;
 import work.appdeploys.equipmentcontrolsystem.models.Users;
+import work.appdeploys.equipmentcontrolsystem.models.dtos.UserResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
 import work.appdeploys.equipmentcontrolsystem.services.UsersService;
@@ -28,13 +29,13 @@ public class UsersServiceImpl implements UsersService {
     private String regxPwd;
 
     @Override
-    public UsersDto save(UsersDto usersDto){
+    public UserResponseDto save(UsersDto usersDto){
         validateFields(usersDto," ");
         if(usersRepository.findById(usersDto.getId()).isPresent()){
             throw new UsersExceptionBadRequest(MessageResource.USERS_EXIST_NOT_SAVE);
         }
         validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_SAVE);
-        return usersMapper.toDto(usersRepository.save(usersMapper.toModel(usersDto)));
+        return usersMapper.toResponseDto(usersRepository.save(usersMapper.toModel(usersDto)));
     }
 
     @Override
@@ -44,18 +45,18 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public UsersDto update(UsersDto usersDto) {
+    public UserResponseDto update(UsersDto usersDto) {
         validateFields(usersDto, MessageResource.UPDATE_FAIL);
         validateUsersById(usersDto.getId(),MessageResource.USERS_NOT_EXIST_NOT_UPDATE);
         validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_UPDATE);
-        return usersMapper.toDto(usersRepository.save(usersMapper.toModel(usersDto)));
+        return usersMapper.toResponseDto(usersRepository.save(usersMapper.toModel(usersDto)));
     }
 
     @Override
-    public List<UsersDto> findByAll(){
+    public List<UserResponseDto> findByAll(){
         List<Users> list = usersRepository.findAll();
         if(!list.isEmpty()){
-            return list.stream().map(usersMapper::toDto).collect(Collectors.toList());
+            return list.stream().map(usersMapper::toResponseDto).collect(Collectors.toList());
         }
         throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS);
     }

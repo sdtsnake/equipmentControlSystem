@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
 import work.appdeploys.equipmentcontrolsystem.models.structures.UsersResponse;
-import work.appdeploys.equipmentcontrolsystem.servicesImpl.UsersServiceImpl;
+import work.appdeploys.equipmentcontrolsystem.services.UsersService;
 
 import javax.validation.Valid;
 import java.util.Arrays;
@@ -24,12 +24,12 @@ import java.util.Arrays;
 @RequestMapping(value = "/api/users/")
 @RestController
 public class UsersController {
-    private final UsersServiceImpl usersServiceImpl;
+    private final UsersService usersService;
 
     @PostMapping()
     public ResponseEntity<UsersResponse> save(@RequestBody @Valid UsersDto usersDto){
         try{
-            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_SAVED, Arrays.asList(usersServiceImpl.save(usersDto))));
+            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_SAVED, Arrays.asList(usersService.save(usersDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -38,7 +38,7 @@ public class UsersController {
     @PutMapping
     public ResponseEntity<UsersResponse> update(@RequestBody @Valid UsersDto usersDto){
         try{
-            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_UPDATED, Arrays.asList(usersServiceImpl.update(usersDto))));
+            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_UPDATED, Arrays.asList(usersService.update(usersDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -47,7 +47,7 @@ public class UsersController {
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<UsersResponse> delete(@PathVariable Long id){
         try{
-            usersServiceImpl.delete(id);
+            usersService.delete(id);
             return ResponseEntity.ok(new UsersResponse(MessageResource.USER_DELETED,Arrays.asList()));
         }catch (Exception ex){
             return ResponseEntity.ok(new UsersResponse(ex.getMessage(), Arrays.asList()));
@@ -58,7 +58,7 @@ public class UsersController {
     @GetMapping
     public ResponseEntity<UsersResponse> findByAll(){
         try{
-            return ResponseEntity.ok(new UsersResponse(MessageResource.USERS_LISTED,usersServiceImpl.findByAll()));
+            return ResponseEntity.ok(new UsersResponse(MessageResource.USERS_LISTED, usersService.findByAll()));
         }catch (Exception ex){
             return ResponseEntity.ok(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
