@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 @Data
 @Schema(description = "Order Response")
 @EqualsAndHashCode(callSuper=false)
@@ -14,4 +16,9 @@ public class OrderResponseDto  extends  OrdersDto{
 
     @Schema(description = "Id user create", example = "2")
     private UserResponseDto idUserCreate;
+
+    @Schema(description = "Schools", example = "get de de id school and name has JSON")
+    private SchoolDto school;
+
+
 }

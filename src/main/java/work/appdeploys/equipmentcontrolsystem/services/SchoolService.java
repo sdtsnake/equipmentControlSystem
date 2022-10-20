@@ -14,4 +14,8 @@ public interface SchoolService {
 
     List<SchoolDto> findByAll();
 
+    SchoolDto findById(Long id);
+
+
+
 }

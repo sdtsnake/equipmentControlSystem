@@ -14,4 +14,8 @@ public interface UsersService {
     UserResponseDto update(UsersDto usersDto);
 
     List<UserResponseDto> findByAll();
+
+    UserResponseDto findById(Long id);
+
+    UserResponseDto findByEmail(String email);
 }

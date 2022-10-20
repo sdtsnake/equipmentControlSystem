@@ -13,6 +13,7 @@ import work.appdeploys.equipmentcontrolsystem.services.SchoolService;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,13 +25,13 @@ public class SchoolServiceImpl implements SchoolService {
     @Override
     public SchoolDto save(SchoolDto schoolDto) {
         validateSchoolByName(schoolDto, MessageResource.SCHOOL_EXIST_NAME_NOT_UPDATE);
-        if(schoolRepository.findById(schoolDto.getId()).isPresent()){
-            throw new UsersExceptionBadRequest(MessageResource.SCHOOL_EXIST_NOT_SAVE);
-        }
-        return schoolMapper.toDto(schoolRepository.save(schoolMapper.toModel(schoolDto)));
+        School entity = schoolMapper.toModel(schoolDto);
+        entity.setId(null);
+        return schoolMapper.toDto(schoolRepository.save(entity));
     }
 
     @Override
+
     public void delete(Long id) {
         validateSchoolById(id, MessageResource.SCHOOL_NOT_EXIST_NOT_DELETE);
         schoolRepository.deleteAllById(Collections.singleton(id));
@@ -52,6 +53,15 @@ public class SchoolServiceImpl implements SchoolService {
         throw new SchoolExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS);
     }
 
+    @Override
+    public SchoolDto findById(Long id) {
+        Optional<School> optionSchool =  schoolRepository.findById(id);
+        if(optionSchool.isPresent()){
+            return optionSchool.map(schoolMapper::toDto).get();
+        }
+        throw new SchoolExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS);
+    }
+
     private void validateSchoolById(Long schoolDto, String message) {
         var school = schoolRepository.findById(schoolDto);
         if (school.isEmpty()) {
@@ -61,7 +71,7 @@ public class SchoolServiceImpl implements SchoolService {
 
     private void validateSchoolByName(SchoolDto schoolDto, String message) {
         var school = schoolRepository.findByName(schoolDto.getName());
-        if (school.isPresent() && school.get().getId() != schoolDto.getId()) {
+        if (school.isPresent()) {
             throw new SchoolExceptionBadRequest(message);
         }
     }

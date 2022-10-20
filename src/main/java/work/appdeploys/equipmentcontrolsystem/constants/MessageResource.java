@@ -2,7 +2,7 @@ package work.appdeploys.equipmentcontrolsystem.constants;
 
 public class MessageResource {
 
-    public static final  String SCHOOL_EXIST_NOT_SAVE= "The School already exist, cant be save";
+    public static final  String SCHOOL_EXIST_NOT_SAVE= "The School not exist, cant be save order";
 
     public static final  String SCHOOL_SAVED= "The School saved";
 
@@ -11,6 +11,8 @@ public class MessageResource {
     public static final String SCHOOL_DELETED = "The School as deleted";
 
     public static final String SCHOOLS_LISTED = "The all Schools as listed";
+
+    public static final String SCHOOL_SELECTED = "The School as listed";
 
     public static final  String SCHOOLS_NOT_EXIST_RECORDS = "Not exist records of schools";
 
@@ -25,7 +27,10 @@ public class MessageResource {
     public static final String USER_UPDATED = "The user as updated";
 
     public static final String USER_DELETED = "The user as deleted";
+
     public static final String USERS_LISTED = "The all users as listed";
+
+    public static final String USER_LISTED = "The user as listed";
 
     public static final  String USER_BAT_EMAIL = "You entered an incorrect email address, cant be save";
 
@@ -56,13 +61,21 @@ public class MessageResource {
 
     public static final String ORDER_NOT_EXIST_RECORD = "Not exist records of orders";
 
+    public static final String ORDER_NUNBER_NOT_EXIST_RECORD = "Not exist records of order number";
+
     public static final String ORDER_UPDATED = "The order as updated";
+
+    public static final String ORDER_NUMBER_LISTED = "The records for order number as listed";
+
+    public static final String ORDER_LISTED = "The order as listed";
 
     public static final String ORDERS_DELETED = "The order as deleted";
 
     public static final String ORDERS_LISTED = "The all orders as listed";
 
     public static final  String USERS_NOT_EXIST_RECORDS = "Not exist records of users";
+
+    public static final  String USERS_NOT_EXIST_RECORDS_EMAIL = "Not exist records of users by this email";
 
     public static final String USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE = "The user create no exist, cant be save";
 

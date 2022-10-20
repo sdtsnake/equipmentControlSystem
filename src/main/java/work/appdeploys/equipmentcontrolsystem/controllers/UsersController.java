@@ -64,5 +64,22 @@ public class UsersController {
         }
     }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<UsersResponse> findById(@PathVariable Long id){
+        try{
+            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_LISTED, Arrays.asList(usersService.findById(id))));
+        }catch (Exception ex){
+            return ResponseEntity.ok(new UsersResponse(ex.getMessage(), Arrays.asList()));
+        }
+    }
+
+    @GetMapping(path = "/useremail/{email}")
+    public ResponseEntity<UsersResponse> findByEmail(@PathVariable String email){
+        try{
+            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_LISTED, Arrays.asList(usersService.findByEmail(email))));
+        }catch (Exception ex){
+            return ResponseEntity.ok(new UsersResponse(ex.getMessage(), Arrays.asList()));
+        }
+    }
 
 }
