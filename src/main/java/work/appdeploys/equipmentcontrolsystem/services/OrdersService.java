@@ -1,16 +1,21 @@
 package work.appdeploys.equipmentcontrolsystem.services;
 
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
-import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersDtoRequest;
+import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersRequestDto;
+import work.appdeploys.equipmentcontrolsystem.models.dtos.SchoolDto;
 
 import java.util.List;
 
 public interface OrdersService {
-    OrderResponseDto save(OrdersDtoRequest ordersDto);
+    OrderResponseDto save(OrdersRequestDto ordersDto);
 
     void delete(long id);
 
-    OrderResponseDto update(OrdersDtoRequest ordersDto);
+    OrderResponseDto update(OrdersRequestDto ordersDto);
 
     List<OrderResponseDto> findByAll();
+
+    OrderResponseDto findById(Long id);
+
+    List<OrderResponseDto> findByAllOrderNumber(Long orderNumber);
 }

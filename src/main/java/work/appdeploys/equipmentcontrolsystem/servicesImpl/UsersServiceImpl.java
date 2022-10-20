@@ -14,6 +14,7 @@ import work.appdeploys.equipmentcontrolsystem.services.UsersService;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -54,11 +55,29 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public List<UserResponseDto> findByAll(){
-        List<Users> list = usersRepository.findAll();
-        if(!list.isEmpty()){
-            return list.stream().map(usersMapper::toResponseDto).collect(Collectors.toList());
+        List<Users> usersRepositoryAll = usersRepository.findAll();
+        if(!usersRepositoryAll.isEmpty()){
+            return usersRepositoryAll.stream().map(usersMapper::toResponseDto).collect(Collectors.toList());
         }
         throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS);
+    }
+
+    @Override
+    public UserResponseDto findById(Long id) {
+        Optional<Users> userOptional = usersRepository.findById(id);
+        if(userOptional.isPresent()){
+            return userOptional.map(usersMapper::toResponseDto).get();
+        }
+        throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS);
+    }
+
+    @Override
+    public UserResponseDto findByEmail(String email) {
+        Optional<Users> userOptional = usersRepository.findByEmail(email);
+        if(userOptional.isPresent()){
+            return userOptional.map(usersMapper::toResponseDto).get();
+        }
+        throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS_EMAIL);
     }
 
     private void validateUsersById(Long id, String message) {

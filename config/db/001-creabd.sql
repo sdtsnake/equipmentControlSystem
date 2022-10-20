@@ -26,17 +26,9 @@ create table users
     name   varchar(500) not null,
     rol    char(1)
 );
-create table orderbyschool
-(
-    idorder  int,
-    idshcool int
-);
+
 
 alter table orders
     add constraint FK_orders_users_ing foreign key (idusercreate) references users (id);
 alter table orders
     add constraint FK_orders_users_mod foreign key (idusermod) references users (id);
-alter table orderbyschool
-    add constraint FK_orders_school foreign key (idorder) references orders (id);
-alter table orderbyschool
-    add constraint FK_school_orders foreign key (idshcool) references school (id);

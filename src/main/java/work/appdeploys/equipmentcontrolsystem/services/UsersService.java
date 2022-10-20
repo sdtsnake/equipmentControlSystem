@@ -1,5 +1,6 @@
 package work.appdeploys.equipmentcontrolsystem.services;
 
+import work.appdeploys.equipmentcontrolsystem.models.dtos.SchoolDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UserResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
 
@@ -14,4 +15,8 @@ public interface UsersService {
     UserResponseDto update(UsersDto usersDto);
 
     List<UserResponseDto> findByAll();
+
+    UserResponseDto findById(Long id);
+
+    UserResponseDto findByEmail(String email);
 }

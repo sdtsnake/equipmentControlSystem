@@ -44,6 +44,15 @@ public class SchoolController {
         }
     }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<SchoolsResponse> getById(@PathVariable Long id) {
+        try{
+            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_SELECTED,Arrays.asList(schoolService.findById(id))));
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(new SchoolsResponse(ex.getMessage(),Arrays.asList()));
+        }
+    }
+
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<SchoolsResponse> delete(@PathVariable Long id) {
         try{
