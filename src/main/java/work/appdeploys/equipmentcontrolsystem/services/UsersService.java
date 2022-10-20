@@ -1,6 +1,5 @@
 package work.appdeploys.equipmentcontrolsystem.services;
 
-import work.appdeploys.equipmentcontrolsystem.models.dtos.SchoolDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UserResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
 
