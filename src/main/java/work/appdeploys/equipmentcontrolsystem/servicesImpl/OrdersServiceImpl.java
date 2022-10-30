@@ -88,9 +88,9 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public List<OrderResponseDto> findByAllOrderNumber(Long orderNumber) {
-        List<Orders> optionOrdder = ordersRepository.findByOrderNumber(orderNumber);
-        if(!optionOrdder.isEmpty()){
-            return optionOrdder.stream().map(ordersMapper::toResponseDto).collect(Collectors.toList());
+        List<Orders> listOrdder = ordersRepository.findByOrderNumber(orderNumber);
+        if(!listOrdder.isEmpty()){
+            return listOrdder.stream().map(ordersMapper::toResponseDto).collect(Collectors.toList());
         }
         throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD);
     }

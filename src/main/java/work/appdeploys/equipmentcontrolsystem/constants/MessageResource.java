@@ -63,6 +63,8 @@ public class MessageResource {
 
     public static final String ORDER_NUNBER_NOT_EXIST_RECORD = "Not exist records of order number";
 
+    public static final String ORDER_NUNBER_NOT_EXIST_RECORD_DATE = "Not exist records of order number in this date";
+
     public static final String ORDER_UPDATED = "The order as updated";
 
     public static final String ORDER_NUMBER_LISTED = "The records for order number as listed";
