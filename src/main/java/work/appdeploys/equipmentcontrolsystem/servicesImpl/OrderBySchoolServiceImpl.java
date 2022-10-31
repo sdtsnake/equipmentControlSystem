@@ -26,7 +26,7 @@ public class OrderBySchoolServiceImpl implements OrderBySchoolService {
 
     @Override
     public List<OrderBySchoolResponseDto> findByAllDate(Date date) {
-        List<OrdersBySchool> listOrdersBySchool = orderBySchoolRespository.findByDate(date);
+        List<OrdersBySchool> listOrdersBySchool = orderBySchoolRespository.findByOrderDate(date);
         if(!listOrdersBySchool.isEmpty()){
             return listOrdersBySchool.stream().map(orderBySchoolMapper::toResponseDto).collect(Collectors.toList());
         }

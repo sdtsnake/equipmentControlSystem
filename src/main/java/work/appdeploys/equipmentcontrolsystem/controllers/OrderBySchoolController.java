@@ -31,9 +31,9 @@ public class OrderBySchoolController {
     }
 
     @GetMapping(path = "/school/{idschool}")
-    public ResponseEntity<OrderBySchoolResponse> getByOrderNumberDate(@PathVariable Long id){
+    public ResponseEntity<OrderBySchoolResponse> getByOrderNumberDate(@PathVariable Long idschool){
         try{
-            return ResponseEntity.ok(new OrderBySchoolResponse(MessageResource.ORDER_NUMBER_LISTED,orderBySchoolService.findByAllOrderSchool(id)));
+            return ResponseEntity.ok(new OrderBySchoolResponse(MessageResource.ORDER_NUMBER_LISTED,orderBySchoolService.findByAllOrderSchool(idschool)));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrderBySchoolResponse(ex.getMessage(), Arrays.asList()));
         }

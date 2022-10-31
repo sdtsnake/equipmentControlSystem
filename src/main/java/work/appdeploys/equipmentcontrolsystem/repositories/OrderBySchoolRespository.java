@@ -7,6 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 public interface OrderBySchoolRespository extends JpaRepository<OrdersBySchool, Long> {
-    List<OrdersBySchool> findByDate(Date date);
+    List<OrdersBySchool> findByOrderDate(Date date);
     List<OrdersBySchool> findByOrderSchool(Long orderSchool);
 }
