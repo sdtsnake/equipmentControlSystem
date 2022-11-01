@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import work.appdeploys.equipmentcontrolsystem.models.OrdersBySchool;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public interface OrderBySchoolRespository extends JpaRepository<OrdersBySchool, Long> {
