@@ -12,6 +12,7 @@ import work.appdeploys.equipmentcontrolsystem.repositories.OrderBySchoolResposit
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.services.OrderBySchoolService;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class OrderBySchoolServiceImpl implements OrderBySchoolService {
     private final OrderBySchoolRespository orderBySchoolRespository;
 
     @Override
-    public List<OrderBySchoolResponseDto> findByAllDate(Date date) {
+    public List<OrderBySchoolResponseDto> findByAllDate(LocalDate date) {
         List<OrdersBySchool> listOrdersBySchool = orderBySchoolRespository.findByOrderDate(date);
         if(!listOrdersBySchool.isEmpty()){
             return listOrdersBySchool.stream().map(orderBySchoolMapper::toResponseDto).collect(Collectors.toList());
