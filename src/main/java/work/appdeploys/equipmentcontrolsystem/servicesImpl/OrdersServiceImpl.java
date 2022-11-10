@@ -1,17 +1,22 @@
 package work.appdeploys.equipmentcontrolsystem.servicesImpl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
-import nonapi.io.github.classgraph.fileslice.ArraySlice;
 import org.apache.commons.validator.routines.DateValidator;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellUtil;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.springframework.stereotype.Service;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.exceptions.OrdersExceptionBadRequest;
@@ -21,6 +26,7 @@ import work.appdeploys.equipmentcontrolsystem.models.Orders;
 import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersRequestDto;
+import work.appdeploys.equipmentcontrolsystem.models.structures.OrdersExcelDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.OrdersRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
@@ -28,7 +34,6 @@ import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -44,7 +49,8 @@ public class OrdersServiceImpl implements OrdersService {
     private final OrdersRepository ordersRepository;
     private final UsersRepository usersRepository;
     private final SchoolRepository schoolRepository;
-    private final String [] encabezados= {"Order","Model Number","Serial Number","Tag Asset","Issue","Incident #","Repair","Status"};
+    private final String [] headers = {"Order","Model Number","Serial Number","Tag Asset","Issue","Incident #","Repair","Status"};
+    private final String [] status = {"Fiexed","Recycle","Waiting"};
 
     @Override
     public OrderResponseDto save(OrdersRequestDto ordersRequestDto) {
@@ -118,82 +124,109 @@ public class OrdersServiceImpl implements OrdersService {
         if(listOrdder.isEmpty()){
             throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD);
         }
-        try(Workbook workbookExcel = new SXSSFWorkbook()){
-            Sheet sheet = workbookExcel.createSheet("Fixed");
-            CellStyle cellStyle = workbookExcel.createCellStyle();
 
-            cellStyle.setBorderTop(BorderStyle.MEDIUM);
-            cellStyle.setBorderRight(BorderStyle.MEDIUM);
-            cellStyle.setBorderBottom(BorderStyle.MEDIUM);
-            cellStyle.setBorderLeft(BorderStyle.MEDIUM);
-            cellStyle.setAlignment(HorizontalAlignment.LEFT);
+        SXSSFWorkbook workbookExcel = new SXSSFWorkbook();
+        final XSSFCellStyle cellStyleTitle = crearEstiloCelda(workbookExcel, IndexedColors.LIGHT_YELLOW);
+        final XSSFCellStyle cellStyleSchool = crearEstiloCelda(workbookExcel, IndexedColors.LIGHT_ORANGE);
+        final XSSFCellStyle cellStyle = crearEstiloCelda(workbookExcel, IndexedColors.WHITE);
 
-            // Header
-            Row row = sheet.createRow(0);
-            Cell cell;
-            for(int i=0;i<encabezados.length;i++){
-                cell = armaFilas(row.createCell(i),cellStyle, encabezados[i]);
+        for (String tag:status) {
+            List<Orders> subList = listOrdder.stream()
+                    .filter(order ->order.getStatusOrder().equals(tag))
+                    .collect(Collectors.toList());
+            if(!subList.isEmpty()){
+                GenetedSheet(tag,subList,workbookExcel,cellStyleTitle,cellStyleSchool,cellStyle);
             }
-
-            int idx = 1;
-            for(Orders list : listOrdder){
-                row = sheet.createRow(idx);
-                ObjectMapper oMapper = new ObjectMapper();
-
-                Map<String, Object> map = oMapper.convertValue(list, Map.class);
-
-                List<Object> values =  Arrays.asList(map.values().toArray());
-
-                for(int i=0;i<values.size();i++){
-                    cell = armaFilas(row.createCell(i),cellStyle, values.get(i).toString());
-                }
-                idx++;
-            }
-
-          /*int idx = 0;
-            for(Orders list : listOrdder){
-                row = sheet.createRow(idx);
-
-                cell = row.createCell(0);
-                cell.setCellValue(idx);
-                cell.setCellStyle(cellStyle);
-
-                cell = row.createCell(1);
-                cell.setCellValue(list.getModel());
-                cell.setCellStyle(cellStyle);
-
-                cell = row.createCell(2);
-                cell.setCellValue(list.getSerialNumber());
-                cell.setCellStyle(cellStyle);
-
-                cell = row.createCell(3);
-                cell.setCellValue(list.getAsset());
-                cell.setCellStyle(cellStyle);
-
-                cell = row.createCell(4);
-                cell.setCellValue(list.getIssue());
-                cell.setCellStyle(cellStyle);
-
-                cell = row.createCell(5);
-                cell.setCellValue(list.getIncident());
-                cell.setCellStyle(cellStyle);
-
-                cell = row.createCell(6);
-                cell.setCellValue(list.getNote());
-                cell.setCellStyle(cellStyle);
-
-                cell = row.createCell(7);
-                cell.setCellValue(list.getStatusOrder());
-                cell.setCellStyle(cellStyle);
-
-                idx++;
-            } */
-            workbookExcel.write(outputStream);
-            workbookExcel.close();
-            outputStream.close();
-        }catch (IOException e){
-            throw new OrdersExceptionBadRequest(e.getMessage());
         }
+
+
+
+
+        try{
+             workbookExcel.write(outputStream);
+             workbookExcel.close();
+             outputStream.close();
+         }catch (Exception e){
+             throw new OrdersExceptionBadRequest(e.getMessage());
+         }
+    }
+
+    public void GenetedSheet(String tag, List<Orders> listOrdder,SXSSFWorkbook workbookExcel, XSSFCellStyle cellStyleTitle, XSSFCellStyle cellStyleSchool, XSSFCellStyle cellStyle){
+        SXSSFSheet sheet = workbookExcel.createSheet(tag);
+        sheet.addMergedRegion(new CellRangeAddress(0,0,0, headers.length - 1));
+
+        // Header
+        Row row = sheet.createRow(0);
+        Cell cell;
+
+        ObjectMapper oMapper = new ObjectMapper();
+        oMapper.registerModule(new JavaTimeModule());
+
+        Integer idx = 2;
+        Integer fila = 1;
+        boolean impTitle = true;
+        for(Orders order : listOrdder){
+
+            if(impTitle){
+                cell = armaFilas(row.createCell(0),cellStyleSchool, order.getSchool().getName());
+                CellUtil.setCellStyleProperty(cell, CellUtil.ALIGNMENT, HorizontalAlignment.CENTER);
+
+                row = sheet.createRow(1);
+                for(int i = 0; i< headers.length; i++){
+                    cell = armaFilas(row.createCell(i),cellStyleTitle, headers[i]);
+                }
+                impTitle = false;
+            }
+
+            row = sheet.createRow(idx);
+
+            Map<String, Object> map = oMapper.convertValue(modelToExcelDto(order), Map.class);
+
+            List<Object> values =  Arrays.asList(map.values().toArray());
+
+            armaFilas(row.createCell(0),cellStyle, fila.toString());
+
+            for(int i=0;i<values.size();i++){
+                cell = armaFilas(row.createCell(i+1),cellStyle, values.get(i).toString());
+            }
+            fila++;
+            idx++;
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Override
+    public OrdersExcelDto modelToExcelDto(Orders orders) {
+        return new OrdersExcelDto(orders.getModel(),orders.getSerialNumber(),orders.getAsset(),orders.getIssue(),orders.getIncident(),orders.getNote(),orders.getStatusOrder());
     }
 
     private void validateUsersById(Long id, String message) {
@@ -216,6 +249,24 @@ public class OrdersServiceImpl implements OrdersService {
         cell.setCellValue(description);
         cell.setCellStyle(cellStyle);
         return cell;
+    }
+
+    private XSSFCellStyle crearEstiloCelda(SXSSFWorkbook workbook, IndexedColors color) {
+        Font datosFontWhite = workbook.createFont();
+        datosFontWhite.setBold(false);
+        datosFontWhite.setFontName("Consolas");
+        datosFontWhite.setFontHeightInPoints((short) 10);
+
+        XSSFCellStyle style = (XSSFCellStyle) workbook.createCellStyle();
+        style.setWrapText(false);
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        style.setBorderTop(BorderStyle.MEDIUM);
+        style.setBorderLeft(BorderStyle.MEDIUM);
+        style.setBorderRight(BorderStyle.MEDIUM);
+        style.setBorderBottom(BorderStyle.MEDIUM);
+        style.setFillForegroundColor(color.index);
+        style.setFont(datosFontWhite);
+        return style;
     }
 
 }

@@ -2,6 +2,7 @@ package work.appdeploys.equipmentcontrolsystem.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +17,14 @@ import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersRequestDto;
 import work.appdeploys.equipmentcontrolsystem.models.structures.OrdersResponse;
 import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Tag(name="ordes")
@@ -81,5 +88,19 @@ public class OrdersControllers {
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }
     }
+
+    @GetMapping(path = "/excelorders/{orderNumber}")
+    public void ordersExceclRespor(HttpServletResponse response, Long ordernumber) throws IOException {
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
+        String headerVal = "attachment; filename=ordernumer_" + ordernumber +"_"+ dateFormat.format(new Date()) + ".xls";
+        response.setHeader("Content-Disposition", headerVal);
+        response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
+        ordersService.ExcelOrders(response.getOutputStream(),ordernumber);
+    }
+
+
+
+
+
 
 }

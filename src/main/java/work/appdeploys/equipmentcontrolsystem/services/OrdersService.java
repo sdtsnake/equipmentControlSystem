@@ -1,7 +1,9 @@
 package work.appdeploys.equipmentcontrolsystem.services;
 
+import work.appdeploys.equipmentcontrolsystem.models.Orders;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersRequestDto;
+import work.appdeploys.equipmentcontrolsystem.models.structures.OrdersExcelDto;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -21,4 +23,6 @@ public interface OrdersService {
     List<OrderResponseDto> findByAllOrderNumber(Long orderNumber);
 
     void ExcelOrders(OutputStream outputStream, Long ordernuber) throws IOException;
+
+    OrdersExcelDto modelToExcelDto(Orders orders);
 }
