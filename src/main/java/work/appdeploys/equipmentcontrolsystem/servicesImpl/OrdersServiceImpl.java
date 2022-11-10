@@ -26,7 +26,6 @@ import work.appdeploys.equipmentcontrolsystem.models.Orders;
 import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersRequestDto;
-import work.appdeploys.equipmentcontrolsystem.models.structures.OrdersExcelDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.OrdersRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
@@ -40,17 +39,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class OrdersServiceImpl implements OrdersService {
+    private Function<SXSSFWorkbook, XSSFCellStyle> getSchoolStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.LIGHT_ORANGE);
+    private Function<SXSSFWorkbook, XSSFCellStyle> getTitleStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.LIGHT_YELLOW);
+    private Function<SXSSFWorkbook, XSSFCellStyle> getStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.WHITE);
     private final OrdersMapper ordersMapper;
     private final OrdersRepository ordersRepository;
     private final UsersRepository usersRepository;
     private final SchoolRepository schoolRepository;
     private final String [] headers = {"Order","Model Number","Serial Number","Tag Asset","Issue","Incident #","Repair","Status"};
-    private final String [] status = {"Fiexed","Recycle","Waiting"};
+    private final String [] status = {"Fixed","Recycle","waiting"};
 
     @Override
     public OrderResponseDto save(OrdersRequestDto ordersRequestDto) {
@@ -125,33 +128,30 @@ public class OrdersServiceImpl implements OrdersService {
             throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD);
         }
 
-        SXSSFWorkbook workbookExcel = new SXSSFWorkbook();
-        final XSSFCellStyle cellStyleTitle = crearEstiloCelda(workbookExcel, IndexedColors.LIGHT_YELLOW);
-        final XSSFCellStyle cellStyleSchool = crearEstiloCelda(workbookExcel, IndexedColors.LIGHT_ORANGE);
-        final XSSFCellStyle cellStyle = crearEstiloCelda(workbookExcel, IndexedColors.WHITE);
+        try(SXSSFWorkbook workbookExcel = new SXSSFWorkbook()){
 
         for (String tag:status) {
             List<Orders> subList = listOrdder.stream()
-                    .filter(order ->order.getStatusOrder().equals(tag))
+                    .filter(order -> tag.equalsIgnoreCase(order.getStatusOrder().trim()))
                     .collect(Collectors.toList());
             if(!subList.isEmpty()){
-                GenetedSheet(tag,subList,workbookExcel,cellStyleTitle,cellStyleSchool,cellStyle);
+                GenetedSheet(tag,subList,workbookExcel);
             }
         }
 
-
-
-
-        try{
-             workbookExcel.write(outputStream);
-             workbookExcel.close();
-             outputStream.close();
+        workbookExcel.write(outputStream);
+        workbookExcel.close();
+        outputStream.close();
          }catch (Exception e){
              throw new OrdersExceptionBadRequest(e.getMessage());
          }
     }
 
-    public void GenetedSheet(String tag, List<Orders> listOrdder,SXSSFWorkbook workbookExcel, XSSFCellStyle cellStyleTitle, XSSFCellStyle cellStyleSchool, XSSFCellStyle cellStyle){
+    public void GenetedSheet(String tag, List<Orders> listOrdder,SXSSFWorkbook workbookExcel){
+
+        XSSFCellStyle cellStyleTitle = getTitleStyle.apply(workbookExcel);
+        XSSFCellStyle cellStyleSchool = getSchoolStyle.apply(workbookExcel);
+        XSSFCellStyle cellStyle = getStyle.apply(workbookExcel);
         SXSSFSheet sheet = workbookExcel.createSheet(tag);
         sheet.addMergedRegion(new CellRangeAddress(0,0,0, headers.length - 1));
 
@@ -180,7 +180,7 @@ public class OrdersServiceImpl implements OrdersService {
 
             row = sheet.createRow(idx);
 
-            Map<String, Object> map = oMapper.convertValue(modelToExcelDto(order), Map.class);
+            Map<String, Object> map = oMapper.convertValue(ordersMapper.toModelExcelDto(order), Map.class);
 
             List<Object> values =  Arrays.asList(map.values().toArray());
 
@@ -193,40 +193,6 @@ public class OrdersServiceImpl implements OrdersService {
             idx++;
         }
 
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @Override
-    public OrdersExcelDto modelToExcelDto(Orders orders) {
-        return new OrdersExcelDto(orders.getModel(),orders.getSerialNumber(),orders.getAsset(),orders.getIssue(),orders.getIncident(),orders.getNote(),orders.getStatusOrder());
     }
 
     private void validateUsersById(Long id, String message) {

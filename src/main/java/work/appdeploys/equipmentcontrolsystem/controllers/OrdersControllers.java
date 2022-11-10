@@ -20,12 +20,10 @@ import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 @Tag(name="ordes")
 @RequiredArgsConstructor
@@ -97,10 +95,5 @@ public class OrdersControllers {
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
         ordersService.ExcelOrders(response.getOutputStream(),ordernumber);
     }
-
-
-
-
-
 
 }
