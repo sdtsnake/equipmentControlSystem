@@ -3,8 +3,10 @@ package work.appdeploys.equipmentcontrolsystem.services;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersRequestDto;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface OrdersService {
@@ -20,6 +22,6 @@ public interface OrdersService {
 
     List<OrderResponseDto> findByAllOrderNumber(Long orderNumber);
 
-    void ExcelOrders(OutputStream outputStream, Long ordernuber) throws IOException;
+    String ExcelOrders(LocalDate dateTo, Long ordernuber) throws IOException;
 
 }

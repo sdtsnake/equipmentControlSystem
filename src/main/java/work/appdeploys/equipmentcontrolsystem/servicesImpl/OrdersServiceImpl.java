@@ -31,10 +31,16 @@ import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
 import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -45,9 +51,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class OrdersServiceImpl implements OrdersService {
-    private Function<SXSSFWorkbook, XSSFCellStyle> getSchoolStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.LIGHT_ORANGE);
-    private Function<SXSSFWorkbook, XSSFCellStyle> getTitleStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.LIGHT_YELLOW);
-    private Function<SXSSFWorkbook, XSSFCellStyle> getStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.WHITE);
+    private Function<SXSSFWorkbook, XSSFCellStyle> getSchoolStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.LIGHT_ORANGE,false);
+    private Function<SXSSFWorkbook, XSSFCellStyle> getTitleStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.LIGHT_YELLOW,true);
+    private Function<SXSSFWorkbook, XSSFCellStyle> getStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.WHITE,false);
     private final OrdersMapper ordersMapper;
     private final OrdersRepository ordersRepository;
     private final UsersRepository usersRepository;
@@ -121,33 +127,55 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public void ExcelOrders(OutputStream outputStream, Long orderNumber) throws IOException {
-        List<Orders> listOrdder = ordersRepository.findByOrderNumber(orderNumber);
-
-        if(listOrdder.isEmpty()){
+    public String ExcelOrders(LocalDate dateTo, Long idSchool) throws IOException {
+        Optional<School> optSchool = schoolRepository.findById(idSchool);
+        if(optSchool.isEmpty()){
+            throw new OrdersExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS);
+        }
+        List<Orders> listOrder = ordersRepository.findByDateCreate(dateTo);
+        if(listOrder.isEmpty()){
+            throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD);
+        }
+        List<Orders> subListSchool = listOrder.stream()
+                .filter(order -> order.getSchool().getId().equals(idSchool))
+                .collect(Collectors.toList());
+        if(subListSchool.isEmpty()){
             throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD);
         }
 
-        try(SXSSFWorkbook workbookExcel = new SXSSFWorkbook()){
+        DateFormat dateFormat = new SimpleDateFormat("YYYY_MM_DD_HH_MM_SS");
 
-        for (String tag:status) {
-            List<Orders> subList = listOrdder.stream()
-                    .filter(order -> tag.equalsIgnoreCase(order.getStatusOrder().trim()))
-                    .collect(Collectors.toList());
-            if(!subList.isEmpty()){
-                GenetedSheet(tag,subList,workbookExcel);
+        final File rutaExcel = new File("./tmp/" + dateFormat.format(new Date()) + "_" + optSchool.get().getName().replaceAll(" ","_") + ".xls");
+
+        try{
+            FileOutputStream outputStream = new FileOutputStream(rutaExcel);
+
+            try(SXSSFWorkbook workbookExcel = new SXSSFWorkbook()){
+
+                for (String tag:status) {
+                    List<Orders> subList = subListSchool.stream()
+                            .filter(order -> tag.equalsIgnoreCase(order.getStatusOrder().trim()))
+                            .collect(Collectors.toList());
+                    if(!subList.isEmpty()){
+                        GeneratedSheet(tag,subList,workbookExcel);
+                    }
+                }
+
+                workbookExcel.write(outputStream);
+                workbookExcel.close();
+                outputStream.close();
+            }catch (Exception e){
+                throw new OrdersExceptionBadRequest(e.getMessage());
             }
+
+        }catch (Exception e){
+            throw new OrdersExceptionBadRequest(e.getMessage());
         }
 
-        workbookExcel.write(outputStream);
-        workbookExcel.close();
-        outputStream.close();
-         }catch (Exception e){
-             throw new OrdersExceptionBadRequest(e.getMessage());
-         }
+        return rutaExcel.getAbsolutePath();
     }
 
-    public void GenetedSheet(String tag, List<Orders> listOrdder,SXSSFWorkbook workbookExcel){
+    public void GeneratedSheet(String tag, List<Orders> listOrdder, SXSSFWorkbook workbookExcel){
 
         XSSFCellStyle cellStyleTitle = getTitleStyle.apply(workbookExcel);
         XSSFCellStyle cellStyleSchool = getSchoolStyle.apply(workbookExcel);
@@ -168,7 +196,7 @@ public class OrdersServiceImpl implements OrdersService {
         for(Orders order : listOrdder){
 
             if(impTitle){
-                cell = armaFilas(row.createCell(0),cellStyleSchool, order.getSchool().getName());
+                cell = armaFilas(row.createCell(0),cellStyleSchool, order.getSchool().getName() + " - " + tag);
                 CellUtil.setCellStyleProperty(cell, CellUtil.ALIGNMENT, HorizontalAlignment.CENTER);
 
                 row = sheet.createRow(1);
@@ -217,14 +245,19 @@ public class OrdersServiceImpl implements OrdersService {
         return cell;
     }
 
-    private XSSFCellStyle crearEstiloCelda(SXSSFWorkbook workbook, IndexedColors color) {
+    private XSSFCellStyle crearEstiloCelda(SXSSFWorkbook workbook, IndexedColors color, boolean warpText) {
         Font datosFontWhite = workbook.createFont();
         datosFontWhite.setBold(false);
         datosFontWhite.setFontName("Consolas");
         datosFontWhite.setFontHeightInPoints((short) 10);
 
         XSSFCellStyle style = (XSSFCellStyle) workbook.createCellStyle();
-        style.setWrapText(false);
+        if(warpText){
+            style.setWrapText(true);
+        }else{
+            style.setWrapText(false);
+        }
+
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         style.setBorderTop(BorderStyle.MEDIUM);
         style.setBorderLeft(BorderStyle.MEDIUM);

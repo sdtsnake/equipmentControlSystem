@@ -2,6 +2,7 @@ package work.appdeploys.equipmentcontrolsystem.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,9 +20,11 @@ import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -87,13 +90,12 @@ public class OrdersControllers {
         }
     }
 
-    @GetMapping(path = "/excelorders/{orderNumber}")
-    public void ordersExceclRespor(HttpServletResponse response, Long ordernumber) throws IOException {
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
-        String headerVal = "attachment; filename=ordernumer_" + ordernumber +"_"+ dateFormat.format(new Date()) + ".xls";
+    @GetMapping(path = "/excelorders/{dateTo}/{idSchool}")
+    public void ordersExceclRespor(HttpServletResponse response, @PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateTo, @PathVariable("idSchool") Long idSchool) throws IOException {
+        String filename = ordersService.ExcelOrders(dateTo,idSchool);
+        String headerVal = "attachment; filename=" + filename;
         response.setHeader("Content-Disposition", headerVal);
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
-        ordersService.ExcelOrders(response.getOutputStream(),ordernumber);
     }
 
 }
