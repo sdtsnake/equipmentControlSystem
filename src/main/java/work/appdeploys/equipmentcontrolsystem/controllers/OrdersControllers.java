@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersRequestDto;
+import work.appdeploys.equipmentcontrolsystem.models.structures.ExcelDto;
 import work.appdeploys.equipmentcontrolsystem.models.structures.OrdersResponse;
 import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 
@@ -22,11 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 
 @Tag(name="ordes")
 @RequiredArgsConstructor
@@ -92,8 +91,12 @@ public class OrdersControllers {
 
     @GetMapping(path = "/excelorders/{dateTo}/{idSchool}")
     public void ordersExceclRespor(HttpServletResponse response, @PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateTo, @PathVariable("idSchool") Long idSchool) throws IOException {
-        String filename = ordersService.ExcelOrders(dateTo,idSchool);
-        String headerVal = "attachment; filename=" + filename;
+        ExcelDto excelDto = ordersService.ExcelOrders(dateTo,idSchool);
+        excelDto.getTmpExcel().renameTo(new File(excelDto.getNameExcel()));
+
+        Files.copy(excelDto.getTmpExcel().toPath(),response.getOutputStream());
+
+        String headerVal = "attachment; filename=" + excelDto.getNameExcel();
         response.setHeader("Content-Disposition", headerVal);
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
     }

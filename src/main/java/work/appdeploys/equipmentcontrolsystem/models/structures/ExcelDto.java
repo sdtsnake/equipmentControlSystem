@@ -7,7 +7,7 @@ import java.io.File;
 
 @Data
 @AllArgsConstructor
-public class OrderExcelDto {
+public class ExcelDto {
 
     private String nameExcel;
     private File tmpExcel;

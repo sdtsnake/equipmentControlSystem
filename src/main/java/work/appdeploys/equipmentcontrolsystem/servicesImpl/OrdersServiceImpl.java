@@ -26,8 +26,7 @@ import work.appdeploys.equipmentcontrolsystem.models.Orders;
 import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersRequestDto;
-import work.appdeploys.equipmentcontrolsystem.models.structures.OrderExcelDto;
-import work.appdeploys.equipmentcontrolsystem.models.structures.OrdersExcelDto;
+import work.appdeploys.equipmentcontrolsystem.models.structures.ExcelDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.OrdersRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
@@ -36,7 +35,6 @@ import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -129,7 +127,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public OrderExcelDto ExcelOrders(LocalDate dateTo, Long idSchool) throws IOException {
+    public ExcelDto ExcelOrders(LocalDate dateTo, Long idSchool) throws IOException {
         Optional<School> optSchool = schoolRepository.findById(idSchool);
         if(optSchool.isEmpty()){
             throw new OrdersExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS);
@@ -145,10 +143,10 @@ public class OrdersServiceImpl implements OrdersService {
             throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD);
         }
 
-        final File rutaExcel = File.createTempFile("exceltemporal", null);
+        final File excelTmp = File.createTempFile("exceltemporal", null);
 
         try{
-            FileOutputStream outputStream = new FileOutputStream(rutaExcel);
+            FileOutputStream outputStream = new FileOutputStream(excelTmp);
 
             try(SXSSFWorkbook workbookExcel = new SXSSFWorkbook()){
 
@@ -171,8 +169,8 @@ public class OrdersServiceImpl implements OrdersService {
         }catch (Exception e){
             throw new OrdersExceptionBadRequest(e.getMessage());
         }
-
-        return new OrderExcelDto(optSchool.get().getName().replaceAll(" ", "_"));
+        DateFormat dateFormat = new SimpleDateFormat("YYYY_MM_DD");
+        return new ExcelDto(optSchool.get().getName().replaceAll(" ", "_") + "_" + dateFormat.format(new Date()) + ".xls",excelTmp);
     }
 
     public void GeneratedSheet(String tag, List<Orders> listOrdder, SXSSFWorkbook workbookExcel){

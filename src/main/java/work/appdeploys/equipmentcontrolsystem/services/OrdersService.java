@@ -2,12 +2,9 @@ package work.appdeploys.equipmentcontrolsystem.services;
 
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersRequestDto;
-import work.appdeploys.equipmentcontrolsystem.models.structures.OrderExcelDto;
-import work.appdeploys.equipmentcontrolsystem.models.structures.OrdersExcelDto;
+import work.appdeploys.equipmentcontrolsystem.models.structures.ExcelDto;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -24,6 +21,6 @@ public interface OrdersService {
 
     List<OrderResponseDto> findByAllOrderNumber(Long orderNumber);
 
-    OrderExcelDto ExcelOrders(LocalDate dateTo, Long ordernuber) throws IOException;
+    ExcelDto ExcelOrders(LocalDate dateTo, Long ordernuber) throws IOException;
 
 }
