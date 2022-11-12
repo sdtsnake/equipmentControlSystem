@@ -2,6 +2,8 @@ package work.appdeploys.equipmentcontrolsystem.services;
 
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersRequestDto;
+import work.appdeploys.equipmentcontrolsystem.models.structures.OrderExcelDto;
+import work.appdeploys.equipmentcontrolsystem.models.structures.OrdersExcelDto;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +24,6 @@ public interface OrdersService {
 
     List<OrderResponseDto> findByAllOrderNumber(Long orderNumber);
 
-    String ExcelOrders(LocalDate dateTo, Long ordernuber) throws IOException;
+    OrderExcelDto ExcelOrders(LocalDate dateTo, Long ordernuber) throws IOException;
 
 }

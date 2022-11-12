@@ -26,6 +26,8 @@ import work.appdeploys.equipmentcontrolsystem.models.Orders;
 import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersRequestDto;
+import work.appdeploys.equipmentcontrolsystem.models.structures.OrderExcelDto;
+import work.appdeploys.equipmentcontrolsystem.models.structures.OrdersExcelDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.OrdersRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
@@ -127,7 +129,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public String ExcelOrders(LocalDate dateTo, Long idSchool) throws IOException {
+    public OrderExcelDto ExcelOrders(LocalDate dateTo, Long idSchool) throws IOException {
         Optional<School> optSchool = schoolRepository.findById(idSchool);
         if(optSchool.isEmpty()){
             throw new OrdersExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS);
@@ -143,9 +145,7 @@ public class OrdersServiceImpl implements OrdersService {
             throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD);
         }
 
-        DateFormat dateFormat = new SimpleDateFormat("YYYY_MM_DD_HH_MM_SS");
-
-        final File rutaExcel = new File("./tmp/" + dateFormat.format(new Date()) + "_" + optSchool.get().getName().replaceAll(" ","_") + ".xls");
+        final File rutaExcel = File.createTempFile("exceltemporal", null);
 
         try{
             FileOutputStream outputStream = new FileOutputStream(rutaExcel);
@@ -172,7 +172,7 @@ public class OrdersServiceImpl implements OrdersService {
             throw new OrdersExceptionBadRequest(e.getMessage());
         }
 
-        return rutaExcel.getAbsolutePath();
+        return new OrderExcelDto(optSchool.get().getName().replaceAll(" ", "_"));
     }
 
     public void GeneratedSheet(String tag, List<Orders> listOrdder, SXSSFWorkbook workbookExcel){
