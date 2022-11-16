@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -60,6 +61,7 @@ public class OrdersServiceImpl implements OrdersService {
     private final SchoolRepository schoolRepository;
     private final String [] headers = {"Order","Model Number","Serial Number","Tag Asset","Issue","Incident #","Repair","Status"};
     private final String [] status = {"Fixed","Recycle","waiting"};
+    private File excelTmp;
 
     @Override
     public OrderResponseDto save(OrdersRequestDto ordersRequestDto) {
@@ -143,8 +145,14 @@ public class OrdersServiceImpl implements OrdersService {
             throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD);
         }
 
-        final File excelTmp = File.createTempFile("exceltemporal", null);
+        excelTmp = createExcel(subListSchool);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_DD");
+        return new ExcelDto(optSchool.get().getName().replaceAll(" ", "_") + "_" + dateFormat.format(new Date()) + ".xlsx",excelTmp);
+    }
 
+    public File createExcel(List<Orders> subListSchool) throws IOException {
+        Random random = new Random();
+        File excelTmp = new File(String.format("tmp%s", random.nextInt()));
         try{
             FileOutputStream outputStream = new FileOutputStream(excelTmp);
 
@@ -158,9 +166,9 @@ public class OrdersServiceImpl implements OrdersService {
                         GeneratedSheet(tag,subList,workbookExcel);
                     }
                 }
-
                 workbookExcel.write(outputStream);
                 workbookExcel.close();
+                outputStream.flush();
                 outputStream.close();
             }catch (Exception e){
                 throw new OrdersExceptionBadRequest(e.getMessage());
@@ -169,10 +177,9 @@ public class OrdersServiceImpl implements OrdersService {
         }catch (Exception e){
             throw new OrdersExceptionBadRequest(e.getMessage());
         }
-        DateFormat dateFormat = new SimpleDateFormat("YYYY_MM_DD");
-        return new ExcelDto(optSchool.get().getName().replaceAll(" ", "_") + "_" + dateFormat.format(new Date()) + ".xls",excelTmp);
-    }
 
+        return excelTmp;
+    }
     public void GeneratedSheet(String tag, List<Orders> listOrdder, SXSSFWorkbook workbookExcel){
 
         XSSFCellStyle cellStyleTitle = getTitleStyle.apply(workbookExcel);

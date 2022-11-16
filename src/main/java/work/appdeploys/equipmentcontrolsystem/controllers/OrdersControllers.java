@@ -91,14 +91,20 @@ public class OrdersControllers {
 
     @GetMapping(path = "/excelorders/{dateTo}/{idSchool}")
     public void ordersExceclRespor(HttpServletResponse response, @PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateTo, @PathVariable("idSchool") Long idSchool) throws IOException {
-        ExcelDto excelDto = ordersService.ExcelOrders(dateTo,idSchool);
-        excelDto.getTmpExcel().renameTo(new File(excelDto.getNameExcel()));
-
-        Files.copy(excelDto.getTmpExcel().toPath(),response.getOutputStream());
-
-        String headerVal = "attachment; filename=" + excelDto.getNameExcel();
-        response.setHeader("Content-Disposition", headerVal);
-        response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
+        try {
+            ExcelDto excelDto = ordersService.ExcelOrders(dateTo, idSchool);
+            String headerVal = "attachment; filename=" + excelDto.getNameExcel();
+            response.setHeader("Content-Disposition", headerVal);
+            response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
+            Files.copy(excelDto.getTmpExcel().toPath(), response.getOutputStream());
+            try {
+                excelDto.getTmpExcel().delete();
+            }catch (Exception e){
+                //TODO no importa porque ya se envio el archivo.
+            }
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
     }
-
 }
