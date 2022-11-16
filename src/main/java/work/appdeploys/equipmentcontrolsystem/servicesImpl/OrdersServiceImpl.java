@@ -151,8 +151,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     public File createExcel(List<Orders> subListSchool) throws IOException {
-        Random random = new Random();
-        File excelTmp = new File(String.format("tmp%s", random.nextInt()));
+        File excelTmp = new File(String.format("tmp%s%s", System.currentTimeMillis(),Thread.currentThread().getId()));
         try{
             FileOutputStream outputStream = new FileOutputStream(excelTmp);
 
