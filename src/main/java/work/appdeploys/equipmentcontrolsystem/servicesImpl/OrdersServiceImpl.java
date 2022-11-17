@@ -45,7 +45,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -129,7 +128,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public ExcelDto ExcelOrders(LocalDate dateTo, Long idSchool) throws IOException {
+    public ExcelDto excelOrders(LocalDate dateTo, Long idSchool) throws IOException {
         Optional<School> optSchool = schoolRepository.findById(idSchool);
         if(optSchool.isEmpty()){
             throw new OrdersExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS);
@@ -162,7 +161,7 @@ public class OrdersServiceImpl implements OrdersService {
                             .filter(order -> tag.equalsIgnoreCase(order.getStatusOrder().trim()))
                             .collect(Collectors.toList());
                     if(!subList.isEmpty()){
-                        GeneratedSheet(tag,subList,workbookExcel);
+                        generatedSheet(tag,subList,workbookExcel);
                     }
                 }
                 workbookExcel.write(outputStream);
@@ -179,7 +178,7 @@ public class OrdersServiceImpl implements OrdersService {
 
         return excelTmp;
     }
-    public void GeneratedSheet(String tag, List<Orders> listOrdder, SXSSFWorkbook workbookExcel){
+    public void generatedSheet(String tag, List<Orders> listOrdder, SXSSFWorkbook workbookExcel){
 
         XSSFCellStyle cellStyleTitle = getTitleStyle.apply(workbookExcel);
         XSSFCellStyle cellStyleSchool = getSchoolStyle.apply(workbookExcel);

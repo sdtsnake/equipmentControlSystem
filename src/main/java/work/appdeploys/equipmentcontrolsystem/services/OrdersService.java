@@ -21,6 +21,6 @@ public interface OrdersService {
 
     List<OrderResponseDto> findByAllOrderNumber(Long orderNumber);
 
-    ExcelDto ExcelOrders(LocalDate dateTo, Long ordernuber) throws IOException;
+    ExcelDto excelOrders(LocalDate dateTo, Long ordernuber) throws IOException;
 
 }

@@ -21,7 +21,6 @@ import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
@@ -92,7 +91,7 @@ public class OrdersControllers {
     @GetMapping(path = "/excelorders/{dateTo}/{idSchool}")
     public void ordersExceclRespor(HttpServletResponse response, @PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateTo, @PathVariable("idSchool") Long idSchool) throws IOException {
         try {
-            ExcelDto excelDto = ordersService.ExcelOrders(dateTo, idSchool);
+            ExcelDto excelDto = ordersService.excelOrders(dateTo, idSchool);
             String headerVal = "attachment; filename=" + excelDto.getNameExcel();
             response.setHeader("Content-Disposition", headerVal);
             response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
