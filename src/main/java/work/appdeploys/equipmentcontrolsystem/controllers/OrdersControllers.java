@@ -25,14 +25,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.Arrays;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 @Tag(name="ordes")
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/orders/")
 @RestController
 public class OrdersControllers {
     private final OrdersService ordersService;
-
+    private final static Logger LOGGER = Logger.getLogger("equipamemnsystem.orders");
     @PostMapping()
     public ResponseEntity<OrdersResponse> save(@RequestBody @Valid OrdersRequestDto ordersRequestDto){
         try{
@@ -99,7 +100,7 @@ public class OrdersControllers {
             try {
                 excelDto.getTmpExcel().delete();
             }catch (Exception e){
-                //TODO no importa porque ya se envio el archivo.
+                LOGGER.log(Level.INFO, "Error delete file temporal");
             }
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {

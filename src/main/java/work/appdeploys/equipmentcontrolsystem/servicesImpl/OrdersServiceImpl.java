@@ -60,7 +60,6 @@ public class OrdersServiceImpl implements OrdersService {
     private final SchoolRepository schoolRepository;
     private final String [] headers = {"Order","Model Number","Serial Number","Tag Asset","Issue","Incident #","Repair","Status"};
     private final String [] status = {"Fixed","Recycle","waiting"};
-    private File excelTmp;
 
     @Override
     public OrderResponseDto save(OrdersRequestDto ordersRequestDto) {
@@ -144,12 +143,12 @@ public class OrdersServiceImpl implements OrdersService {
             throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD);
         }
 
-        excelTmp = createExcel(subListSchool);
+        File excelTmp = createExcel(subListSchool);
         DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_DD");
         return new ExcelDto(optSchool.get().getName().replaceAll(" ", "_") + "_" + dateFormat.format(new Date()) + ".xlsx",excelTmp);
     }
 
-    public File createExcel(List<Orders> subListSchool) throws IOException {
+    public File createExcel(List<Orders> subListSchool) {
         File excelTmp = new File(String.format("tmp%s%s", System.currentTimeMillis(),Thread.currentThread().getId()));
         try{
             FileOutputStream outputStream = new FileOutputStream(excelTmp);
@@ -165,12 +164,11 @@ public class OrdersServiceImpl implements OrdersService {
                     }
                 }
                 workbookExcel.write(outputStream);
-                workbookExcel.close();
-                outputStream.flush();
-                outputStream.close();
             }catch (Exception e){
                 throw new OrdersExceptionBadRequest(e.getMessage());
             }
+            outputStream.flush();
+            outputStream.close();
 
         }catch (Exception e){
             throw new OrdersExceptionBadRequest(e.getMessage());
@@ -242,7 +240,7 @@ public class OrdersServiceImpl implements OrdersService {
         }
     }
 
-    public Cell armaFilas(Cell cell, CellStyle cellStyle, String description){;
+    public Cell armaFilas(Cell cell, CellStyle cellStyle, String description){
         cell.setCellValue(description);
         cell.setCellStyle(cellStyle);
         return cell;
