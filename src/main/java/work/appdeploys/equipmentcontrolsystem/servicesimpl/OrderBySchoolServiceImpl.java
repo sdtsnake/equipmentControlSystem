@@ -1,4 +1,4 @@
-package work.appdeploys.equipmentcontrolsystem.servicesImpl;
+package work.appdeploys.equipmentcontrolsystem.servicesimpl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

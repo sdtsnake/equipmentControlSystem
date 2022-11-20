@@ -1,4 +1,4 @@
-package work.appdeploys.equipmentcontrolsystem.servicesImpl;
+package work.appdeploys.equipmentcontrolsystem.servicesimpl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
