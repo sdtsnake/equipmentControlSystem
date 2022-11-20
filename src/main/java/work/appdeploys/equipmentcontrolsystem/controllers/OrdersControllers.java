@@ -91,20 +91,22 @@ public class OrdersControllers {
 
     @GetMapping(path = "/excelorders/{dateTo}/{idSchool}")
     public void ordersExceclRespor(HttpServletResponse response, @PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateTo, @PathVariable("idSchool") Long idSchool) throws IOException {
+        ExcelDto excelDto = ordersService.excelOrders(dateTo, idSchool);
         try {
-            ExcelDto excelDto = ordersService.excelOrders(dateTo, idSchool);
             String headerVal = "attachment; filename=" + excelDto.getNameExcel();
             response.setHeader("Content-Disposition", headerVal);
             response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
             Files.copy(excelDto.getTmpExcel().toPath(), response.getOutputStream());
+
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }finally {
             try {
                 excelDto.getTmpExcel().delete();
             }catch (Exception e){
                 log.error("Error delete file temporal");
             }
-            response.setStatus(HttpServletResponse.SC_OK);
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 }
