@@ -143,38 +143,32 @@ public class OrdersServiceImpl implements OrdersService {
             throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD);
         }
 
-        File excelTmp = createExcel(subListSchool);
-        DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_DD");
-        return new ExcelDto(optSchool.get().getName().replaceAll(" ", "_") + "_" + dateFormat.format(new Date()) + ".xlsx",excelTmp);
-    }
-
-    public File createExcel(List<Orders> subListSchool) {
-        File excelTmp = new File(String.format("tmp%s%s", System.currentTimeMillis(),Thread.currentThread().getId()));
         try{
+            File excelTmp = new File(String.format("tmp%s%s", System.currentTimeMillis(),Thread.currentThread().getId()));
             FileOutputStream outputStream = new FileOutputStream(excelTmp);
-
-            try(SXSSFWorkbook workbookExcel = new SXSSFWorkbook()){
-
-                for (String tag:status) {
-                    List<Orders> subList = subListSchool.stream()
-                            .filter(order -> tag.equalsIgnoreCase(order.getStatusOrder().trim()))
-                            .collect(Collectors.toList());
-                    if(!subList.isEmpty()){
-                        generatedSheet(tag,subList,workbookExcel);
-                    }
-                }
-                workbookExcel.write(outputStream);
-            }catch (Exception e){
-                throw new OrdersExceptionBadRequest(e.getMessage());
-            }
-            outputStream.flush();
-            outputStream.close();
-
+            DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_DD");
+            createExcel(subListSchool,outputStream);
+            return new ExcelDto(optSchool.get().getName().replaceAll(" ", "_") + "_" + dateFormat.format(new Date()) + ".xlsx",excelTmp);
         }catch (Exception e){
             throw new OrdersExceptionBadRequest(e.getMessage());
         }
-
-        return excelTmp;
+    }
+    public void createExcel(List<Orders> subListSchool, FileOutputStream outputStream) throws IOException {
+        try (SXSSFWorkbook workbookExcel = new SXSSFWorkbook()) {
+            for (String tag : status) {
+                List<Orders> subList = subListSchool.stream()
+                        .filter(order -> tag.equalsIgnoreCase(order.getStatusOrder().trim()))
+                        .collect(Collectors.toList());
+                if (!subList.isEmpty()) {
+                    generatedSheet(tag, subList, workbookExcel);
+                }
+            }
+            workbookExcel.write(outputStream);
+        } catch (Exception e) {
+            throw new OrdersExceptionBadRequest(e.getMessage());
+        }
+        outputStream.flush();
+        outputStream.close();
     }
     public void generatedSheet(String tag, List<Orders> listOrdder, SXSSFWorkbook workbookExcel){
 
