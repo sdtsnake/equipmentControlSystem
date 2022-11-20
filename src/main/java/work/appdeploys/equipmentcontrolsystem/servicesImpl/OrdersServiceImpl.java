@@ -253,12 +253,7 @@ public class OrdersServiceImpl implements OrdersService {
         datosFontWhite.setFontHeightInPoints((short) 10);
 
         XSSFCellStyle style = (XSSFCellStyle) workbook.createCellStyle();
-        if(warpText){
-            style.setWrapText(true);
-        }else{
-            style.setWrapText(false);
-        }
-
+        style.setWrapText(warpText);
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         style.setBorderTop(BorderStyle.MEDIUM);
         style.setBorderLeft(BorderStyle.MEDIUM);
@@ -268,5 +263,4 @@ public class OrdersServiceImpl implements OrdersService {
         style.setFont(datosFontWhite);
         return style;
     }
-
 }
