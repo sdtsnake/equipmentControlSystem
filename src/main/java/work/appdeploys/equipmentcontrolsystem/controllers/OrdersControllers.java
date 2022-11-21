@@ -2,6 +2,9 @@ package work.appdeploys.equipmentcontrolsystem.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,17 +16,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersRequestDto;
+import work.appdeploys.equipmentcontrolsystem.models.structures.ExcelDto;
 import work.appdeploys.equipmentcontrolsystem.models.structures.OrdersResponse;
 import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.List;
-
 @Tag(name="ordes")
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/orders/")
 @RestController
+@Slf4j
 public class OrdersControllers {
     private final OrdersService ordersService;
 
@@ -82,4 +89,24 @@ public class OrdersControllers {
         }
     }
 
+    @GetMapping(path = "/excelorders/{dateTo}/{idSchool}")
+    public void ordersExceclRespor(HttpServletResponse response, @PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateTo, @PathVariable("idSchool") Long idSchool) throws IOException {
+        ExcelDto excelDto = ordersService.excelOrders(dateTo, idSchool);
+        try {
+            String headerVal = "attachment; filename=" + excelDto.getNameExcel();
+            response.setHeader("Content-Disposition", headerVal);
+            response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
+            Files.copy(excelDto.getTmpExcel().toPath(), response.getOutputStream());
+
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }finally {
+            try {
+                excelDto.getTmpExcel().delete();
+            }catch (Exception e){
+                log.error("Error delete file temporal");
+            }
+        }
+    }
 }

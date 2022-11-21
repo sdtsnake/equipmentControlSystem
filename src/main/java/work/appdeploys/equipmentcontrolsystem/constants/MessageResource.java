@@ -63,11 +63,17 @@ public class MessageResource {
 
     public static final String ORDER_NUNBER_NOT_EXIST_RECORD = "Not exist records of order number";
 
+    public static final String ORDER_TMP_DIRECTORY = "Error to make a directory temporal to Excel";
+
+    public static final String ORDER_NUNBER_NOT_EXIST_RECORD_DATE = "Not exist records of order number in this date";
+
     public static final String ORDER_UPDATED = "The order as updated";
 
     public static final String ORDER_NUMBER_LISTED = "The records for order number as listed";
 
     public static final String ORDER_LISTED = "The order as listed";
+
+    public static final String ORDER_EXCEL_GENERATE = "The order excel as gemerated";
 
     public static final String ORDERS_DELETED = "The order as deleted";
 
