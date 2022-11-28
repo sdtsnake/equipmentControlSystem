@@ -20,9 +20,11 @@ repositories {
     mavenCentral()
     maven { url "https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/" }
     maven { url "https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/" }
+
 }
 
 dependencies {
+    testImplementation "org.mockito:mockito-core:3.+"
     implementation 'commons-validator:commons-validator:1.7'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
