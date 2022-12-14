@@ -98,4 +98,8 @@ public class MessageResource {
     public static final  String ORDER_NOT_EXIST_NOT_UPDATE= "The order no exist, cant be update";
 
     public static final  String ORDER_DATE_INVALID_NOT_SAVE= "The date time is invalid, cant be update";
+
+    public static final  String DIARY_TIME_START_INVALID_NOT_SAVE= "The start hour is invalid, cant be update";
+
+    public static final  String DIARY_TIME_ENDING_INVALID_NOT_SAVE= "The ending hour is invalid, cant be update";
 }
