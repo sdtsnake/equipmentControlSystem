@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.exceptions.DiaryExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.exceptions.OrdersExceptionBadRequest;
+import work.appdeploys.equipmentcontrolsystem.exceptions.UsersExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.mappers.DiaryMapper;
 import work.appdeploys.equipmentcontrolsystem.models.Diary;
 import work.appdeploys.equipmentcontrolsystem.models.School;
@@ -37,6 +38,10 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public DiaryResponse save(DiaryDto diaryDto) {
+        if(diaryRepository.findById(diaryDto.getId()).isPresent()){
+            throw new UsersExceptionBadRequest(MessageResource.DIARY_EXIST_NOT_SAVE);
+        }
+
         validateDiaryFields(diaryDto);
         Diary diary;
         try{

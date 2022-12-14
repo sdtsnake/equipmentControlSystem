@@ -44,33 +44,20 @@ public class MessageResource {
             "cant be save";
 
     public static final  String USER_BAT_ROL = "Bat rol, cant be save";
-
     public static final  String USERS_EXIST_NOT_SAVE= "The user already exist, cant be save";
-
     public static final  String USERS_EXIST_NOT_DELETE= "The user no exist, cant be delete";
-
     public static final  String USERS_NOT_EXIST_NOT_UPDATE= "The user no exist, cant be update";
-
     public static final  String USERS_EMAIL_ALREADY_EXIST_NOT_UPDATE= "The email alredy exist in the other user, cant be update";
-
     public static final  String USERS_EMAIL_ALREADY_EXIST_NOT_SAVE = "The email alredy exist in the other user, cant be save";
-
     public static final String UPDATE_FAIL = ", cant by update";
-
     public static final String ORDER_SAVED = "The order as saved";
-
     public static final String ORDER_NOT_EXIST_RECORD = "Not exist records of orders";
-
     public static final String ORDER_NUNBER_NOT_EXIST_RECORD = "Not exist records of order number";
 
     public static final String ORDER_TMP_DIRECTORY = "Error to make a directory temporal to Excel";
-
     public static final String ORDER_NUNBER_NOT_EXIST_RECORD_DATE = "Not exist records of order number in this date";
-
     public static final String ORDER_UPDATED = "The order as updated";
-
     public static final String ORDER_NUMBER_LISTED = "The records for order number as listed";
-
     public static final String ORDER_LISTED = "The order as listed";
 
     public static final String ORDER_EXCEL_GENERATE = "The order excel as gemerated";
@@ -109,8 +96,11 @@ public class MessageResource {
 
     public static final  String DIARY_NOT_EXIST_NOT_DELETE= "The diary no exist, cant be delete";
     public static final  String DIARY_NOT_EXIST_NOT_UPDATE= "The diary no exist, cant be update";
-
     public static final String DIARY_NOT_EXIST_RECORD = "Not exist records of diary";
+
+    public static final  String DIARY_EXIST_NOT_SAVE= "The diary already exist, cant be save";
+
+
 
 
 }
