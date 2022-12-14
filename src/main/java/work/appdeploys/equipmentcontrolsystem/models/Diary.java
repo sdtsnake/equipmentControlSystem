@@ -3,7 +3,6 @@ package work.appdeploys.equipmentcontrolsystem.models;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.time.LocalTime;
 
 @Entity
@@ -23,7 +22,7 @@ public class Diary {
     private School school;
 
     @Column
-    private String weekday;
+    private int weekday;
 
     @Column(name = "start_time")
     @Temporal(TemporalType.TIME)

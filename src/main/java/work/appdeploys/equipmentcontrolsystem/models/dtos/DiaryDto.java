@@ -19,7 +19,7 @@ public class DiaryDto {
     private SchoolDto schoolDto;
 
     @Schema(description = "day assigned for the visit", example = "MONDAY")
-    private String weekday;
+    private int weekday;
 
     @Schema(description = "start time", example = "10:15:00")
     private LocalTime startTime;
@@ -27,7 +27,7 @@ public class DiaryDto {
     @Schema(description = "ending time", example = "14:40:00")
     private LocalTime endingTime;
 
-    @Schema(description = "if you are doing a replacement send an X otherwise send white", example = "X")
+    @Schema(description = "if you are doing a replacement send an X otherwise send blank", example = "X")
     private String replacement;
 
 }

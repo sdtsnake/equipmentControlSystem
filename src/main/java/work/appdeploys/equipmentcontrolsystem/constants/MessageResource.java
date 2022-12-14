@@ -102,4 +102,15 @@ public class MessageResource {
     public static final  String DIARY_TIME_START_INVALID_NOT_SAVE= "The start hour is invalid, cant be update";
 
     public static final  String DIARY_TIME_ENDING_INVALID_NOT_SAVE= "The ending hour is invalid, cant be update";
+
+    public static final  String DIARY_WEEKDAY_INVALID_NOT_SAVE= "The weekday is invalid, cant be update";
+
+    public static final  String DIARY_REPLACEMENT_INVALID_NOT_SAVE= "The replacement is invalid, cant be update";
+
+    public static final  String DIARY_NOT_EXIST_NOT_DELETE= "The diary no exist, cant be delete";
+    public static final  String DIARY_NOT_EXIST_NOT_UPDATE= "The diary no exist, cant be update";
+
+    public static final String DIARY_NOT_EXIST_RECORD = "Not exist records of diary";
+
+
 }
