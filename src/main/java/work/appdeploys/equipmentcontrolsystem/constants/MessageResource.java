@@ -100,6 +100,8 @@ public class MessageResource {
 
     public static final  String DIARY_EXIST_NOT_SAVE= "The diary already exist, cant be save";
 
+    public static final String DIARY_SAVED = "The diary as saved";
+
 
 
 

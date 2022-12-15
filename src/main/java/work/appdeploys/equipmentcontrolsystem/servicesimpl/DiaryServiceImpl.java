@@ -11,7 +11,7 @@ import work.appdeploys.equipmentcontrolsystem.models.Diary;
 import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.Users;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.DiaryDto;
-import work.appdeploys.equipmentcontrolsystem.models.structures.DiaryResponse;
+import work.appdeploys.equipmentcontrolsystem.models.structures.DiarysResponse;
 import work.appdeploys.equipmentcontrolsystem.repositories.DiaryRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
@@ -37,7 +37,7 @@ public class DiaryServiceImpl implements DiaryService {
     private final UsersRepository usersRepository;
 
     @Override
-    public DiaryResponse save(DiaryDto diaryDto) {
+    public DiarysResponse save(DiaryDto diaryDto) {
         if(diaryRepository.findById(diaryDto.getId()).isPresent()){
             throw new UsersExceptionBadRequest(MessageResource.DIARY_EXIST_NOT_SAVE);
         }
@@ -64,14 +64,14 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public DiaryResponse update(DiaryDto diaryDto) {
+    public DiarysResponse update(DiaryDto diaryDto) {
         validateDiaryFields(diaryDto);
         validateDiary(diaryDto.getId(),MessageResource.DIARY_NOT_EXIST_NOT_UPDATE);
         return diaryMapper.toResponseDto(diaryRepository.save(diaryMapper.toModel(diaryDto)));
     }
 
     @Override
-    public List<DiaryResponse> findByAll() {
+    public List<DiarysResponse> findByAll() {
         List<Diary> list = diaryRepository.findAll();
         if(!list.isEmpty()){
             return list.stream().map(diaryMapper::toResponseDto).collect(Collectors.toList());

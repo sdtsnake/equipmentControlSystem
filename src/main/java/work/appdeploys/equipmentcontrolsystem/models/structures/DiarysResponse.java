@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class DiaryResponse {
+public class DiarysResponse {
     private String message;
     private List<DiaryDto> diaryDto;
 

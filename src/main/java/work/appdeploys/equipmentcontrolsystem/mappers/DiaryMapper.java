@@ -3,7 +3,7 @@ package work.appdeploys.equipmentcontrolsystem.mappers;
 import org.mapstruct.Mapper;
 import work.appdeploys.equipmentcontrolsystem.models.Diary;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.DiaryDto;
-import work.appdeploys.equipmentcontrolsystem.models.structures.DiaryResponse;
+import work.appdeploys.equipmentcontrolsystem.models.structures.DiarysResponse;
 
 // con esta notacion hacemos que le mapper sea un componente springboot
 // Spring IoC
@@ -11,6 +11,6 @@ import work.appdeploys.equipmentcontrolsystem.models.structures.DiaryResponse;
 public interface  DiaryMapper {
     Diary toModel(DiaryDto dto);
 
-    DiaryResponse toResponseDto(Diary diary);
+    DiarysResponse toResponseDto(Diary diary);
 
 }
