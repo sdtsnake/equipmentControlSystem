@@ -18,6 +18,7 @@ import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersRequestDto;
 import work.appdeploys.equipmentcontrolsystem.models.structures.ExcelDto;
 import work.appdeploys.equipmentcontrolsystem.models.structures.OrdersResponse;
+import work.appdeploys.equipmentcontrolsystem.services.FileCopy;
 import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +34,7 @@ import java.util.Arrays;
 @Slf4j
 public class OrdersControllers {
     private final OrdersService ordersService;
+    private final FileCopy fileCopy;
 
     @PostMapping()
     public ResponseEntity<OrdersResponse> save(@RequestBody @Valid OrdersRequestDto ordersRequestDto){
@@ -91,19 +93,22 @@ public class OrdersControllers {
 
     @GetMapping(path = "/excelorders/{dateTo}/{idSchool}")
     public void ordersExceclRespor(HttpServletResponse response, @PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateTo, @PathVariable("idSchool") Long idSchool) throws IOException {
-        ExcelDto excelDto = ordersService.excelOrders(dateTo, idSchool);
+        ExcelDto excelDto = null;
         try {
+            excelDto = ordersService.excelOrders(dateTo, idSchool);
             String headerVal = "attachment; filename=" + excelDto.getNameExcel();
             response.setHeader("Content-Disposition", headerVal);
             response.setContentType(MediaType.APPLICATION_OCTET_STREAM.getType());
-            Files.copy(excelDto.getTmpExcel().toPath(), response.getOutputStream());
+            fileCopy.copyFile(excelDto.getTmpExcel(), response.getOutputStream());
 
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }finally {
             try {
-                excelDto.getTmpExcel().delete();
+                if(excelDto != null){
+                    excelDto.getTmpExcel().delete();
+                }
             }catch (Exception e){
                 log.error("Error delete file temporal");
             }
