@@ -6,16 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
-import work.appdeploys.equipmentcontrolsystem.models.dtos.OrdersRequestDto;
+import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.structures.ExcelDto;
 import work.appdeploys.equipmentcontrolsystem.models.structures.OrdersResponse;
 import work.appdeploys.equipmentcontrolsystem.services.FileCopy;
@@ -24,7 +17,6 @@ import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.Arrays;
 @Tag(name="ordes")
@@ -37,18 +29,18 @@ public class OrdersControllers {
     private final FileCopy fileCopy;
 
     @PostMapping()
-    public ResponseEntity<OrdersResponse> save(@RequestBody @Valid OrdersRequestDto ordersRequestDto){
+    public ResponseEntity<OrdersResponse> save(@RequestBody @Valid OrderResponseDto orderResponseDto){
         try{
-            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_SAVED, Arrays.asList(ordersService.save(ordersRequestDto))));
+            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_SAVED, Arrays.asList(ordersService.save(orderResponseDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }
     }
 
     @PutMapping
-    public ResponseEntity<OrdersResponse> update(@RequestBody @Valid OrdersRequestDto ordersRequestDto){
+    public ResponseEntity<OrdersResponse> update(@RequestBody @Valid OrderResponseDto orderResponseDto){
         try{
-            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_UPDATED,Arrays.asList(ordersService.update(ordersRequestDto))));
+            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_UPDATED,Arrays.asList(ordersService.update(orderResponseDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }

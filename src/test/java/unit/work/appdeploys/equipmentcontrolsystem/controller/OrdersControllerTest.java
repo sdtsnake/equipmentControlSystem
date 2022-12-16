@@ -1,4 +1,4 @@
-package unit.work.appdeploys.equipmentcontrolsystem;
+package unit.work.appdeploys.equipmentcontrolsystem.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class OrdersControllerTests {
+public class OrdersControllerTest {
     @Mock
     OrdersService ordersService;
     @Mock

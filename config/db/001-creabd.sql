@@ -50,12 +50,12 @@ CREATE TABLE IF NOT EXISTS public.diary
     ending_time timestamp without time zone,
     replacement "char",
     weekday integer,
-    CONSTRAINT diary_pkey PRIMARY KEY (iduser),
-    CONSTRAINT fk_diary_school_id FOREIGN KEY (id)
+    CONSTRAINT diary_pkey PRIMARY KEY (id),
+    CONSTRAINT fk_diary_school_id FOREIGN KEY (idschool)
         REFERENCES public.school (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-    CONSTRAINT fk_diary_users_id FOREIGN KEY (id)
+    CONSTRAINT fk_diary_users_id FOREIGN KEY (iduser)
         REFERENCES public.users (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION

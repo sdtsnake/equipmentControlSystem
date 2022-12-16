@@ -25,11 +25,9 @@ public class Diary {
     private int weekday;
 
     @Column(name = "start_time")
-    @Temporal(TemporalType.TIME)
     private LocalTime startTime;
 
     @Column(name = "ending_time")
-    @Temporal(TemporalType.TIME)
     private LocalTime endingTime;
 
     @Column
