@@ -47,6 +47,15 @@ public class DiaryController {
         }
     }
 
+    @GetMapping(path = "user/{idUser}")
+    public ResponseEntity<DiarysResponse> getByIdUser(@PathVariable Long idUser) {
+        try{
+            return ResponseEntity.ok(new DiarysResponse(MessageResource.DIARY_SELECTED_USER,diaryService.findByIdUser(idUser)));
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().body(new DiarysResponse(ex.getMessage(),Arrays.asList()));
+        }
+    }
+
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<DiarysResponse> delete(@PathVariable Long id) {
         try{

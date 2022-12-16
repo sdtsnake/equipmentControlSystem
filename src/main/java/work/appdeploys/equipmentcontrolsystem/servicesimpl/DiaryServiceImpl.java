@@ -7,7 +7,9 @@ import work.appdeploys.equipmentcontrolsystem.exceptions.DiaryExceptionBadReques
 import work.appdeploys.equipmentcontrolsystem.exceptions.OrdersExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.exceptions.SchoolExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.mappers.DiaryMapper;
+import work.appdeploys.equipmentcontrolsystem.mappers.UsersMapper;
 import work.appdeploys.equipmentcontrolsystem.models.Diary;
+import work.appdeploys.equipmentcontrolsystem.models.Orders;
 import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.Users;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.DiaryDto;
@@ -84,7 +86,14 @@ public class DiaryServiceImpl implements DiaryService {
         throw new SchoolExceptionBadRequest(MessageResource.DIARY_NOT_EXIST_RECORDS);
 
     }
-
+    @Override
+    public List<DiaryDto> findByIdUser(Long idUser) {
+        List<Diary> listDiary = diaryRepository.findByUserId(idUser);
+        if(!listDiary.isEmpty()){
+            return listDiary.stream().map(diaryMapper::toDto).collect(Collectors.toList());
+        }
+        throw new OrdersExceptionBadRequest(MessageResource.USER_NOT_EXIST_RECORD);
+    }
     private Users validateUsersById(Long id, String message) {
         return usersRepository.findById(id).orElseThrow(() -> new DiaryExceptionBadRequest(message));
     }
@@ -117,7 +126,7 @@ public class DiaryServiceImpl implements DiaryService {
         }
 
         String replacement = diaryDto.getReplacement();
-        if(!replacement.contentEquals("X") && !replacement.isEmpty()){
+        if(!replacement.contentEquals("0") && !replacement.contentEquals("1")){
             throw new DiaryExceptionBadRequest(MessageResource.DIARY_REPLACEMENT_INVALID_NOT_SAVE);
         }
     }

@@ -92,6 +92,7 @@ public class MessageResource {
     public static final String DIARY_NOT_EXIST_RECORDS = "Not exist records of diarys";
     public static final String DIARY_DELETED = "The diary as deleted";
     public static final String DIARY_LISTED = "The all diary as listed";
-
+    public static final String USER_NOT_EXIST_RECORD = "Not exist records by user id";
+    public static final String DIARY_SELECTED_USER = "The diary as listed by user id";
 
 }

@@ -10,7 +10,7 @@ public interface DiaryService {
     void delete(long id);
     DiaryDto update(DiaryDto diaryDto);
     List<DiaryDto> findByAll();
-
     DiaryDto findById(Long id);
+    List<DiaryDto> findByIdUser(Long idUser);
 
 }

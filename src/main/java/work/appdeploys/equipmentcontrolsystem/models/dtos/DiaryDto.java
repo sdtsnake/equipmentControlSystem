@@ -31,7 +31,7 @@ public class DiaryDto {
     @Schema(description = "ending time", example = "14:40:00")
     private LocalTime endingTime;
 
-    @Schema(description = "if you are doing a replacement send an X otherwise send blank", example = "X")
+    @Schema(description = "if you are doing a replacement send an 1 otherwise send 0", example = "1")
     private String replacement;
 
 }
