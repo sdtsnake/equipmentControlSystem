@@ -4,7 +4,6 @@ import org.mapstruct.Mapper;
 import work.appdeploys.equipmentcontrolsystem.models.Users;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UserResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
-import work.appdeploys.equipmentcontrolsystem.models.structures.UsersResponse;
 
 // con esta notacion hacemos que le mapper sea un componente springboot
 // Spring IoC
