@@ -94,10 +94,7 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     private boolean validaWeekday(int weekday) {
-
-        if (weekday>=1 && weekday<=7)
-            return true;
-        return false;
+        return (weekday>=1 && weekday<=7);
     }
 
     private void validateTime(LocalTime startTime,LocalTime endTime){
