@@ -94,18 +94,8 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     private boolean validaWeekday(int weekday) {
-        Calendar c = Calendar.getInstance(Locale.US);
-        if (c.SUNDAY == weekday)
-            return true;
-        if (c.WEDNESDAY == weekday)
-            return true;
-        if (c.TUESDAY == weekday)
-            return true;
-        if (c.THURSDAY == weekday)
-            return true;
-        if (c.FRIDAY == weekday)
-            return true;
-        if (c.SUNDAY == weekday)
+
+        if (weekday>=1 && weekday<=7)
             return true;
         return false;
     }
