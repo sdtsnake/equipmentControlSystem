@@ -13,9 +13,10 @@ public class StatusOrderBySchoolMapper {
 
     public List<StatusJasper> toMapJasper(List<StatusOrderBySchool> statusOrderBySchool){
         List<StatusJasper> statusJasper = new ArrayList<>();
-        StatusJasper sj = new StatusJasper();
+
 
         for (StatusOrderBySchool so: statusOrderBySchool) {
+            StatusJasper sj = new StatusJasper();
             sj.setNameSchool(so.getNameSchool());
             sj.setStatusOrder(so.getStatusOrder());
             sj.setQuantity(Integer.parseInt(so.getQuantity()));

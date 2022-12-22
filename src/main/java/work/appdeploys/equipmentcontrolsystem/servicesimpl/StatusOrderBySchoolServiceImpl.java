@@ -2,11 +2,13 @@ package work.appdeploys.equipmentcontrolsystem.servicesimpl;
 
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.stereotype.Service;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.mappers.manual.StatusOrderBySchoolMapper;
 import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.StatusOrderBySchool;
+import work.appdeploys.equipmentcontrolsystem.models.structures.FileDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.StatusOrderBySchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.services.StatusOrderBySchoolService;
@@ -30,7 +32,7 @@ public class StatusOrderBySchoolServiceImpl implements StatusOrderBySchoolServic
     private final StatusOrderBySchoolRepository statusOrderBySchoolRepository;
 
     @Override
-    public byte[] findByAllDateBySchool(LocalDate date, Long idSchool) throws FileNotFoundException, JRException {
+    public FileDto findByAllDateBySchool(LocalDate date, Long idSchool) throws FileNotFoundException, JRException {
         Optional<School> optSchool = schoolRepository.findById(idSchool);
         if(optSchool.isEmpty()){
             throw new StringIndexOutOfBoundsException(MessageResource.SCHOOLS_NOT_EXIST_RECORDS);
@@ -48,19 +50,20 @@ public class StatusOrderBySchoolServiceImpl implements StatusOrderBySchoolServic
             throw new StringIndexOutOfBoundsException(MessageResource.SCHOOL_STATUS_NOT_EXIST_RECORD);
         }
         //----
-        //JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(statusOrderBySchoolMapper.toMapJasper(subListStatus));
+        JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(statusOrderBySchoolMapper.toMapJasper(subListStatus));
 
         JasperReport compileReport = JasperCompileManager
                 .compileReport(new FileInputStream("src/main/resources/equipementsystem.jrxml"));
 
         Map<String, Object> map = new HashMap<>();
-        map.put("subListStatus",statusOrderBySchoolMapper.toMapJasper(subListStatus));
 
-        JasperPrint jasperPrint = JasperFillManager.fillReport(compileReport, map, new JREmptyDataSource());
+        JasperPrint jasperPrint = JasperFillManager.fillReport(compileReport, map, beanCollectionDataSource);
 
-        byte data[] = JasperExportManager.exportReportToPdf(jasperPrint);
+        FileDto filePdf = new FileDto();
+        filePdf.setFile(JasperExportManager.exportReportToPdf(jasperPrint));
+        filePdf.setNameFile(optSchool.get().getName().replaceAll(" ", "_"));
 
-        return data;
+        return filePdf;
     }
 }
 
