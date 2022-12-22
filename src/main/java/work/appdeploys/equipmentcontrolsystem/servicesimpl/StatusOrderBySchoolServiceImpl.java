@@ -9,6 +9,7 @@ import work.appdeploys.equipmentcontrolsystem.mappers.manual.StatusOrderBySchool
 import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.StatusOrderBySchool;
 import work.appdeploys.equipmentcontrolsystem.models.structures.FileDto;
+import work.appdeploys.equipmentcontrolsystem.models.structures.StatusJasper;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.StatusOrderBySchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.services.StatusOrderBySchoolService;
@@ -50,7 +51,14 @@ public class StatusOrderBySchoolServiceImpl implements StatusOrderBySchoolServic
             throw new StringIndexOutOfBoundsException(MessageResource.SCHOOL_STATUS_NOT_EXIST_RECORD);
         }
         //----
-        JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(statusOrderBySchoolMapper.toMapJasper(subListStatus));
+        FileDto filePdf = new FileDto();
+        filePdf.setFile(generaPdf(statusOrderBySchoolMapper.toMapJasper(subListStatus)));
+        filePdf.setNameFile(optSchool.get().getName().replaceAll(" ", "_"));
+        return filePdf;
+    }
+
+    public byte[] generaPdf(List<StatusJasper> statusJasper) throws FileNotFoundException, JRException {
+        JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(statusJasper);
 
         JasperReport compileReport = JasperCompileManager
                 .compileReport(new FileInputStream("src/main/resources/equipementsystem.jrxml"));
@@ -59,11 +67,7 @@ public class StatusOrderBySchoolServiceImpl implements StatusOrderBySchoolServic
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(compileReport, map, beanCollectionDataSource);
 
-        FileDto filePdf = new FileDto();
-        filePdf.setFile(JasperExportManager.exportReportToPdf(jasperPrint));
-        filePdf.setNameFile(optSchool.get().getName().replaceAll(" ", "_"));
-
-        return filePdf;
+        return JasperExportManager.exportReportToPdf(jasperPrint);
     }
 }
 
