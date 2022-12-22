@@ -2,13 +2,37 @@
 <!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="equipementsystem" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="185ec956-1426-44a0-9b4c-9629493b3f76">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="Dataset1" uuid="74a8928c-30db-4beb-835b-d8ba0f448067">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="nameSchool" class="java.lang.String"/>
+		<field name="statusOrder" class="java.lang.String"/>
+		<field name="quantity" class="java.lang.Integer"/>
+	</subDataset>
 	<parameter name="subListStatus" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="schoolname" class="java.lang.String"/>
-	<field name="stutus" class="java.lang.String"/>
+	<field name="nameSchool" class="java.lang.String"/>
+	<field name="statusOrder" class="java.lang.String"/>
 	<field name="quantity" class="java.lang.Integer"/>
+	<group name="grp1">
+		<groupHeader>
+			<band height="50"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="53">
+				<textField>
+					<reportElement x="0" y="0" width="800" height="53" uuid="148debe3-0f6f-4e19-8708-4292988c8181"/>
+					<textElement textAlignment="Center">
+						<font size="18"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -16,7 +40,10 @@
 		<band height="360" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="800" height="360" uuid="d94fa9db-a804-4296-9c61-28fa01e343b3"/>
-				<textFieldExpression><![CDATA[$F{schoolname}]]></textFieldExpression>
+				<textElement textAlignment="Center">
+					<font size="26"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nameSchool}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -24,16 +51,14 @@
 		<band height="50">
 			<textField>
 				<reportElement x="0" y="0" width="800" height="46" uuid="d8e96e06-2a93-430a-a357-56ece45d9258"/>
-				<textFieldExpression><![CDATA[$F{stutus}]]></textFieldExpression>
+				<textElement textAlignment="Center">
+					<font size="26"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{statusOrder}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<summary>
-		<band height="53" splitType="Stretch">
-			<textField>
-				<reportElement x="0" y="0" width="800" height="53" uuid="148debe3-0f6f-4e19-8708-4292988c8181"/>
-				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
-			</textField>
-		</band>
+		<band height="53" splitType="Stretch"/>
 	</summary>
 </jasperReport>

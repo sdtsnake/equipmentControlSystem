@@ -1,27 +1,15 @@
 package unit.work.appdeploys.equipmentcontrolsystem.servicesimpl;
 
-import org.apache.poi.sl.draw.geom.GuideIf;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import work.appdeploys.equipmentcontrolsystem.mappers.DiaryMapper;
-import work.appdeploys.equipmentcontrolsystem.models.Diary;
-import work.appdeploys.equipmentcontrolsystem.models.School;
-import work.appdeploys.equipmentcontrolsystem.models.Users;
-import work.appdeploys.equipmentcontrolsystem.models.dtos.DiaryDto;
-import work.appdeploys.equipmentcontrolsystem.models.dtos.UserResponseDto;
-import work.appdeploys.equipmentcontrolsystem.models.structures.UsersResponse;
+import work.appdeploys.equipmentcontrolsystem.mappers.maperstruc.DiaryMapper;
 import work.appdeploys.equipmentcontrolsystem.repositories.DiaryRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
-import work.appdeploys.equipmentcontrolsystem.services.DiaryService;
 import work.appdeploys.equipmentcontrolsystem.servicesimpl.DiaryServiceImpl;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 class DiaryServiceImplTest {
 

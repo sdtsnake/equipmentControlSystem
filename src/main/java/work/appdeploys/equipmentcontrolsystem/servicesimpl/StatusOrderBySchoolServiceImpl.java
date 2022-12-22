@@ -2,10 +2,9 @@ package work.appdeploys.equipmentcontrolsystem.servicesimpl;
 
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.stereotype.Service;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
-import work.appdeploys.equipmentcontrolsystem.mappers.StatusOrderBySchoolMapper;
+import work.appdeploys.equipmentcontrolsystem.mappers.manual.StatusOrderBySchoolMapper;
 import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.StatusOrderBySchool;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;

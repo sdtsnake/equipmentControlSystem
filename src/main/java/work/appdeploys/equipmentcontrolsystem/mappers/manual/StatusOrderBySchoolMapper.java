@@ -1,4 +1,4 @@
-package work.appdeploys.equipmentcontrolsystem.mappers;
+package work.appdeploys.equipmentcontrolsystem.mappers.manual;
 
 import org.springframework.stereotype.Component;
 import work.appdeploys.equipmentcontrolsystem.models.StatusOrderBySchool;
