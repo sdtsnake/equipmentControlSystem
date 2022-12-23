@@ -1,4 +1,4 @@
-package work.appdeploys.equipmentcontrolsystem.servicesImpl;
+package work.appdeploys.equipmentcontrolsystem.servicesimpl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,6 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-
     public void delete(Long id) {
         validateSchoolById(id, MessageResource.SCHOOL_NOT_EXIST_NOT_DELETE);
         schoolRepository.deleteAllById(Collections.singleton(id));
