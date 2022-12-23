@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 @Tag(name="users")
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/users/")
+@RequestMapping(value = "/api/users")
 @RestController
 public class UsersController {
     private final UsersService usersService;

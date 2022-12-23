@@ -18,11 +18,10 @@ import work.appdeploys.equipmentcontrolsystem.services.OrdersService;
 
 import javax.validation.Valid;
 import java.util.Arrays;
-import java.util.List;
 
 @Tag(name="ordes")
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/orders/")
+@RequestMapping(value = "/api/orders")
 @RestController
 public class OrdersControllers {
     private final OrdersService ordersService;

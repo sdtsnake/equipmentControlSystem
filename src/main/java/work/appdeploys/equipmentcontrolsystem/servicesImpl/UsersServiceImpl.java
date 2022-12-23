@@ -86,7 +86,7 @@ public class UsersServiceImpl implements UsersService {
 
     private void validateUsersByEmail(UsersDto usersDto, String message) {
         var users = usersRepository.findByEmail(usersDto.getEmail());
-        if (!users.isEmpty() && users.get().getId() != usersDto.getId()) {
+        if (users.isPresent() && !users.get().getId().equals(usersDto.getId())) {
             throw new UsersExceptionBadRequest(message);
         }
     }
@@ -94,14 +94,14 @@ public class UsersServiceImpl implements UsersService {
     public boolean validteRegx(String validateTxt, String regx){
         Pattern pattern = Pattern.compile(regx);
         Matcher matcher = pattern.matcher(validateTxt);
-        return matcher.matches();
+        return !matcher.matches();
     }
 
     public void validateFields(UsersDto usersDto, String message){
-        if(!validteRegx(usersDto.getEmail(), regxEmail)){
+        if(validteRegx(usersDto.getEmail(), regxEmail)){
             throw new UsersExceptionBadRequest(MessageResource.USER_BAT_EMAIL + message);
         }
-        if(!validteRegx(usersDto.getPasswd(), regxPwd)){
+        if(validteRegx(usersDto.getPasswd(), regxPwd)){
             throw new UsersExceptionBadRequest(MessageResource.USER_BAT_PASSWORD + message);
         }
         if(!usersDto.getRol().equals("1") && !usersDto.getRol().equals("2")){

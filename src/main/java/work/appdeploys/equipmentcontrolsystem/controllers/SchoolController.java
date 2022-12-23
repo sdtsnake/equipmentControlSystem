@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 @Tag(name = "school")
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/school/")
+@RequestMapping(value = "/api/school")
 @RestController
 public class SchoolController {
     private final SchoolService schoolService;
