@@ -5,15 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import work.appdeploys.equipmentcontrolsystem.controllers.DiaryController;
-import work.appdeploys.equipmentcontrolsystem.models.dtos.DiaryDto;
-import work.appdeploys.equipmentcontrolsystem.models.dtos.UserResponseDto;
 import work.appdeploys.equipmentcontrolsystem.services.DiaryService;
-
-import javax.servlet.http.HttpServletResponse;
 
 @ExtendWith(MockitoExtension.class)
 public class DiaryControllerTest {
