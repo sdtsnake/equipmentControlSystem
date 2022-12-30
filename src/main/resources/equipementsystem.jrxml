@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="equipementsystem" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="185ec956-1426-44a0-9b4c-9629493b3f76">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="nameSchool" class="java.lang.String"/>
+	<field name="statusOrder" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.Integer"/>
+	<group name="Group1" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{statusOrder}]]></groupExpression>
+		<groupHeader>
+			<band height="50"/>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="400">
+			<textField>
+				<reportElement x="0" y="270" width="800" height="90" uuid="3a8f617d-ee0e-45d6-b8e9-5274270dec97"/>
+				<textElement textAlignment="Center">
+					<font fontName="Consolas" size="43"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{statusOrder}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="800" height="270" uuid="fbd68f53-5491-4711-8367-ace0d8457c42"/>
+				<textElement textAlignment="Center">
+					<font fontName="Consolas" size="96"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nameSchool}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="360" width="800" height="40" uuid="0a0a1431-0f2b-4c14-9c17-3d4b721b2abc"/>
+				<textElement textAlignment="Center">
+					<font fontName="Consolas" size="31"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
