@@ -3,6 +3,7 @@ package work.appdeploys.equipmentcontrolsystem.servicesimpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.exceptions.UsersExceptionBadRequest;
@@ -38,6 +39,8 @@ public class UsersServiceImpl implements UsersService {
             throw new UsersExceptionBadRequest(MessageResource.USERS_EXIST_NOT_SAVE);
         }
         validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_SAVE);
+        String passwd = new BCryptPasswordEncoder().encode(usersDto.getPasswd());
+        usersDto.setPasswd(passwd);
         return usersMapper.toResponseDto(usersRepository.save(usersMapper.toModel(usersDto)));
     }
 
@@ -52,6 +55,8 @@ public class UsersServiceImpl implements UsersService {
         validateFields(usersDto, MessageResource.UPDATE_FAIL);
         validateUsersById(usersDto.getId(),MessageResource.USERS_NOT_EXIST_NOT_UPDATE);
         validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_UPDATE);
+        String passwd = new BCryptPasswordEncoder().encode(usersDto.getPasswd());
+        usersDto.setPasswd(passwd);
         return usersMapper.toResponseDto(usersRepository.save(usersMapper.toModel(usersDto)));
     }
 
@@ -75,7 +80,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public UserResponseDto findByEmail(String email) {
-        Optional<Users> userOptional = usersRepository.findByOneEmail(email);
+        Optional<Users> userOptional = usersRepository.findByEmail(email);
         if(userOptional.isPresent()){
             return userOptional.map(usersMapper::toResponseDto).get();
         }
@@ -85,7 +90,7 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public UserDetails findOneByEmail(String email) {
         Users users = usersRepository
-                .findByOneEmail(email)
+                .findByEmail(email)
                 .orElseThrow(() -> new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS_EMAIL));
 
         return new UserDetailsImpl(users);
@@ -96,7 +101,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     private void validateUsersByEmail(UsersDto usersDto, String message) {
-        var users = usersRepository.findByOneEmail(usersDto.getEmail());
+        var users = usersRepository.findByEmail(usersDto.getEmail());
         if (users.isPresent() && !users.get().getId().equals(usersDto.getId())) {
             throw new UsersExceptionBadRequest(message);
         }
@@ -119,6 +124,5 @@ public class UsersServiceImpl implements UsersService {
             throw new UsersExceptionBadRequest(MessageResource.USER_BAT_ROL + message);
         }
     }
-
 
 }

@@ -10,7 +10,6 @@ import java.util.Collections;
 
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
-
     private final Users users;
 
     @Override
