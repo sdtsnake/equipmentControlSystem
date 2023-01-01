@@ -1,5 +1,6 @@
 package work.appdeploys.equipmentcontrolsystem.services;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UserResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
 
@@ -18,4 +19,5 @@ public interface UsersService {
     UserResponseDto findById(Long id);
 
     UserResponseDto findByEmail(String email);
+    UserDetails findOneByEmail(String email);
 }

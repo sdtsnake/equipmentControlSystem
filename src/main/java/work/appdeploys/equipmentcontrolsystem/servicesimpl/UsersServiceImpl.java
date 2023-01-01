@@ -2,6 +2,7 @@ package work.appdeploys.equipmentcontrolsystem.servicesimpl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.exceptions.UsersExceptionBadRequest;
@@ -10,6 +11,7 @@ import work.appdeploys.equipmentcontrolsystem.models.Users;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UserResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
+import work.appdeploys.equipmentcontrolsystem.security.UserDetailsImpl;
 import work.appdeploys.equipmentcontrolsystem.services.UsersService;
 
 import java.util.Collections;
@@ -73,11 +75,20 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public UserResponseDto findByEmail(String email) {
-        Optional<Users> userOptional = usersRepository.findByEmail(email);
+        Optional<Users> userOptional = usersRepository.findByOneEmail(email);
         if(userOptional.isPresent()){
             return userOptional.map(usersMapper::toResponseDto).get();
         }
         throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS_EMAIL);
+    }
+
+    @Override
+    public UserDetails findOneByEmail(String email) {
+        Users users = usersRepository
+                .findByOneEmail(email)
+                .orElseThrow(() -> new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS_EMAIL));
+
+        return new UserDetailsImpl(users);
     }
 
     private void validateUsersById(Long id, String message) {
@@ -85,7 +96,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     private void validateUsersByEmail(UsersDto usersDto, String message) {
-        var users = usersRepository.findByEmail(usersDto.getEmail());
+        var users = usersRepository.findByOneEmail(usersDto.getEmail());
         if (users.isPresent() && !users.get().getId().equals(usersDto.getId())) {
             throw new UsersExceptionBadRequest(message);
         }
