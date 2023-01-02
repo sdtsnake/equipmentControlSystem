@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.exceptions.OrdersExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.exceptions.UsersExceptionBadRequest;
-import work.appdeploys.equipmentcontrolsystem.mappers.maperstruc.OrdersMapper;
+import work.appdeploys.equipmentcontrolsystem.mappers.OrdersMapper;
 import work.appdeploys.equipmentcontrolsystem.models.Orders;
 import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderResponseDto;
