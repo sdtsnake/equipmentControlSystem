@@ -1,6 +1,6 @@
 package work.appdeploys.equipmentcontrolsystem.security;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,13 +17,22 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import work.appdeploys.equipmentcontrolsystem.servicesimpl.UserDetailServiceImpl;
 
 @Configuration
-@AllArgsConstructor
 public class WebSecurityConfig {
 
     private final UserDetailServiceImpl userDetailService;
-    private final JWTAuthorizationFilter jwtAuthorizationFilter;
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
+    private final JwtHelper jwtHelper;
+    private final JwtUtil jwtUtil;
+
+    @Autowired
+    public WebSecurityConfig(UserDetailServiceImpl userDetailService, JwtHelper jwtHelper, JwtUtil jwtUtil, JwtAuthorizationFilter jwtAuthorizationFilter) {
+        this.userDetailService = userDetailService;
+        this.jwtHelper = jwtHelper;
+        this.jwtUtil = jwtUtil;
+        this.jwtAuthorizationFilter = jwtAuthorizationFilter;
+    }
+
     private static final String[] AUTH_WHITELIST = {
-            // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/api-docs/**",
@@ -32,9 +41,9 @@ public class WebSecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
-        JWTAtuthenticationFilter jwtAtuthenticationFilter = new JWTAtuthenticationFilter();
-        jwtAtuthenticationFilter.setAuthenticationManager(authManager);
-        jwtAtuthenticationFilter.setFilterProcessesUrl("/login");
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtHelper,jwtUtil);
+        jwtAuthenticationFilter.setAuthenticationManager(authManager);
+        jwtAuthenticationFilter.setFilterProcessesUrl("/login");
         return http
                 .csrf().disable()
                 .authorizeRequests()
@@ -46,7 +55,7 @@ public class WebSecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(jwtAtuthenticationFilter)
+                .addFilter(jwtAuthenticationFilter)
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

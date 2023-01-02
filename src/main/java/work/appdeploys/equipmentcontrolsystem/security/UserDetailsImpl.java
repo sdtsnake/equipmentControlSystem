@@ -14,14 +14,10 @@ import java.util.List;
 public class UserDetailsImpl implements UserDetails {
     private final Users users;
 
-    public Users getUsers() {
-        return users;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority(users.getRol().toString()));
+        roles.add(new SimpleGrantedAuthority(users.getRol()));
         return roles;
     }
     @Override
@@ -48,7 +44,7 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    public String getNombre() {
+    public String getName() {
         return users.getName();
     }
     public String getRoles() {

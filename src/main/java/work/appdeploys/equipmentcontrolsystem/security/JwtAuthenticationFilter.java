@@ -15,7 +15,15 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Slf4j
-public class JWTAtuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+    private JwtUtil jwtUtil;
+
+    private JwtHelper jwtHelper;
+
+    public JwtAuthenticationFilter( JwtHelper jwtHelper, JwtUtil jwtUtil) {
+        this.jwtHelper = jwtHelper;
+        this.jwtUtil = jwtUtil;
+    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -35,8 +43,8 @@ public class JWTAtuthenticationFilter extends UsernamePasswordAuthenticationFilt
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserDetailsImpl userDetails = (UserDetailsImpl) authResult.getPrincipal();
-        String token = TokenUtils.createToken(userDetails.getNombre(),userDetails.getUsername(),userDetails.getId(),userDetails.getRoles());
-        response.addHeader("Authorization","Bearer " + token);
+        String token = this.jwtHelper.createToken(userDetails.getName(),userDetails.getUsername(),userDetails.getId(),userDetails.getRoles());
+        response.addHeader(JwtConstant.AUTHORIZATION_HEADER_STRING,JwtConstant.TOKEN_BEARER_PREFIX + token);
         response.getWriter().flush();
         super.successfulAuthentication(request, response, chain, authResult);
     }
