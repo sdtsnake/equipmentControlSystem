@@ -52,7 +52,7 @@ public class JwtHelper {
         Date current = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(current);
-        calendar.add(Calendar.MINUTE, JwtConstant.ACCESS_TOKEN_EXPIRATION);
+        calendar.add(Calendar.MINUTE, Integer.parseInt(JwtConstant.ACCESS_TOKEN_EXPIRATION.getValue()));
         return calendar.getTime();
     }
 

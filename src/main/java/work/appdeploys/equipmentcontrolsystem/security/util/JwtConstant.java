@@ -1,8 +1,19 @@
 package work.appdeploys.equipmentcontrolsystem.security.util;
 
-public interface JwtConstant {
-    String AUTHORIZATION_HEADER_STRING = "Authorization";
-    String TOKEN_BEARER_PREFIX = "Bearer ";
-    Integer ACCESS_TOKEN_EXPIRATION = 60; // minutes
+public enum JwtConstant {
+     AUTHORIZATION_HEADER_STRING ("Authorization"),
+     TOKEN_BEARER_PREFIX ("Bearer "),
+    ACCESS_TOKEN_EXPIRATION ("60");
+
+    private String value;
+
+    public String getValue()
+    {
+        return this.value;
+    }
+    JwtConstant(String value)
+    {
+        this.value = value;
+    }
 
 }

@@ -5,6 +5,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
+import work.appdeploys.equipmentcontrolsystem.exceptions.AuthorizationFilterException;
 import work.appdeploys.equipmentcontrolsystem.security.util.JwtConstant;
 import work.appdeploys.equipmentcontrolsystem.security.util.JwtUtil;
 
@@ -28,8 +30,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String bearerToken = request.getHeader(JwtConstant.AUTHORIZATION_HEADER_STRING);
-        if(bearerToken != null && bearerToken.startsWith(JwtConstant.TOKEN_BEARER_PREFIX)){
+        String bearerToken = request.getHeader(JwtConstant.AUTHORIZATION_HEADER_STRING.getValue());
+        if(bearerToken != null && bearerToken.startsWith(JwtConstant.TOKEN_BEARER_PREFIX.getValue())){
             UsernamePasswordAuthenticationToken usernamePAT = geAuthentication(request);
             SecurityContextHolder.getContext().setAuthentication(usernamePAT);
         }
@@ -45,7 +47,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 return new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
                 }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new AuthorizationFilterException(MessageResource.TOKEN_NOT_EXIST);
         }
 
         return null;

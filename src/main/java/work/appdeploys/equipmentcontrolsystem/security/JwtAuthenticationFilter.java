@@ -8,7 +8,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import work.appdeploys.equipmentcontrolsystem.models.AuthCredentials;
 import work.appdeploys.equipmentcontrolsystem.security.util.JwtConstant;
-import work.appdeploys.equipmentcontrolsystem.security.util.JwtUtil;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -19,13 +18,11 @@ import java.util.Collections;
 
 @Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private JwtUtil jwtUtil;
+    private final JwtHelper jwtHelper;
 
-    private JwtHelper jwtHelper;
-
-    public JwtAuthenticationFilter( JwtHelper jwtHelper, JwtUtil jwtUtil) {
+    public JwtAuthenticationFilter( JwtHelper jwtHelper) {
         this.jwtHelper = jwtHelper;
-        this.jwtUtil = jwtUtil;
+
     }
 
     @Override
@@ -47,7 +44,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserDetailsImpl userDetails = (UserDetailsImpl) authResult.getPrincipal();
         String token = this.jwtHelper.createToken(userDetails.getName(),userDetails.getUsername(),userDetails.getId(),userDetails.getRoles());
-        response.addHeader(JwtConstant.AUTHORIZATION_HEADER_STRING,JwtConstant.TOKEN_BEARER_PREFIX + token);
+        response.addHeader(JwtConstant.AUTHORIZATION_HEADER_STRING.getValue(),JwtConstant.TOKEN_BEARER_PREFIX.getValue() + token);
         response.getWriter().flush();
         super.successfulAuthentication(request, response, chain, authResult);
     }

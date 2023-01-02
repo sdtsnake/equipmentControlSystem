@@ -96,5 +96,7 @@ public class MessageResource {
     public static final String DIARY_SELECTED_USER = "The diary as listed by user id";
     public static final String SCHOOL_STATUS_NOT_EXIST_RECORD = "Not exist records by school/status ";
 
+    public static final String TOKEN_NOT_EXIST = "The token does not exist";
+
 
 }
