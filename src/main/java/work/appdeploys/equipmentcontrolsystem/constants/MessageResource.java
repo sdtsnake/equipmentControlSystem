@@ -93,6 +93,6 @@ public class MessageResource {
     public static final String TOKEN_NOT_EXIST = "The token does not exist";
     public static final String TOKEN_EMAIL_IS_NULL = "Error generating access token, username is null";
 
-    public MessageResource() {
+    private MessageResource() {
     }
 }
