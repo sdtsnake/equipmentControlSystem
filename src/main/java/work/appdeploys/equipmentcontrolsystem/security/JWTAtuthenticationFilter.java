@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -20,31 +19,25 @@ public class JWTAtuthenticationFilter extends UsernamePasswordAuthenticationFilt
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-
         AuthCredentials authCredentials = new AuthCredentials();
-
         try {
             authCredentials = new ObjectMapper().readValue(request.getReader(),AuthCredentials.class);
         } catch (IOException e) {
             log.error("Error on validation user");
         }
-
         UsernamePasswordAuthenticationToken usernamePAT = new UsernamePasswordAuthenticationToken(
                 authCredentials.getEmail(),
                 authCredentials.getPassword(),
                 Collections.emptyList()
         );
-        return super.attemptAuthentication(request, response);
+        return getAuthenticationManager().authenticate(usernamePAT);
     }
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserDetailsImpl userDetails = (UserDetailsImpl) authResult.getPrincipal();
-        String token = TokenUtils.createToken(userDetails.getNombre(),userDetails.getUsername());
-
+        String token = TokenUtils.createToken(userDetails.getUsers().getName(),userDetails.getUsers().getEmail(),userDetails.getUsers().getRol(),userDetails.getUsers().getId());
         response.addHeader("Authorization","Bearer " + token);
         response.getWriter().flush();
-
-
         super.successfulAuthentication(request, response, chain, authResult);
     }
 }

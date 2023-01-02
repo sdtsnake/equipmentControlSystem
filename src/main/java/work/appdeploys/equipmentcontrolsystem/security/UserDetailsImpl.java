@@ -2,19 +2,27 @@ package work.appdeploys.equipmentcontrolsystem.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import work.appdeploys.equipmentcontrolsystem.models.Users;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
     private final Users users;
 
+    public Users getUsers() {
+        return users;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        List<GrantedAuthority> roles = new ArrayList<>();
+        roles.add(new SimpleGrantedAuthority(users.getRol().toString()));
+        return roles;
     }
 
     @Override

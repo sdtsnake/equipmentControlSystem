@@ -15,11 +15,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
         //TODO segun el video aqui se carga lo de los roles vamos implementar todo segun el video y despues vamos a incluir el manejo de roles pero este es el punto.
-
         String barearToken = request.getHeader("Authorization");
-
         if(barearToken != null && barearToken.startsWith("Bearer ")){
             String token = barearToken.replace("Bearer ","");
             UsernamePasswordAuthenticationToken usernamePAT = TokenUtils.geAuthentication(token);

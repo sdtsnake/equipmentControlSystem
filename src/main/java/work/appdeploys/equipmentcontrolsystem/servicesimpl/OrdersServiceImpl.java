@@ -4,7 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.routines.DateValidator;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellUtil;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
@@ -30,16 +37,22 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class OrdersServiceImpl implements OrdersService {
-    private Function<SXSSFWorkbook, XSSFCellStyle> getSchoolStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.LIGHT_ORANGE,false);
-    private Function<SXSSFWorkbook, XSSFCellStyle> getTitleStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.LIGHT_YELLOW,true);
-    private Function<SXSSFWorkbook, XSSFCellStyle> getStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.WHITE,false);
+    private final Function<SXSSFWorkbook, XSSFCellStyle> getSchoolStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.LIGHT_ORANGE,false);
+    private final Function<SXSSFWorkbook, XSSFCellStyle> getTitleStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.LIGHT_YELLOW,true);
+    private final Function<SXSSFWorkbook, XSSFCellStyle> getStyle = workbook-> crearEstiloCelda(workbook,IndexedColors.WHITE,false);
     private final OrdersMapper ordersMapper;
     private final OrdersRepository ordersRepository;
     private final UsersRepository usersRepository;
@@ -113,7 +126,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public ExcelDto excelOrders(LocalDate dateTo, Long idSchool) throws IOException {
+    public ExcelDto excelOrders(LocalDate dateTo, Long idSchool) {
         Optional<School> optSchool = schoolRepository.findById(idSchool);
         if(optSchool.isEmpty()){
             throw new OrdersExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS);
@@ -171,8 +184,8 @@ public class OrdersServiceImpl implements OrdersService {
         ObjectMapper oMapper = new ObjectMapper();
         oMapper.registerModule(new JavaTimeModule());
 
-        Integer idx = 2;
-        Integer fila = 1;
+        int idx = 2;
+        int fila = 1;
         boolean impTitle = true;
         for(Orders order : listOrdder){
 
@@ -193,7 +206,7 @@ public class OrdersServiceImpl implements OrdersService {
 
             List<Object> values =  Arrays.asList(map.values().toArray());
 
-            armaFilas(row.createCell(0),cellStyle, fila.toString());
+            armaFilas(row.createCell(0),cellStyle, Integer.toString(fila));
 
             for(int i=0;i<values.size();i++){
                 cell = armaFilas(row.createCell(i+1),cellStyle, values.get(i).toString());
