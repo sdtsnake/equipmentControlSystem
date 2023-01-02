@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import work.appdeploys.equipmentcontrolsystem.security.util.JwtConstant;
 
 import java.util.Calendar;
 import java.util.Date;

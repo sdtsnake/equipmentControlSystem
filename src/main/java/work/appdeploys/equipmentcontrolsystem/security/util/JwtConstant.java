@@ -1,4 +1,4 @@
-package work.appdeploys.equipmentcontrolsystem.security;
+package work.appdeploys.equipmentcontrolsystem.security.util;
 
 public interface JwtConstant {
     String AUTHORIZATION_HEADER_STRING = "Authorization";
