@@ -1,4 +1,4 @@
-package work.appdeploys.equipmentcontrolsystem.mappers;
+package work.appdeploys.equipmentcontrolsystem.mappers.maperstruc;
 
 import org.mapstruct.Mapper;
 import work.appdeploys.equipmentcontrolsystem.models.Diary;
