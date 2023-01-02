@@ -1,6 +1,6 @@
 package work.appdeploys.equipmentcontrolsystem.servicesimpl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,17 +12,15 @@ import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
 import work.appdeploys.equipmentcontrolsystem.security.UserDetailsImpl;
 
 @Service
+@AllArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService {
-
-    @Autowired
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Users users = usersRepository
                 .findByEmail(email)
                 .orElseThrow(()-> new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS_EMAIL));
-
         return new UserDetailsImpl(users);
     }
 }

@@ -1,4 +1,4 @@
-package work.appdeploys.equipmentcontrolsystem.security;
+package work.appdeploys.equipmentcontrolsystem.models;
 
 import lombok.Data;
 

@@ -1,8 +1,7 @@
-package work.appdeploys.equipmentcontrolsystem.mappers.manual;
+package work.appdeploys.equipmentcontrolsystem.mappers;
 
 import org.springframework.stereotype.Component;
 import work.appdeploys.equipmentcontrolsystem.models.StatusOrderBySchool;
-import work.appdeploys.equipmentcontrolsystem.models.dtos.StatusOrderBySchoolResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.structures.StatusJasper;
 
 import java.util.ArrayList;
