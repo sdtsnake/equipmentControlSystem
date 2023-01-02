@@ -4,6 +4,7 @@ package work.appdeploys.equipmentcontrolsystem.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
@@ -13,6 +14,10 @@ import java.util.Map;
 
 @Component
 public class JwtHelper {
+
+    @Value("${SECRET}")
+    private String secret;
+
 
     public   String createToken(String name , String email, Long id, String rol) {
         if (email == null) {
@@ -29,7 +34,7 @@ public class JwtHelper {
                 .setIssuedAt(current)
                 .setExpiration(expiration)
                 .addClaims(extra)
-                .signWith(Keys.hmacShaKeyFor(JwtConstant.ACCESS_TOKEN_SECRET.getBytes()))
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
     }
 
@@ -52,7 +57,7 @@ public class JwtHelper {
 
     public Claims validateToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(JwtConstant.ACCESS_TOKEN_SECRET.getBytes())
+                .setSigningKey(secret.getBytes())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
