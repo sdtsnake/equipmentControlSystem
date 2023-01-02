@@ -36,7 +36,7 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll().antMatchers("/**").authenticated()
-                .antMatchers("/api/users").hasRole("1")
+                .antMatchers("/api/users/**").access("hashRole('1')")
                 .anyRequest()
                 .authenticated()
                 .and()
