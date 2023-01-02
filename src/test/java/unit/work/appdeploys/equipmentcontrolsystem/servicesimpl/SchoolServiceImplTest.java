@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import work.appdeploys.equipmentcontrolsystem.exceptions.SchoolExceptionBadRequest;
-import work.appdeploys.equipmentcontrolsystem.mappers.SchoolMapper;
+import work.appdeploys.equipmentcontrolsystem.mappers.maperstruc.SchoolMapper;
 import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.SchoolDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
