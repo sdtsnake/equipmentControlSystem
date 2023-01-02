@@ -2,14 +2,17 @@ package work.appdeploys.equipmentcontrolsystem.servicesimpl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.exceptions.UsersExceptionBadRequest;
-import work.appdeploys.equipmentcontrolsystem.mappers.maperstruc.UsersMapper;
+import work.appdeploys.equipmentcontrolsystem.mappers.UsersMapper;
 import work.appdeploys.equipmentcontrolsystem.models.Users;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UserResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
+import work.appdeploys.equipmentcontrolsystem.security.UserDetailsImpl;
 import work.appdeploys.equipmentcontrolsystem.services.UsersService;
 
 import java.util.Collections;
@@ -36,6 +39,8 @@ public class UsersServiceImpl implements UsersService {
             throw new UsersExceptionBadRequest(MessageResource.USERS_EXIST_NOT_SAVE);
         }
         validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_SAVE);
+        String passwd = new BCryptPasswordEncoder().encode(usersDto.getPasswd());
+        usersDto.setPasswd(passwd);
         return usersMapper.toResponseDto(usersRepository.save(usersMapper.toModel(usersDto)));
     }
 
@@ -50,6 +55,8 @@ public class UsersServiceImpl implements UsersService {
         validateFields(usersDto, MessageResource.UPDATE_FAIL);
         validateUsersById(usersDto.getId(),MessageResource.USERS_NOT_EXIST_NOT_UPDATE);
         validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_UPDATE);
+        String passwd = new BCryptPasswordEncoder().encode(usersDto.getPasswd());
+        usersDto.setPasswd(passwd);
         return usersMapper.toResponseDto(usersRepository.save(usersMapper.toModel(usersDto)));
     }
 
@@ -80,13 +87,22 @@ public class UsersServiceImpl implements UsersService {
         throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS_EMAIL);
     }
 
+    @Override
+    public UserDetails findOneByEmail(String email) {
+        Users users = usersRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS_EMAIL));
+
+        return new UserDetailsImpl(users);
+    }
+
     private void validateUsersById(Long id, String message) {
         usersRepository.findById(id).orElseThrow(() -> new UsersExceptionBadRequest(message));
     }
 
     private void validateUsersByEmail(UsersDto usersDto, String message) {
         var users = usersRepository.findByEmail(usersDto.getEmail());
-        if (!users.isEmpty() && users.get().getId() != usersDto.getId()) {
+        if (users.isPresent() && !users.get().getId().equals(usersDto.getId())) {
             throw new UsersExceptionBadRequest(message);
         }
     }
@@ -94,20 +110,19 @@ public class UsersServiceImpl implements UsersService {
     public boolean validteRegx(String validateTxt, String regx){
         Pattern pattern = Pattern.compile(regx);
         Matcher matcher = pattern.matcher(validateTxt);
-        return matcher.matches();
+        return !matcher.matches();
     }
 
     public void validateFields(UsersDto usersDto, String message){
-        if(!validteRegx(usersDto.getEmail(), regxEmail)){
+        if(validteRegx(usersDto.getEmail(), regxEmail)){
             throw new UsersExceptionBadRequest(MessageResource.USER_BAT_EMAIL + message);
         }
-        if(!validteRegx(usersDto.getPasswd(), regxPwd)){
+        if(validteRegx(usersDto.getPasswd(), regxPwd)){
             throw new UsersExceptionBadRequest(MessageResource.USER_BAT_PASSWORD + message);
         }
         if(!usersDto.getRol().equals("1") && !usersDto.getRol().equals("2")){
             throw new UsersExceptionBadRequest(MessageResource.USER_BAT_ROL + message);
         }
     }
-
 
 }

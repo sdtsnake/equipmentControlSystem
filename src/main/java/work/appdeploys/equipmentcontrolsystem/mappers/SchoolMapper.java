@@ -1,4 +1,4 @@
-package work.appdeploys.equipmentcontrolsystem.mappers.maperstruc;
+package work.appdeploys.equipmentcontrolsystem.mappers;
 
 import org.mapstruct.Mapper;
 import work.appdeploys.equipmentcontrolsystem.models.School;

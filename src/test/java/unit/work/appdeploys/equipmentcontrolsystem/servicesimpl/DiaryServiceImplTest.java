@@ -1,15 +1,14 @@
 package unit.work.appdeploys.equipmentcontrolsystem.servicesimpl;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import work.appdeploys.equipmentcontrolsystem.mappers.maperstruc.DiaryMapper;
+
+
+import work.appdeploys.equipmentcontrolsystem.mappers.DiaryMapper;
 import work.appdeploys.equipmentcontrolsystem.repositories.DiaryRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
-import work.appdeploys.equipmentcontrolsystem.servicesimpl.DiaryServiceImpl;
 
-import static org.mockito.ArgumentMatchers.any;
 
 class DiaryServiceImplTest {
 
@@ -24,9 +23,6 @@ class DiaryServiceImplTest {
 
     @Mock
     DiaryMapper diaryMapper;
-
-    @InjectMocks
-    DiaryServiceImpl diaryService;
 
     @Test
     void saveSuccessfulTest() {

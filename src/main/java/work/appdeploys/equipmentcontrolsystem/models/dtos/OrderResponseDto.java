@@ -4,8 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
-
 @Data
 @Schema(description = "Order Response")
 @EqualsAndHashCode(callSuper=false)

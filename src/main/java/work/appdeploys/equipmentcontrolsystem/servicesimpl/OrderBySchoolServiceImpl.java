@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.exceptions.OrdersExceptionBadRequest;
-import work.appdeploys.equipmentcontrolsystem.mappers.maperstruc.OrderBySchoolMapper;
+import work.appdeploys.equipmentcontrolsystem.mappers.OrderBySchoolMapper;
 import work.appdeploys.equipmentcontrolsystem.models.OrdersBySchool;
 import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.OrderBySchoolResponseDto;

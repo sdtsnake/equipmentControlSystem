@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import work.appdeploys.equipmentcontrolsystem.exceptions.SchoolExceptionBadRequest;
-import work.appdeploys.equipmentcontrolsystem.mappers.maperstruc.SchoolMapper;
+import work.appdeploys.equipmentcontrolsystem.mappers.SchoolMapper;
 import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.SchoolDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;
@@ -15,9 +15,11 @@ import work.appdeploys.equipmentcontrolsystem.servicesimpl.SchoolServiceImpl;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SchoolServiceImplTest {
