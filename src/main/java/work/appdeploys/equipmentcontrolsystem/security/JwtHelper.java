@@ -17,10 +17,8 @@ import java.util.Map;
 
 @Component
 public class JwtHelper {
-
     @Value("${SECRET}")
     private String secret;
-
 
     public   String createToken(String name , String email, Long id, String rol) {
         if (email == null) {

@@ -2,8 +2,6 @@ package unit.work.appdeploys.equipmentcontrolsystem.servicesimpl;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-
-
 import work.appdeploys.equipmentcontrolsystem.mappers.DiaryMapper;
 import work.appdeploys.equipmentcontrolsystem.repositories.DiaryRepository;
 import work.appdeploys.equipmentcontrolsystem.repositories.SchoolRepository;

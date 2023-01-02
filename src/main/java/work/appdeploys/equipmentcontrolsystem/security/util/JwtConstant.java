@@ -3,7 +3,7 @@ package work.appdeploys.equipmentcontrolsystem.security.util;
 public enum JwtConstant {
      AUTHORIZATION_HEADER_STRING ("Authorization"),
      TOKEN_BEARER_PREFIX ("Bearer "),
-    ACCESS_TOKEN_EXPIRATION ("60");
+    ACCESS_TOKEN_EXPIRATION ("60"); //Minutes
 
     private String value;
 

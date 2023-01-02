@@ -20,9 +20,8 @@ import java.util.Collections;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final JwtHelper jwtHelper;
 
-    public JwtAuthenticationFilter( JwtHelper jwtHelper) {
+    public JwtAuthenticationFilter(JwtHelper jwtHelper) {
         this.jwtHelper = jwtHelper;
-
     }
 
     @Override
