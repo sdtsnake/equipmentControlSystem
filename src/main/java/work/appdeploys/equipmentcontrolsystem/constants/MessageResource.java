@@ -3,7 +3,6 @@ package work.appdeploys.equipmentcontrolsystem.constants;
 public class MessageResource {
 
     public static final String SCHOOL_EXIST_NOT_SAVE = "The School not exist, cant be save order";
-
     public static final String SCHOOL_SAVED = "The School saved";
     public static final String SCHOOL_UPDATE = "The School update";
     public static final String SCHOOL_DELETED = "The School as deleted";
@@ -38,7 +37,6 @@ public class MessageResource {
     public static final String ORDER_SAVED = "The order as saved";
     public static final String ORDER_NOT_EXIST_RECORD = "Not exist records of orders";
     public static final String ORDER_NUNBER_NOT_EXIST_RECORD = "Not exist records of order number";
-
     public static final String ORDER_TMP_DIRECTORY = "Error to make a directory temporal to Excel";
     public static final String ORDER_NUNBER_NOT_EXIST_RECORD_DATE = "Not exist records of order number in this date";
     public static final String ORDER_UPDATED = "The order as updated";
@@ -82,12 +80,9 @@ public class MessageResource {
     public static final String DIARY_NOT_EXIST_NOT_DELETE = "The diary no exist, cant be delete";
     public static final String DIARY_NOT_EXIST_NOT_UPDATE = "The diary no exist, cant be update";
     public static final String DIARY_NOT_EXIST_RECORD = "Not exist records of diary";
-
     public static final String DIARY_EXIST_NOT_SAVE = "The diary already exist, cant be save";
-
     public static final String DIARY_SAVED = "The diary as saved";
     public static final String DIARY_UPDATE = "The diary update";
-
     public static final String DIARY_SELECTED = "The diary as listed";
     public static final String DIARY_NOT_EXIST_RECORDS = "Not exist records of diarys";
     public static final String DIARY_DELETED = "The diary as deleted";
@@ -96,8 +91,8 @@ public class MessageResource {
     public static final String DIARY_SELECTED_USER = "The diary as listed by user id";
     public static final String SCHOOL_STATUS_NOT_EXIST_RECORD = "Not exist records by school/status ";
     public static final String TOKEN_NOT_EXIST = "The token does not exist";
-
     public static final String TOKEN_EMAIL_IS_NULL = "Error generating access token, username is null";
 
-
+    public MessageResource() {
+    }
 }
