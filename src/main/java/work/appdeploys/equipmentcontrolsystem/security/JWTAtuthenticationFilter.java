@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -34,12 +33,12 @@ public class JWTAtuthenticationFilter extends UsernamePasswordAuthenticationFilt
                 authCredentials.getPassword(),
                 Collections.emptyList()
         );
-        return super.attemptAuthentication(request, response);
+        return getAuthenticationManager().authenticate(usernamePAT);
     }
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserDetailsImpl userDetails = (UserDetailsImpl) authResult.getPrincipal();
-        String token = TokenUtils.createToken(userDetails.getNombre(),userDetails.getUsername());
+        String token = TokenUtils.createToken(userDetails.getNombre(),userDetails.getUsername(),userDetails.getId(),userDetails.getRoles());
 
         response.addHeader("Authorization","Bearer " + token);
         response.getWriter().flush();
