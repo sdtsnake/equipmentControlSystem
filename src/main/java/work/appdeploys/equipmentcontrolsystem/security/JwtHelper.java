@@ -6,6 +6,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
+import work.appdeploys.equipmentcontrolsystem.exceptions.AuthorizationFilterException;
 import work.appdeploys.equipmentcontrolsystem.security.util.JwtConstant;
 
 import java.util.Calendar;
@@ -22,14 +24,15 @@ public class JwtHelper {
 
     public   String createToken(String name , String email, Long id, String rol) {
         if (email == null) {
-            throw new NullPointerException("Error generating access token, username is null");
+            throw new AuthorizationFilterException(MessageResource.TOKEN_EMAIL_IS_NULL);
         }
-        // Expiration.
         Date expiration = generateTokenExp();
-        // Issue date.
         Date current = new Date();
         Map<String, Object> extra = getStringObjectMap(name, email, id, rol);
-        // Generate token.
+        return getCompact(email, expiration, current, extra);
+    }
+
+    private String getCompact(String email, Date expiration, Date current, Map<String, Object> extra) {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(current)
@@ -63,6 +66,5 @@ public class JwtHelper {
                 .parseClaimsJws(token)
                 .getBody();
     }
-
 
 }
