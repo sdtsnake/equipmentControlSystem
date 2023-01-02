@@ -25,7 +25,7 @@ public class OrderBySchoolController {
     @GetMapping(path = "/date/{dateTo}" )
     public ResponseEntity<OrderBySchoolResponse> getByOrderNumberDate(@PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateTo){
         try{
-            return ResponseEntity.ok(new OrderBySchoolResponse(MessageResource.ORDER_NUMBER_LISTED,orderBySchoolService.findByAllDate(dateTo)));
+            return ResponseEntity.ok(new OrderBySchoolResponse(MessageResource.ORDER_NUMBER_LISTED.getValue(),orderBySchoolService.findByAllDate(dateTo)));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrderBySchoolResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -34,7 +34,7 @@ public class OrderBySchoolController {
     @GetMapping(path = "/school/{idschool}")
     public ResponseEntity<OrderBySchoolResponse> getByOrderNumberDate(@PathVariable Long idschool){
         try{
-            return ResponseEntity.ok(new OrderBySchoolResponse(MessageResource.ORDER_NUMBER_LISTED,orderBySchoolService.findByAllOrderSchool(idschool)));
+            return ResponseEntity.ok(new OrderBySchoolResponse(MessageResource.ORDER_NUMBER_LISTED.getValue(),orderBySchoolService.findByAllOrderSchool(idschool)));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrderBySchoolResponse(ex.getMessage(), Arrays.asList()));
         }

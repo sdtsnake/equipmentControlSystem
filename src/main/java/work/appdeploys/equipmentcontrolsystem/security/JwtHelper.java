@@ -22,7 +22,7 @@ public class JwtHelper {
 
     public   String createToken(String name , String email, Long id, String rol) {
         if (email == null) {
-            throw new AuthorizationFilterException(MessageResource.TOKEN_EMAIL_IS_NULL);
+            throw new AuthorizationFilterException(MessageResource.TOKEN_EMAIL_IS_NULL.getValue());
         }
         Date expiration = generateTokenExp();
         Date current = new Date();

@@ -37,15 +37,15 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public DiaryDto save(DiaryDto diaryDto) {
         if(diaryRepository.findById(diaryDto.getId()).isPresent()){
-            throw new DiaryExceptionBadRequest(MessageResource.DIARY_EXIST_NOT_SAVE);
+            throw new DiaryExceptionBadRequest(MessageResource.DIARY_EXIST_NOT_SAVE.getValue());
         }
 
         validateDiaryFields(diaryDto);
         Diary diary;
         try{
             diary = diaryMapper.toModel(diaryDto);
-            diary.setSchool(validateSchoolById(diaryDto.getSchool().getId(),MessageResource.SCHOOL_EXIST_NOT_SAVE));
-            diary.setUser(validateUsersById(diaryDto.getUser().getId(), MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE));
+            diary.setSchool(validateSchoolById(diaryDto.getSchool().getId(),MessageResource.SCHOOL_EXIST_NOT_SAVE.getValue()));
+            diary.setUser(validateUsersById(diaryDto.getUser().getId(), MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE.getValue()));
             diary.setId(null);
             diaryRepository.save(diary);
         }catch (Exception ex){
@@ -57,14 +57,14 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public void delete(long id) {
-        validateDiary(id,MessageResource.DIARY_NOT_EXIST_NOT_DELETE);
+        validateDiary(id,MessageResource.DIARY_NOT_EXIST_NOT_DELETE.getValue());
         diaryRepository.deleteAllById(Collections.singleton(id));
     }
 
     @Override
     public DiaryDto update(DiaryDto diaryDto) {
         validateDiaryFields(diaryDto);
-        validateDiary(diaryDto.getId(),MessageResource.DIARY_NOT_EXIST_NOT_UPDATE);
+        validateDiary(diaryDto.getId(),MessageResource.DIARY_NOT_EXIST_NOT_UPDATE.getValue());
         return diaryMapper.toDto(diaryRepository.save(diaryMapper.toModel(diaryDto)));
     }
 
@@ -74,7 +74,7 @@ public class DiaryServiceImpl implements DiaryService {
         if(!list.isEmpty()){
             return list.stream().map(diaryMapper::toDto).collect(Collectors.toList());
         }
-        throw new OrdersExceptionBadRequest(MessageResource.DIARY_NOT_EXIST_RECORD);
+        throw new OrdersExceptionBadRequest(MessageResource.DIARY_NOT_EXIST_RECORD.getValue());
     }
 
     @Override
@@ -83,7 +83,7 @@ public class DiaryServiceImpl implements DiaryService {
         if(optionSchool.isPresent()){
             return optionSchool.map(diaryMapper::toDto).get();
         }
-        throw new SchoolExceptionBadRequest(MessageResource.DIARY_NOT_EXIST_RECORDS);
+        throw new SchoolExceptionBadRequest(MessageResource.DIARY_NOT_EXIST_RECORDS.getValue());
 
     }
     @Override
@@ -92,7 +92,7 @@ public class DiaryServiceImpl implements DiaryService {
         if(!listDiary.isEmpty()){
             return listDiary.stream().map(diaryMapper::toDto).collect(Collectors.toList());
         }
-        throw new OrdersExceptionBadRequest(MessageResource.USER_NOT_EXIST_RECORD);
+        throw new OrdersExceptionBadRequest(MessageResource.USER_NOT_EXIST_RECORD.getValue());
     }
     private Users validateUsersById(Long id, String message) {
         return usersRepository.findById(id).orElseThrow(() -> new DiaryExceptionBadRequest(message));
@@ -108,10 +108,10 @@ public class DiaryServiceImpl implements DiaryService {
 
     private void validateTime(LocalTime startTime,LocalTime endTime){
         if (startTime.isAfter(endTime)){
-            throw new DiaryExceptionBadRequest(MessageResource.DIARY_TIME_START_INVALID_NOT_SAVE);
+            throw new DiaryExceptionBadRequest(MessageResource.DIARY_TIME_START_INVALID_NOT_SAVE.getValue());
         }
         if(endTime.isBefore(startTime)){
-            throw new DiaryExceptionBadRequest(MessageResource.DIARY_TIME_ENDING_INVALID_NOT_SAVE);
+            throw new DiaryExceptionBadRequest(MessageResource.DIARY_TIME_ENDING_INVALID_NOT_SAVE.getValue());
         }
     }
 
@@ -122,12 +122,12 @@ public class DiaryServiceImpl implements DiaryService {
     private void validateDiaryFields(DiaryDto diaryDto){
         validateTime(diaryDto.getStartTime(),diaryDto.getEndingTime());
         if(!validaWeekday(diaryDto.getWeekday())){
-            throw new DiaryExceptionBadRequest(MessageResource.DIARY_WEEKDAY_INVALID_NOT_SAVE);
+            throw new DiaryExceptionBadRequest(MessageResource.DIARY_WEEKDAY_INVALID_NOT_SAVE.getValue());
         }
 
         String replacement = diaryDto.getReplacement();
         if(!replacement.contentEquals("0") && !replacement.contentEquals("1")){
-            throw new DiaryExceptionBadRequest(MessageResource.DIARY_REPLACEMENT_INVALID_NOT_SAVE);
+            throw new DiaryExceptionBadRequest(MessageResource.DIARY_REPLACEMENT_INVALID_NOT_SAVE.getValue());
         }
     }
 

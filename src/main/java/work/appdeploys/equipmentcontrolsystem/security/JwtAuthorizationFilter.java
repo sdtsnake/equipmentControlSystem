@@ -47,7 +47,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 return new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
                 }
         } catch (Exception e) {
-            throw new AuthorizationFilterException(MessageResource.TOKEN_NOT_EXIST);
+            throw new AuthorizationFilterException(MessageResource.TOKEN_NOT_EXIST.getValue());
         }
 
         return null;

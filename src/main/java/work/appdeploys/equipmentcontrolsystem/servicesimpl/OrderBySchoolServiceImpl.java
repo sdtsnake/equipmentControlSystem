@@ -30,19 +30,19 @@ public class OrderBySchoolServiceImpl implements OrderBySchoolService {
         if(!listOrdersBySchool.isEmpty()){
             return listOrdersBySchool.stream().map(orderBySchoolMapper::toResponseDto).collect(Collectors.toList());
         }
-        throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD_DATE);
+        throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD_DATE.getValue());
     }
 
     @Override
     public List<OrderBySchoolResponseDto> findByAllOrderSchool(long orderSchool) {
         Optional<School> school = schoolRepository.findById(orderSchool);
         if(school.isEmpty()){
-            throw new OrdersExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS);
+            throw new OrdersExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS.getValue());
         }
         List<OrdersBySchool> listOrdersBySchool = orderBySchoolRespository.findByOrderSchool(orderSchool);
         if(!listOrdersBySchool.isEmpty()){
             return listOrdersBySchool.stream().map(orderBySchoolMapper::toResponseDto).collect(Collectors.toList());
         }
-        throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD);
+        throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD.getValue());
     }
 }

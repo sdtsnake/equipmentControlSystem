@@ -29,7 +29,7 @@ public class SchoolController {
     @PostMapping()
     public ResponseEntity<SchoolsResponse> save(@RequestBody @Valid SchoolDto schoolDto) {
         try{
-            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_SAVED, Arrays.asList(schoolService.save(schoolDto))));
+            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_SAVED.getValue(), Arrays.asList(schoolService.save(schoolDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new SchoolsResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -38,7 +38,7 @@ public class SchoolController {
     @PutMapping()
     public ResponseEntity<SchoolsResponse> update(@RequestBody @Valid SchoolDto schoolDto) {
         try{
-            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_UPDATE,Arrays.asList(schoolService.update(schoolDto))));
+            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_UPDATE.getValue(),Arrays.asList(schoolService.update(schoolDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new SchoolsResponse(ex.getMessage(),Arrays.asList()));
         }
@@ -47,7 +47,7 @@ public class SchoolController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<SchoolsResponse> getById(@PathVariable Long id) {
         try{
-            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_SELECTED,Arrays.asList(schoolService.findById(id))));
+            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_SELECTED.getValue(),Arrays.asList(schoolService.findById(id))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new SchoolsResponse(ex.getMessage(),Arrays.asList()));
         }
@@ -57,7 +57,7 @@ public class SchoolController {
     public ResponseEntity<SchoolsResponse> delete(@PathVariable Long id) {
         try{
             schoolService.delete(id);
-            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_DELETED,Arrays.asList()));
+            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOL_DELETED.getValue(),Arrays.asList()));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new SchoolsResponse(ex.getMessage(),Arrays.asList()));
 
@@ -67,7 +67,7 @@ public class SchoolController {
     @GetMapping()
     public ResponseEntity<SchoolsResponse> findByAll(){
         try{
-            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOLS_LISTED, schoolService.findByAll()));
+            return ResponseEntity.ok(new SchoolsResponse(MessageResource.SCHOOLS_LISTED.getValue(), schoolService.findByAll()));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new SchoolsResponse(ex.getMessage(),Arrays.asList()));
         }

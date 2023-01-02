@@ -36,9 +36,9 @@ public class UsersServiceImpl implements UsersService {
     public UserResponseDto save(UsersDto usersDto){
         validateFields(usersDto," ");
         if(usersRepository.findById(usersDto.getId()).isPresent()){
-            throw new UsersExceptionBadRequest(MessageResource.USERS_EXIST_NOT_SAVE);
+            throw new UsersExceptionBadRequest(MessageResource.USERS_EXIST_NOT_SAVE.getValue());
         }
-        validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_SAVE);
+        validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_SAVE.getValue());
         String passwd = new BCryptPasswordEncoder().encode(usersDto.getPasswd());
         usersDto.setPasswd(passwd);
         return usersMapper.toResponseDto(usersRepository.save(usersMapper.toModel(usersDto)));
@@ -46,15 +46,15 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public void delete(Long id) {
-        validateUsersById(id,MessageResource.USERS_EXIST_NOT_DELETE);
+        validateUsersById(id,MessageResource.USERS_EXIST_NOT_DELETE.getValue());
         usersRepository.deleteAllById(Collections.singleton(id));
     }
 
     @Override
     public UserResponseDto update(UsersDto usersDto) {
-        validateFields(usersDto, MessageResource.UPDATE_FAIL);
-        validateUsersById(usersDto.getId(),MessageResource.USERS_NOT_EXIST_NOT_UPDATE);
-        validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_UPDATE);
+        validateFields(usersDto, MessageResource.UPDATE_FAIL.getValue());
+        validateUsersById(usersDto.getId(),MessageResource.USERS_NOT_EXIST_NOT_UPDATE.getValue());
+        validateUsersByEmail(usersDto,MessageResource.USERS_EMAIL_ALREADY_EXIST_NOT_UPDATE.getValue());
         String passwd = new BCryptPasswordEncoder().encode(usersDto.getPasswd());
         usersDto.setPasswd(passwd);
         return usersMapper.toResponseDto(usersRepository.save(usersMapper.toModel(usersDto)));
@@ -66,7 +66,7 @@ public class UsersServiceImpl implements UsersService {
         if(!usersRepositoryAll.isEmpty()){
             return usersRepositoryAll.stream().map(usersMapper::toResponseDto).collect(Collectors.toList());
         }
-        throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS);
+        throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS.getValue());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class UsersServiceImpl implements UsersService {
         if(userOptional.isPresent()){
             return userOptional.map(usersMapper::toResponseDto).get();
         }
-        throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS);
+        throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS.getValue());
     }
 
     @Override
@@ -84,14 +84,14 @@ public class UsersServiceImpl implements UsersService {
         if(userOptional.isPresent()){
             return userOptional.map(usersMapper::toResponseDto).get();
         }
-        throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS_EMAIL);
+        throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS_EMAIL.getValue());
     }
 
     @Override
     public UserDetails findOneByEmail(String email) {
         Users users = usersRepository
                 .findByEmail(email)
-                .orElseThrow(() -> new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS_EMAIL));
+                .orElseThrow(() -> new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS_EMAIL.getValue()));
 
         return new UserDetailsImpl(users);
     }

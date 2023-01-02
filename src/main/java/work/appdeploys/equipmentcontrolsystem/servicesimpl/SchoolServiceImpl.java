@@ -23,7 +23,7 @@ public class SchoolServiceImpl implements SchoolService {
 
     @Override
     public SchoolDto save(SchoolDto schoolDto) {
-        validateSchoolByName(schoolDto, MessageResource.SCHOOL_EXIST_NAME_NOT_UPDATE);
+        validateSchoolByName(schoolDto, MessageResource.SCHOOL_EXIST_NAME_NOT_UPDATE.getValue());
         School entity = schoolMapper.toModel(schoolDto);
         entity.setId(null);
         return schoolMapper.toDto(schoolRepository.save(entity));
@@ -31,14 +31,14 @@ public class SchoolServiceImpl implements SchoolService {
 
     @Override
     public void delete(Long id) {
-        validateSchoolById(id, MessageResource.SCHOOL_NOT_EXIST_NOT_DELETE);
+        validateSchoolById(id, MessageResource.SCHOOL_NOT_EXIST_NOT_DELETE.getValue());
         schoolRepository.deleteAllById(Collections.singleton(id));
     }
 
     @Override
     public SchoolDto update(SchoolDto schoolDto) {
-        validateSchoolById(schoolDto.getId(), MessageResource.SCHOOL_NOT_EXIST_NOT_UPDATE);
-        validateSchoolByName(schoolDto, MessageResource.SCHOOL_EXIST_NAME_NOT_UPDATE);
+        validateSchoolById(schoolDto.getId(), MessageResource.SCHOOL_NOT_EXIST_NOT_UPDATE.getValue());
+        validateSchoolByName(schoolDto, MessageResource.SCHOOL_EXIST_NAME_NOT_UPDATE.getValue());
         return schoolMapper.toDto(schoolRepository.save(schoolMapper.toModel(schoolDto)));
     }
 
@@ -48,7 +48,7 @@ public class SchoolServiceImpl implements SchoolService {
         if(!list.isEmpty()){
             return list.stream().map(schoolMapper::toDto).collect(Collectors.toList());
         }
-        throw new SchoolExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS);
+        throw new SchoolExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS.getValue());
     }
 
     @Override
@@ -57,7 +57,7 @@ public class SchoolServiceImpl implements SchoolService {
         if(optionSchool.isPresent()){
             return optionSchool.map(schoolMapper::toDto).get();
         }
-        throw new SchoolExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS);
+        throw new SchoolExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS.getValue());
     }
 
     private void validateSchoolById(Long schoolDto, String message) {

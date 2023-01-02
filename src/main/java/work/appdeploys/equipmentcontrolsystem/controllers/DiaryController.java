@@ -31,7 +31,7 @@ public class DiaryController {
     @PostMapping
     public ResponseEntity<DiarysResponse> save(@RequestBody @Valid DiaryDto diaryDto){
         try {
-            return ResponseEntity.ok(new DiarysResponse(MessageResource.DIARY_SAVED,Arrays.asList(diaryService.save(diaryDto))));
+            return ResponseEntity.ok(new DiarysResponse(MessageResource.DIARY_SAVED.getValue(),Arrays.asList(diaryService.save(diaryDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new DiarysResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -40,7 +40,7 @@ public class DiaryController {
     @PutMapping
     public ResponseEntity<DiarysResponse> update(@RequestBody @Valid DiaryDto diaryDto) {
         try{
-            return ResponseEntity.ok(new DiarysResponse(MessageResource.DIARY_UPDATE,Arrays.asList(diaryService.update(diaryDto))));
+            return ResponseEntity.ok(new DiarysResponse(MessageResource.DIARY_UPDATE.getValue(),Arrays.asList(diaryService.update(diaryDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new DiarysResponse(ex.getMessage(),Arrays.asList()));
         }
@@ -48,7 +48,7 @@ public class DiaryController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<DiarysResponse> getById(@PathVariable Long id) {
         try{
-            return ResponseEntity.ok(new DiarysResponse(MessageResource.DIARY_SELECTED,Arrays.asList(diaryService.findById(id))));
+            return ResponseEntity.ok(new DiarysResponse(MessageResource.DIARY_SELECTED.getValue(),Arrays.asList(diaryService.findById(id))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new DiarysResponse(ex.getMessage(),Arrays.asList()));
         }
@@ -57,7 +57,7 @@ public class DiaryController {
     @GetMapping(path = "user/{idUser}")
     public ResponseEntity<DiarysResponse> getByIdUser(@PathVariable Long idUser) {
         try{
-            return ResponseEntity.ok(new DiarysResponse(MessageResource.DIARY_SELECTED_USER,diaryService.findByIdUser(idUser)));
+            return ResponseEntity.ok(new DiarysResponse(MessageResource.DIARY_SELECTED_USER.getValue(),diaryService.findByIdUser(idUser)));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new DiarysResponse(ex.getMessage(),Arrays.asList()));
         }
@@ -67,7 +67,7 @@ public class DiaryController {
     public ResponseEntity<DiarysResponse> delete(@PathVariable Long id) {
         try{
             diaryService.delete(id);
-            return ResponseEntity.ok(new DiarysResponse(MessageResource.DIARY_DELETED,Arrays.asList()));
+            return ResponseEntity.ok(new DiarysResponse(MessageResource.DIARY_DELETED.getValue(),Arrays.asList()));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new DiarysResponse(ex.getMessage(),Arrays.asList()));
 
@@ -77,7 +77,7 @@ public class DiaryController {
     @GetMapping()
     public ResponseEntity<DiarysResponse> findByAll(){
         try{
-            return ResponseEntity.ok(new DiarysResponse(MessageResource.DIARY_LISTED, diaryService.findByAll()));
+            return ResponseEntity.ok(new DiarysResponse(MessageResource.DIARY_LISTED.getValue(), diaryService.findByAll()));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new DiarysResponse(ex.getMessage(),Arrays.asList()));
         }

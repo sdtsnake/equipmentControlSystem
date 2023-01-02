@@ -41,11 +41,11 @@ public class StatusOrderBySchoolServiceImpl implements StatusOrderBySchoolServic
     public FileDto findByAllDateBySchool(LocalDate date, Long idSchool) throws FileNotFoundException, JRException {
         Optional<School> optSchool = schoolRepository.findById(idSchool);
         if(optSchool.isEmpty()){
-            throw new StringIndexOutOfBoundsException(MessageResource.SCHOOLS_NOT_EXIST_RECORDS);
+            throw new StringIndexOutOfBoundsException(MessageResource.SCHOOLS_NOT_EXIST_RECORDS.getValue());
         }
         List<StatusOrderBySchool> listStatusOrder = statusOrderBySchoolRepository.findByDateCreate(date);
         if(listStatusOrder.isEmpty()){
-            throw new StringIndexOutOfBoundsException(MessageResource.SCHOOL_STATUS_NOT_EXIST_RECORD);
+            throw new StringIndexOutOfBoundsException(MessageResource.SCHOOL_STATUS_NOT_EXIST_RECORD.getValue());
         }
 
         List<StatusOrderBySchool> subListStatus = listStatusOrder.stream()
@@ -53,7 +53,7 @@ public class StatusOrderBySchoolServiceImpl implements StatusOrderBySchoolServic
                 .collect(Collectors.toList());
 
         if(subListStatus.isEmpty()){
-            throw new StringIndexOutOfBoundsException(MessageResource.SCHOOL_STATUS_NOT_EXIST_RECORD);
+            throw new StringIndexOutOfBoundsException(MessageResource.SCHOOL_STATUS_NOT_EXIST_RECORD.getValue());
         }
         //----
         FileDto filePdf = new FileDto();

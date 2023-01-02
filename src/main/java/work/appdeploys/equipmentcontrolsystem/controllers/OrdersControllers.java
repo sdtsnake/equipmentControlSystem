@@ -38,7 +38,7 @@ public class OrdersControllers {
     @PostMapping()
     public ResponseEntity<OrdersResponse> save(@RequestBody @Valid OrderResponseDto orderResponseDto){
         try{
-            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_SAVED, Arrays.asList(ordersService.save(orderResponseDto))));
+            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_SAVED.getValue(), Arrays.asList(ordersService.save(orderResponseDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -47,7 +47,7 @@ public class OrdersControllers {
     @PutMapping
     public ResponseEntity<OrdersResponse> update(@RequestBody @Valid OrderResponseDto orderResponseDto){
         try{
-            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_UPDATED,Arrays.asList(ordersService.update(orderResponseDto))));
+            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_UPDATED.getValue(),Arrays.asList(ordersService.update(orderResponseDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -57,7 +57,7 @@ public class OrdersControllers {
     public ResponseEntity<OrdersResponse> delete(@PathVariable long id){
         ordersService.delete(id);
         try{
-            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDERS_DELETED, Arrays.asList()));
+            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDERS_DELETED.getValue(), Arrays.asList()));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -66,7 +66,7 @@ public class OrdersControllers {
     @GetMapping
     public ResponseEntity<OrdersResponse> findByAll(){
         try {
-            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDERS_LISTED, ordersService.findByAll()));
+            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDERS_LISTED.getValue(), ordersService.findByAll()));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(),Arrays.asList()));
         }
@@ -75,7 +75,7 @@ public class OrdersControllers {
     @GetMapping(path = "/ordernumber/{orderNumber}")
     public ResponseEntity<OrdersResponse> getByOrderNumber(@PathVariable Long orderNumber){
         try{
-            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_NUMBER_LISTED,ordersService.findByAllOrderNumber(orderNumber)));
+            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_NUMBER_LISTED.getValue(),ordersService.findByAllOrderNumber(orderNumber)));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -84,7 +84,7 @@ public class OrdersControllers {
     @GetMapping(path = "/{id}")
     public ResponseEntity<OrdersResponse> getById(@PathVariable Long id){
         try{
-            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_LISTED,Arrays.asList(ordersService.findById(id))));
+            return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDER_LISTED.getValue(),Arrays.asList(ordersService.findById(id))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }

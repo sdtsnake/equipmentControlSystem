@@ -64,12 +64,12 @@ public class OrdersServiceImpl implements OrdersService {
     public OrderResponseDto save(OrderResponseDto orderResponseDto) {
         Optional<School> school = schoolRepository.findById(orderResponseDto.getSchool().getId());
         if(school.isEmpty()){
-            throw new OrdersExceptionBadRequest(MessageResource.SCHOOL_EXIST_NOT_SAVE);
+            throw new OrdersExceptionBadRequest(MessageResource.SCHOOL_EXIST_NOT_SAVE.getValue());
         }
 
-        validateUsersById(orderResponseDto.getIdUserMod().getId(), MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE);
-        validateUsersById(orderResponseDto.getIdUserMod().getId(), MessageResource.USER_MOD_ORDER_NOT_EXIST_NOT_SAVE);
-        dateValidator(orderResponseDto.getDateCreate().toString(), MessageResource.ORDER_DATE_INVALID_NOT_SAVE);
+        validateUsersById(orderResponseDto.getIdUserMod().getId(), MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE.getValue());
+        validateUsersById(orderResponseDto.getIdUserMod().getId(), MessageResource.USER_MOD_ORDER_NOT_EXIST_NOT_SAVE.getValue());
+        dateValidator(orderResponseDto.getDateCreate().toString(), MessageResource.ORDER_DATE_INVALID_NOT_SAVE.getValue());
 
         Orders orders;
         try{
@@ -85,16 +85,16 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public void delete(long id) {
-        validateOrderById(id,MessageResource.ORDER_NOT_EXIST_NOT_DELETE);
+        validateOrderById(id,MessageResource.ORDER_NOT_EXIST_NOT_DELETE.getValue());
         ordersRepository.deleteAllById(Collections.singleton(id));
     }
 
     @Override
     public OrderResponseDto update(OrderResponseDto orderResponseDto) {
-        validateUsersById(orderResponseDto.getIdUserMod().getId(), MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE);
-        validateUsersById(orderResponseDto.getIdUserMod().getId(), MessageResource.USER_MOD_ORDER_NOT_EXIST_NOT_SAVE);
-        validateOrderById(orderResponseDto.getId(), MessageResource.ORDER_NOT_EXIST_NOT_UPDATE);
-        dateValidator(orderResponseDto.getDateCreate().toString(), MessageResource.DATA_USER_CREATE_NOT_VALID_NOT_UPDATE);
+        validateUsersById(orderResponseDto.getIdUserMod().getId(), MessageResource.USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE.getValue());
+        validateUsersById(orderResponseDto.getIdUserMod().getId(), MessageResource.USER_MOD_ORDER_NOT_EXIST_NOT_SAVE.getValue());
+        validateOrderById(orderResponseDto.getId(), MessageResource.ORDER_NOT_EXIST_NOT_UPDATE.getValue());
+        dateValidator(orderResponseDto.getDateCreate().toString(), MessageResource.DATA_USER_CREATE_NOT_VALID_NOT_UPDATE.getValue());
         return ordersMapper.toResponseDto(ordersRepository.save(ordersMapper.toModel(orderResponseDto)));
     }
 
@@ -104,7 +104,7 @@ public class OrdersServiceImpl implements OrdersService {
         if(!list.isEmpty()){
             return list.stream().map(ordersMapper::toResponseDto).collect(Collectors.toList());
         }
-        throw new OrdersExceptionBadRequest(MessageResource.ORDER_NOT_EXIST_RECORD);
+        throw new OrdersExceptionBadRequest(MessageResource.ORDER_NOT_EXIST_RECORD.getValue());
     }
 
     @Override
@@ -113,7 +113,7 @@ public class OrdersServiceImpl implements OrdersService {
         if(optionOrdder.isPresent()){
             return optionOrdder.map(ordersMapper::toResponseDto).get();
         }
-        throw new OrdersExceptionBadRequest(MessageResource.ORDER_NOT_EXIST_RECORD);
+        throw new OrdersExceptionBadRequest(MessageResource.ORDER_NOT_EXIST_RECORD.getValue());
     }
 
     @Override
@@ -122,24 +122,24 @@ public class OrdersServiceImpl implements OrdersService {
         if(!listOrdder.isEmpty()){
             return listOrdder.stream().map(ordersMapper::toResponseDto).collect(Collectors.toList());
         }
-        throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD);
+        throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD.getValue());
     }
 
     @Override
     public ExcelDto excelOrders(LocalDate dateTo, Long idSchool) {
         Optional<School> optSchool = schoolRepository.findById(idSchool);
         if(optSchool.isEmpty()){
-            throw new OrdersExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS);
+            throw new OrdersExceptionBadRequest(MessageResource.SCHOOLS_NOT_EXIST_RECORDS.getValue());
         }
         List<Orders> listOrder = ordersRepository.findByDateCreate(dateTo);
         if(listOrder.isEmpty()){
-            throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD);
+            throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD.getValue());
         }
         List<Orders> subListSchool = listOrder.stream()
                 .filter(order -> order.getSchool().getId().equals(idSchool))
                 .collect(Collectors.toList());
         if(subListSchool.isEmpty()){
-            throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD);
+            throw new OrdersExceptionBadRequest(MessageResource.ORDER_NUNBER_NOT_EXIST_RECORD.getValue());
         }
 
         try{

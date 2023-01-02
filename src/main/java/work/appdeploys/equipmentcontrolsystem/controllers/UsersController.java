@@ -29,7 +29,7 @@ public class UsersController {
     @PostMapping()
     public ResponseEntity<UsersResponse> save(@RequestBody @Valid UsersDto usersDto){
         try{
-            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_SAVED, Arrays.asList(usersService.save(usersDto))));
+            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_SAVED.getValue(), Arrays.asList(usersService.save(usersDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -38,7 +38,7 @@ public class UsersController {
     @PutMapping
     public ResponseEntity<UsersResponse> update(@RequestBody @Valid UsersDto usersDto){
         try{
-            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_UPDATED, Arrays.asList(usersService.update(usersDto))));
+            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_UPDATED.getValue(), Arrays.asList(usersService.update(usersDto))));
         }catch (Exception ex){
             return ResponseEntity.badRequest().body(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -48,7 +48,7 @@ public class UsersController {
     public ResponseEntity<UsersResponse> delete(@PathVariable Long id){
         try{
             usersService.delete(id);
-            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_DELETED,Arrays.asList()));
+            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_DELETED.getValue(),Arrays.asList()));
         }catch (Exception ex){
             return ResponseEntity.ok(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -58,7 +58,7 @@ public class UsersController {
     @GetMapping
     public ResponseEntity<UsersResponse> findByAll(){
         try{
-            return ResponseEntity.ok(new UsersResponse(MessageResource.USERS_LISTED, usersService.findByAll()));
+            return ResponseEntity.ok(new UsersResponse(MessageResource.USERS_LISTED.getValue(), usersService.findByAll()));
         }catch (Exception ex){
             return ResponseEntity.ok(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -67,7 +67,7 @@ public class UsersController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<UsersResponse> findById(@PathVariable Long id){
         try{
-            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_LISTED, Arrays.asList(usersService.findById(id))));
+            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_LISTED.getValue(), Arrays.asList(usersService.findById(id))));
         }catch (Exception ex){
             return ResponseEntity.ok(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
@@ -76,7 +76,7 @@ public class UsersController {
     @GetMapping(path = "/useremail/{email}")
     public ResponseEntity<UsersResponse> findByEmail(@PathVariable String email){
         try{
-            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_LISTED, Arrays.asList(usersService.findByEmail(email))));
+            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_LISTED.getValue(), Arrays.asList(usersService.findByEmail(email))));
         }catch (Exception ex){
             return ResponseEntity.ok(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
