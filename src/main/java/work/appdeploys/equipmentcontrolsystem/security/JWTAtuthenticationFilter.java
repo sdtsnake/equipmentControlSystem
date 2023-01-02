@@ -19,15 +19,12 @@ public class JWTAtuthenticationFilter extends UsernamePasswordAuthenticationFilt
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-
         AuthCredentials authCredentials = new AuthCredentials();
-
         try {
             authCredentials = new ObjectMapper().readValue(request.getReader(),AuthCredentials.class);
         } catch (IOException e) {
             log.error("Error on validation user");
         }
-
         UsernamePasswordAuthenticationToken usernamePAT = new UsernamePasswordAuthenticationToken(
                 authCredentials.getEmail(),
                 authCredentials.getPassword(),
@@ -39,11 +36,8 @@ public class JWTAtuthenticationFilter extends UsernamePasswordAuthenticationFilt
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserDetailsImpl userDetails = (UserDetailsImpl) authResult.getPrincipal();
         String token = TokenUtils.createToken(userDetails.getNombre(),userDetails.getUsername(),userDetails.getId(),userDetails.getRoles());
-
         response.addHeader("Authorization","Bearer " + token);
         response.getWriter().flush();
-
-
         super.successfulAuthentication(request, response, chain, authResult);
     }
 }

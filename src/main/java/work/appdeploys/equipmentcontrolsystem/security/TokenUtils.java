@@ -19,20 +19,17 @@ public class TokenUtils {
     public static  String createToken(String nombre , String email, Long id, String rol){
         long expirationTime =    ACCESS_TOKEN_VALIDITY_SECONDS * 1_000;
         Date expirationDate =  new Date(System.currentTimeMillis() + expirationTime);
-
         Map<String, Object> extra = new HashMap<>();
         extra.put("nombre",nombre);
         extra.put("email",email);
         extra.put("id",id);
         extra.put("rol",rol);
-
         return Jwts.builder()
                 .setSubject(email)
                 .setExpiration(expirationDate)
                 .addClaims(extra)
                 .signWith(Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRET.getBytes()))
                 .compact();
-
     }
 
     public static UsernamePasswordAuthenticationToken geAuthentication(String token){
