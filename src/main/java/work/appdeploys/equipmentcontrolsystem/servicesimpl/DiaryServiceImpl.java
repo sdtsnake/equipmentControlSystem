@@ -6,7 +6,7 @@ import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
 import work.appdeploys.equipmentcontrolsystem.exceptions.DiaryExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.exceptions.OrdersExceptionBadRequest;
 import work.appdeploys.equipmentcontrolsystem.exceptions.SchoolExceptionBadRequest;
-import work.appdeploys.equipmentcontrolsystem.mappers.maperstruc.DiaryMapper;
+import work.appdeploys.equipmentcontrolsystem.mappers.DiaryMapper;
 import work.appdeploys.equipmentcontrolsystem.models.Diary;
 import work.appdeploys.equipmentcontrolsystem.models.School;
 import work.appdeploys.equipmentcontrolsystem.models.Users;
