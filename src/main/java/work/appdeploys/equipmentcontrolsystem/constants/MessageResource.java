@@ -17,13 +17,13 @@ public enum MessageResource {
    USERS_LISTED("The all users as listed"),
    USER_LISTED("The user as listed"),
    USER_BAT_EMAIL("You entered an incorrect email address, cant be save"),
-   USER_BAT_PASSWORD("You entered an incorrect password" +
+   USER_BAT_PASSWORD("You entered an incorrect password \n" +
             "the password must contain: \n" +
-            "1. start of the \n" +
-            "2. a digit must occur at least once \n" +
-            "3. a lower case letter must occur at least once \n" +
-            "4. an upper case letter must occur at least once \n" +
-            "5. 4-8 character password, both inclusive \n" +
+            "1. The password must be between 8 and 16 characters long. \n" +
+            "2. with at least one digit. \n" +
+            "3. at least one lowercase letter. \n" +
+            "4. at least one uppercase letter. \n" +
+            "5. It can NOT have other symbols. \n" +
             "cant be save"),
    USER_BAT_ROL("Bat rol, cant be save"),
    USERS_EXIST_NOT_SAVE("The user already exist, cant be save"),
