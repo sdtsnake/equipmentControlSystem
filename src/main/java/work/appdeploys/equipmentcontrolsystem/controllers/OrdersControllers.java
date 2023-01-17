@@ -3,6 +3,7 @@ package work.appdeploys.equipmentcontrolsystem.controllers;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,6 @@ public class OrdersControllers {
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }
     }
-
     @PutMapping
     public ResponseEntity<OrdersResponse> update(@RequestBody @Valid OrderResponseDto orderResponseDto){
         try{
@@ -52,17 +52,18 @@ public class OrdersControllers {
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }
     }
-
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<OrdersResponse> delete(@PathVariable long id){
         ordersService.delete(id);
         try{
             return ResponseEntity.ok(new OrdersResponse(MessageResource.ORDERS_DELETED.getValue(), Arrays.asList()));
-        }catch (Exception ex){
+        }catch (DataIntegrityViolationException ex){
+            return ResponseEntity.badRequest().body(new OrdersResponse(MessageResource.ORDERS_CONSTRAIN_VIOLATION.toString(), Arrays.asList()));
+        }
+        catch (Exception ex){
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }
     }
-
     @GetMapping
     public ResponseEntity<OrdersResponse> findByAll(){
         try {
@@ -71,7 +72,6 @@ public class OrdersControllers {
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(),Arrays.asList()));
         }
     }
-
     @GetMapping(path = "/ordernumber/{orderNumber}")
     public ResponseEntity<OrdersResponse> getByOrderNumber(@PathVariable Long orderNumber){
         try{
@@ -80,7 +80,6 @@ public class OrdersControllers {
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }
     }
-
     @GetMapping(path = "/{id}")
     public ResponseEntity<OrdersResponse> getById(@PathVariable Long id){
         try{
@@ -89,7 +88,6 @@ public class OrdersControllers {
             return ResponseEntity.badRequest().body(new OrdersResponse(ex.getMessage(), Arrays.asList()));
         }
     }
-
     @GetMapping(path = "/excelorders/{dateTo}/{idSchool}")
     public void ordersExceclRespor(HttpServletResponse response, @PathVariable("dateTo") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateTo, @PathVariable("idSchool") Long idSchool) throws IOException {
         ExcelDto excelDto = null;

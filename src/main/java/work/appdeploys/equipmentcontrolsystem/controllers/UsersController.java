@@ -2,6 +2,7 @@ package work.appdeploys.equipmentcontrolsystem.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +35,6 @@ public class UsersController {
             return ResponseEntity.badRequest().body(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
     }
-
     @PutMapping
     public ResponseEntity<UsersResponse> update(@RequestBody @Valid UsersDto usersDto){
         try{
@@ -43,18 +43,18 @@ public class UsersController {
             return ResponseEntity.badRequest().body(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
     }
-
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<UsersResponse> delete(@PathVariable Long id){
         try{
             usersService.delete(id);
             return ResponseEntity.ok(new UsersResponse(MessageResource.USER_DELETED.getValue(),Arrays.asList()));
-        }catch (Exception ex){
+        }catch (DataIntegrityViolationException ex){
+            return ResponseEntity.ok(new UsersResponse(MessageResource.USERS_CONSTRAIN_VIOLATION.getValue(),Arrays.asList()));
+        }
+        catch (Exception ex){
             return ResponseEntity.ok(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
-
     }
-
     @GetMapping
     public ResponseEntity<UsersResponse> findByAll(){
         try{
@@ -63,7 +63,6 @@ public class UsersController {
             return ResponseEntity.ok(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
     }
-
     @GetMapping(path = "/{id}")
     public ResponseEntity<UsersResponse> findById(@PathVariable Long id){
         try{
@@ -72,7 +71,6 @@ public class UsersController {
             return ResponseEntity.ok(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
     }
-
     @GetMapping(path = "/useremail/{email}")
     public ResponseEntity<UsersResponse> findByEmail(@PathVariable String email){
         try{
@@ -81,5 +79,4 @@ public class UsersController {
             return ResponseEntity.ok(new UsersResponse(ex.getMessage(), Arrays.asList()));
         }
     }
-
 }
