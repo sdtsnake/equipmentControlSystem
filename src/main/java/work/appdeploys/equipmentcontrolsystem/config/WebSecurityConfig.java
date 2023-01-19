@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import work.appdeploys.equipmentcontrolsystem.security.JwtAuthenticationFilter;
 import work.appdeploys.equipmentcontrolsystem.security.JwtAuthorizationFilter;
 import work.appdeploys.equipmentcontrolsystem.security.JwtHelper;
@@ -37,7 +38,9 @@ public class WebSecurityConfig {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/api-docs/**",
-            "/api-docs"
+            "/api-docs",
+            "/logout"
+
     };
 
     @Bean
@@ -58,8 +61,14 @@ public class WebSecurityConfig {
                 .and()
                 .addFilter(jwtAuthenticationFilter)
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout(
+                        logout -> logout
+                                .invalidateHttpSession(true)
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .permitAll())
                 .build();
     }
+
     @Bean
     AuthenticationManager authManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
@@ -70,7 +79,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    PasswordEncoder passwordEncoder(){
-    return new BCryptPasswordEncoder();
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
