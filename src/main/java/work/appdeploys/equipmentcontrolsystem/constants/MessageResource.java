@@ -11,19 +11,20 @@ public enum MessageResource {
    SCHOOL_NOT_EXIST_NOT_DELETE("The School no exist, cant be delete"),
    SCHOOL_NOT_EXIST_NOT_UPDATE("The School no exist, cant be update"),
    SCHOOL_EXIST_NAME_NOT_UPDATE("The School name already exist, cant be update"),
+   SCHOOL_CONSTRAIN_VIOLATION("The School has associated registries, cant delete"),
    USER_SAVED("The user as saved"),
    USER_UPDATED("The user as updated"),
    USER_DELETED("The user as deleted"),
    USERS_LISTED("The all users as listed"),
    USER_LISTED("The user as listed"),
    USER_BAT_EMAIL("You entered an incorrect email address, cant be save"),
-   USER_BAT_PASSWORD("You entered an incorrect password" +
+   USER_BAT_PASSWORD("You entered an incorrect password \n" +
             "the password must contain: \n" +
-            "1. start of the \n" +
-            "2. a digit must occur at least once \n" +
-            "3. a lower case letter must occur at least once \n" +
-            "4. an upper case letter must occur at least once \n" +
-            "5. 4-8 character password, both inclusive \n" +
+            "1. The password must be between 8 and 16 characters long. \n" +
+            "2. with at least one digit. \n" +
+            "3. at least one lowercase letter. \n" +
+            "4. at least one uppercase letter. \n" +
+            "5. It can NOT have other symbols. \n" +
             "cant be save"),
    USER_BAT_ROL("Bat rol, cant be save"),
    USERS_EXIST_NOT_SAVE("The user already exist, cant be save"),
@@ -31,6 +32,7 @@ public enum MessageResource {
    USERS_NOT_EXIST_NOT_UPDATE("The user no exist, cant be update"),
    USERS_EMAIL_ALREADY_EXIST_NOT_UPDATE("The email alredy exist in the other user, cant be update"),
    USERS_EMAIL_ALREADY_EXIST_NOT_SAVE("The email alredy exist in the other user, cant be save"),
+   USERS_CONSTRAIN_VIOLATION("The User has associated registries, cant delete"),
    UPDATE_FAIL(", cant by update"),
    ORDER_SAVED("The order as saved"),
    ORDER_NOT_EXIST_RECORD("Not exist records of orders"),
@@ -43,13 +45,12 @@ public enum MessageResource {
    ORDER_EXCEL_GENERATE("The order excel as gemerated"),
    ORDERS_DELETED("The order as deleted"),
    ORDERS_LISTED("The all orders as listed"),
+   ORDERS_CONSTRAIN_VIOLATION("The Order has associated registries, cant delete"),
    USERS_NOT_EXIST_RECORDS("Not exist records of users"),
    USERS_NOT_EXIST_RECORDS_EMAIL("Not exist records of users by this email"),
    USER_CREATE_ORDER_NOT_EXIST_NOT_SAVE("The user create no exist, cant be save"),
    USER_MOD_ORDER_NOT_EXIST_NOT_SAVE("The user modification no exist, cant be save"),
-   DATA_USER_CREATE_NOT_VALID_NOT_SAVE("The user create no exist, cant be save"),
    DATA_USER_CREATE_NOT_VALID_NOT_UPDATE("The user create no exist, cant be update"),
-   ORDER_ALREADY_EXIST_NOT_SAVE("The order alredy exist, cant be save"),
    ORDER_NOT_EXIST_NOT_DELETE("The order no exist, cant be delete"),
    ORDER_NOT_EXIST_NOT_UPDATE("The order no exist, cant be update"),
    ORDER_DATE_INVALID_NOT_SAVE("The date time is invalid, cant be update"),
@@ -69,6 +70,7 @@ public enum MessageResource {
    DIARY_LISTED("The all diary as listed"),
    USER_NOT_EXIST_RECORD("Not exist records by user id"),
    DIARY_SELECTED_USER("The diary as listed by user id"),
+   DIARY_CONSTRAIN_VIOLATION("The Diary has associated registries, cant delete"),
    SCHOOL_STATUS_NOT_EXIST_RECORD("Not exist records by school/status"),
    TOKEN_NOT_EXIST("The token does not exist"),
    TOKEN_EMAIL_IS_NULL("Error generating access token, username is null");
