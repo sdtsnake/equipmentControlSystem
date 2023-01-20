@@ -3,6 +3,7 @@ package work.appdeploys.equipmentcontrolsystem.services;
 import org.springframework.security.core.userdetails.UserDetails;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UserResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
+import work.appdeploys.equipmentcontrolsystem.models.structures.UsersResponseDto;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface UsersService {
 
     List<UserResponseDto> findByAll();
 
-    UserResponseDto findById(Long id);
+    UsersDto findById(Long id);
 
     UserResponseDto findByEmail(String email);
     UserDetails findOneByEmail(String email);

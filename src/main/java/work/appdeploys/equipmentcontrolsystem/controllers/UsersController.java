@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import work.appdeploys.equipmentcontrolsystem.constants.MessageResource;
+import work.appdeploys.equipmentcontrolsystem.models.dtos.UserResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
 import work.appdeploys.equipmentcontrolsystem.models.structures.UsersResponse;
+import work.appdeploys.equipmentcontrolsystem.models.structures.UsersResponseDto;
 import work.appdeploys.equipmentcontrolsystem.services.UsersService;
 
 import javax.validation.Valid;
@@ -64,11 +66,11 @@ public class UsersController {
         }
     }
     @GetMapping(path = "/{id}")
-    public ResponseEntity<UsersResponse> findById(@PathVariable Long id){
+    public ResponseEntity<UsersResponseDto> findById(@PathVariable Long id){
         try{
-            return ResponseEntity.ok(new UsersResponse(MessageResource.USER_LISTED.getValue(), Arrays.asList(usersService.findById(id))));
+            return ResponseEntity.ok(new UsersResponseDto(MessageResource.USER_LISTED.getValue(), Arrays.asList(usersService.findById(id))));
         }catch (Exception ex){
-            return ResponseEntity.ok(new UsersResponse(ex.getMessage(), Arrays.asList()));
+            return ResponseEntity.ok(new UsersResponseDto(ex.getMessage(), Arrays.asList()));
         }
     }
     @GetMapping(path = "/useremail/{email}")

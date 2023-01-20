@@ -11,6 +11,7 @@ import work.appdeploys.equipmentcontrolsystem.mappers.UsersMapper;
 import work.appdeploys.equipmentcontrolsystem.models.Users;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UserResponseDto;
 import work.appdeploys.equipmentcontrolsystem.models.dtos.UsersDto;
+import work.appdeploys.equipmentcontrolsystem.models.structures.UsersResponseDto;
 import work.appdeploys.equipmentcontrolsystem.repositories.UsersRepository;
 import work.appdeploys.equipmentcontrolsystem.security.UserDetailsImpl;
 import work.appdeploys.equipmentcontrolsystem.services.UsersService;
@@ -70,10 +71,10 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public UserResponseDto findById(Long id) {
+    public UsersDto findById(Long id) {
         Optional<Users> userOptional = usersRepository.findById(id);
         if(userOptional.isPresent()){
-            return userOptional.map(usersMapper::toResponseDto).get();
+            return userOptional.map(usersMapper::toResponseUserDto).get();
         }
         throw new UsersExceptionBadRequest(MessageResource.USERS_NOT_EXIST_RECORDS.getValue());
     }
